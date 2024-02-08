@@ -4,10 +4,11 @@ import '../models/quote.dart';
 
 class QuotesListScreen extends StatelessWidget {
   final List<Quote> quotes;
+  final Function(String) onTapped;
 
   const QuotesListScreen({
     Key? key,
-    required this.quotes,
+    required this.quotes, required this.onTapped,
   }) : super(key: key);
 
   @override
@@ -23,36 +24,9 @@ class QuotesListScreen extends StatelessWidget {
               title: Text(quote.author),
               subtitle: Text(quote.quote),
               isThreeLine: true,
+              onTap: () => onTapped(quote.id),
             )
         ],
-      ),
-    );
-  }
-}
-class QuoteDetailsScreen extends StatelessWidget {
-  final String quoteId;
-
-  const QuoteDetailsScreen({
-    Key? key,
-    required this.quoteId,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final quote = quotes.singleWhere((element) => element.id == quoteId);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(quote.author),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(quote.author, style: Theme.of(context).textTheme.headline6),
-            Text(quote.quote, style: Theme.of(context).textTheme.subtitle1),
-          ],
-        ),
       ),
     );
   }
