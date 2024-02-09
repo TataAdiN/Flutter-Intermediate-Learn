@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/quote.dart';
+import '../screens/form_screen.dart';
 import '../screens/quotes_detail_screen.dart';
 import '../screens/quotes_list_screen.dart';
 
@@ -8,6 +9,7 @@ class AppRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   final GlobalKey<NavigatorState> _navigatorKey;
   String? selectedQuote;
+  bool isForm = false;
 
   AppRouterDelegate() : _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -24,6 +26,10 @@ class AppRouterDelegate extends RouterDelegate
               selectedQuote = quoteId;
               notifyListeners();
             },
+            toFormScreen: () {
+              isForm = true;
+              notifyListeners();
+            },
           ),
         ),
         if (selectedQuote != null)
@@ -33,6 +39,16 @@ class AppRouterDelegate extends RouterDelegate
               quoteId: selectedQuote!,
             ),
           ),
+        if (isForm)
+          MaterialPage(
+            key: const ValueKey("FormScreen"),
+            child: FormScreen(
+              onSend: () {
+                isForm = false;
+                notifyListeners();
+              },
+            ),
+          ),
       ],
       onPopPage: (route, result) {
         final didPop = route.didPop(result);
@@ -40,7 +56,9 @@ class AppRouterDelegate extends RouterDelegate
           return false;
         }
         selectedQuote = null;
+        isForm = false;
         notifyListeners();
+        
         return true;
       },
     );
