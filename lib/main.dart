@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'data/repositories/auth_repository.dart';
+import 'providers/auth_provider.dart';
 import 'routes/app_router_delegate.dart';
-import 'routes/page_manager.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,17 +18,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late AppRouterDelegate _appRouterDelegate;
+  late AuthProvider _authProvider;
 
   @override
   void initState() {
     super.initState();
-    _appRouterDelegate = AppRouterDelegate();
+    AuthRepository authRepository = AuthRepository();
+    _authProvider = AuthProvider(authRepository);
+    _appRouterDelegate = AppRouterDelegate(authRepository);
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PageManager(),
+      create: (context) => _authProvider,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

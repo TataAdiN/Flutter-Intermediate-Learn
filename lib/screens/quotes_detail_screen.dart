@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/quote.dart';
+import '../data/models/quote.dart';
 
 class QuoteDetailsScreen extends StatelessWidget {
   final String quoteId;
