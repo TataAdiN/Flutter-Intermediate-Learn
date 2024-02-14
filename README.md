@@ -1,2 +1,2 @@
 # Flutter-Intermediate-Learn
-Navigator 2.0 Redirection Implementation
+Navigator 2.0 Web
