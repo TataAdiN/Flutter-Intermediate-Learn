@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/models/page_configuration.dart';
 import '../data/models/quote.dart';
 import '../data/repositories/auth_repository.dart';
 import '../screens/login_screen.dart';
@@ -8,11 +9,12 @@ import '../screens/quotes_list_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/splash_screen.dart';
 
-class AppRouterDelegate extends RouterDelegate
+class AppRouterDelegate extends RouterDelegate<PageConfiguration>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   final GlobalKey<NavigatorState> _navigatorKey;
   final AuthRepository authRepository;
   String? selectedQuote;
+  bool? isUnknown;
 
   List<Page> historyStack = [];
   bool? isLoggedIn;
@@ -117,8 +119,44 @@ class AppRouterDelegate extends RouterDelegate
   GlobalKey<NavigatorState>? get navigatorKey => _navigatorKey;
 
   @override
-  Future<void> setNewRoutePath(configuration) {
-    // TODO: implement setNewRoutePath
-    throw UnimplementedError();
+  Future<void> setNewRoutePath(PageConfiguration configuration) async {
+    if (configuration.isUnknownPage) {
+      isUnknown = true;
+      isRegister = false;
+    } else if (configuration.isRegisterPage) {
+      isRegister = true;
+    } else if (configuration.isHomePage ||
+        configuration.isLoginPage ||
+        configuration.isSplashPage) {
+      isUnknown = false;
+      selectedQuote = null;
+      isRegister = false;
+    } else if (configuration.isDetailPage) {
+      isUnknown = false;
+      isRegister = false;
+      selectedQuote = configuration.quoteId.toString();
+    } else {
+      isUnknown = false;
+    }
+    notifyListeners();
+  }
+
+  @override
+  PageConfiguration? get currentConfiguration {
+    if (isLoggedIn == null) {
+      return PageConfiguration.splash();
+    } else if (isRegister == true) {
+      return PageConfiguration.register();
+    } else if (isLoggedIn == false) {
+      return PageConfiguration.login();
+    } else if (isUnknown == true) {
+      return PageConfiguration.unknown();
+    } else if (selectedQuote == null) {
+      return PageConfiguration.home();
+    } else if (selectedQuote != null) {
+      return PageConfiguration.detailQuote(selectedQuote!);
+    } else {
+      return null;
+    }
   }
 }
