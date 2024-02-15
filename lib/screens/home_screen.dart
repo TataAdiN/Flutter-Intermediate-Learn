@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/home_provider.dart';
@@ -68,13 +71,39 @@ class _HomePageState extends State<HomePage> {
 
   _onUpload() async {}
 
-  _onGalleryView() async {}
+  _onGalleryView() async {
+    final provider = context.read<HomeProvider>();
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+  }
 
-  _onCameraView() async {}
+  _onCameraView() async {
+    final provider = context.read<HomeProvider>();
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+  }
 
   _onCustomCameraView() async {}
 
   Widget _showImage() {
-    return Container();
+    final imagePath = context.read<HomeProvider>().imagePath;
+    return Image.file(
+      File(
+        imagePath.toString(),
+      ),
+      fit: BoxFit.contain,
+    );
   }
 }
