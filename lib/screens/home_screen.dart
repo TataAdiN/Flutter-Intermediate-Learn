@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,15 +99,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   _onCustomCameraView() async {
+    final provider = context.read<HomeProvider>();
+
     final navigator = Navigator.of(context);
     final cameras = await availableCameras();
-    await navigator.push(
+    final XFile? resultImageFile = await navigator.push(
       MaterialPageRoute(
         builder: (context) => CameraScreen(
           cameras: cameras,
         ),
       ),
     );
+    if (resultImageFile != null) {
+      provider.setImageFile(resultImageFile);
+      provider.setImagePath(resultImageFile.path);
+    }
   }
 
   Widget _showImage() {

@@ -89,7 +89,14 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  Future<void> _onCameraButtonClick() async {}
+  Future<void> _onCameraButtonClick() async {
+    final navigator = Navigator.of(context);
+    final image = await controller?.takePicture();
 
-  void _onCameraSwitch() {}
+    navigator.pop(image);
+  }
+
+  void _onCameraSwitch() {
+
+  }
 }
