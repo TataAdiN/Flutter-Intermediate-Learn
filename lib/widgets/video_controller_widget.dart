@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AudioControllerWidget extends StatelessWidget {
+class VideoControllerWidget extends StatelessWidget {
   final Function onPlayTapped;
-  final Function onStopTapped;
   final Function onPauseTapped;
   final bool isPlay;
 
-  const AudioControllerWidget({
+  const VideoControllerWidget({
     super.key,
     required this.onPlayTapped,
-    required this.onStopTapped,
     required this.onPauseTapped,
     required this.isPlay,
   });
@@ -32,11 +30,6 @@ class AudioControllerWidget extends StatelessWidget {
             icon: Icon(
               isPlay ? Icons.pause : Icons.play_arrow,
             ),
-            iconSize: 30,
-          ),
-          IconButton(
-            onPressed: () => onStopTapped(),
-            icon: const Icon(Icons.stop),
             iconSize: 30,
           ),
         ],

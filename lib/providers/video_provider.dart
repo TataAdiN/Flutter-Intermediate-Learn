@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AudioProvider extends ChangeNotifier {
+class VideoProvider extends ChangeNotifier {
   bool _isPlay = false;
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
