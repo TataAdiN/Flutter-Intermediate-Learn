@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/video_provider.dart';
+import 'providers/home_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => VideoProvider(),
+      create: (context) => HomeProvider(),
       child: const MaterialApp(
         home: HomePage(),
       ),

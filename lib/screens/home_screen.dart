@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
+import 'dart:io';
 
-import '../providers/video_provider.dart';
-import '../utils/utils.dart';
-import '../widgets/buffer_slider_controller_widget.dart';
-import '../widgets/video_controller_widget.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/home_provider.dart';
+import 'camera_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,112 +16,118 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  VideoPlayerController? controller;
-  bool isVideoInitialize = false;
-
-  @override
-  void initState() {
-    videoInitialize();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  void videoInitialize() async {
-    final previousVideoController = controller;
-    //final videoController = VideoPlayerController.asset("assets/butterfly.mp4",);
-    final videoController = VideoPlayerController.networkUrl(Uri.parse(
-        "https://github.com/dicodingacademy/assets/releases/download/release-video/VideoDicoding.mp4"));
-    await previousVideoController?.dispose();
-    try {
-      await videoController.initialize();
-    } on Exception catch (e) {
-      print('Error initializing video: $e');
-    }
-    if (mounted) {
-      setState(() {
-        controller = videoController;
-        isVideoInitialize = controller!.value.isInitialized;
-      });
-    }
-    if (isVideoInitialize) {
-      _listenPlayer();
-    }
-  }
-
-  _listenPlayer() {
-    final provider = context.read<VideoProvider>();
-    controller?.addListener(() {
-      provider.duration = controller?.value.duration ?? Duration.zero;
-      provider.position = controller?.value.position ?? Duration.zero;
-      provider.isPlay = controller?.value.isPlaying ?? false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Video Player Project"),
-      ),
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          isVideoInitialize
-              ? AspectRatio(
-                  aspectRatio: controller!.value.aspectRatio,
-                  child: VideoPlayer(
-                    controller!,
-                  ),
-                )
-              : const CircularProgressIndicator(),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Consumer<VideoProvider>(
-                  builder: (context, provider, child) {
-                    final duration = provider.duration;
-                    final position = provider.position;
-
-                    return BufferSliderControllerWidget(
-                      maxValue: duration.inSeconds.toDouble(),
-                      currentValue: position.inSeconds.toDouble(),
-                      minText: durationToTimeString(position),
-                      maxText: durationToTimeString(duration),
-                      onChanged: (value) async {
-                        final newPosition = Duration(seconds: value.toInt());
-                        await controller?.seekTo(newPosition);
-                        await controller?.play();
-                      },
-                    );
-                  },
-                ),
-                Consumer<VideoProvider>(
-                  builder: (context, provider, child) {
-                    final isPlay = provider.isPlay;
-                    return VideoControllerWidget(
-                      onPlayTapped: () {
-                        controller?.play();
-                      },
-                      onPauseTapped: () {
-                        controller?.pause();
-                      },
-                      isPlay: isPlay,
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
+        title: const Text("Camera Project"),
+        actions: [
+          IconButton(
+            onPressed: () => _onUpload(),
+            icon: const Icon(Icons.upload),
+            tooltip: "Unggah",
+          ),
         ],
       ),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 3,
+              child: context.watch<HomeProvider>().imagePath == null
+                  ? const Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.image,
+                        size: 100,
+                      ),
+                    )
+                  : _showImage(),
+            ),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _onGalleryView(),
+                    child: const Text("Gallery"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _onCameraView(),
+                    child: const Text("Camera"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => _onCustomCameraView(),
+                    child: const Text("Custom Camera"),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _onUpload() async {}
+
+  _onGalleryView() async {
+    final provider = context.read<HomeProvider>();
+
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+  }
+
+  _onCameraView() async {
+    final provider = context.read<HomeProvider>();
+
+    final picker = ImagePicker();
+
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (pickedFile != null) {
+      provider.setImageFile(pickedFile);
+      provider.setImagePath(pickedFile.path);
+    }
+  }
+
+  _onCustomCameraView() async {
+    final provider = context.read<HomeProvider>();
+    final navigator = Navigator.of(context);
+
+    final cameras = await availableCameras();
+
+    final XFile? resultImageFile = await navigator.push(
+      MaterialPageRoute(
+        builder: (context) => CameraScreen(
+          cameras: cameras,
+        ),
+      ),
+    );
+
+    if (resultImageFile != null) {
+      provider.setImageFile(resultImageFile);
+      provider.setImagePath(resultImageFile.path);
+    }
+  }
+
+  Widget _showImage() {
+    final imagePath = context.read<HomeProvider>().imagePath;
+    return Image.file(
+      File(imagePath.toString()),
+      fit: BoxFit.contain,
     );
   }
 }
