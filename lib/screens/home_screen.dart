@@ -86,8 +86,9 @@ class _HomePageState extends State<HomePage> {
 
     final fileName = imageFile.name;
     final bytes = await imageFile.readAsBytes();
+    final newBytes = await uploadProvider.compressImage(bytes);
     await uploadProvider.upload(
-      bytes,
+      newBytes,
       fileName,
       "Ini adalah deskripsi gambar",
     );
