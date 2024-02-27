@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'data/apis/api_service.dart';
-import 'providers/home_provider.dart';
-import 'providers/upload_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -15,20 +11,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => HomeProvider(),
+    return MaterialApp(
+      title: 'Flutter Localization & Accessibility',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
         ),
-        ChangeNotifierProvider(
-          create: (context) => UploadProvider(
-            ApiService(),
+        scaffoldBackgroundColor: Colors.grey.shade50,
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueGrey.shade800,
+            foregroundColor: Colors.white,
           ),
         ),
-      ],
-      child: const MaterialApp(
-        home: HomePage(),
       ),
+      home: const HomePage(),
     );
   }
 }
