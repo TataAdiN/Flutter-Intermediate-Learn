@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'apps/common.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Localization & Accessibility',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
