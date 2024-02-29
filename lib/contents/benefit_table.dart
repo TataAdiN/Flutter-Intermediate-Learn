@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../apps/common.dart';
 import '../data/models/benefit_feature.dart';
 import '../widgets/table_cell_widget.dart';
 
@@ -9,9 +10,9 @@ class BenefitTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final benefitFeatureList = [
-      BenefitFeature("Akses semua kelas", true, true),
-      BenefitFeature("Ujian", true, true),
-      BenefitFeature("Kirim Submission", false, true),
+      BenefitFeature(AppLocalizations.of(context)!.benefitFeatureItem1, true, true),
+      BenefitFeature(AppLocalizations.of(context)!.benefitFeatureItem2, true, true),
+      BenefitFeature(AppLocalizations.of(context)!.benefitFeatureItem3, false, true),
     ];
     return Table(
       border: TableBorder.all(width: 0.5),
@@ -22,17 +23,17 @@ class BenefitTable extends StatelessWidget {
       },
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
-        const TableRow(children: [
+        TableRow(children: [
           TableCellWidget(
-            text: "Fitur Utama",
+            text: AppLocalizations.of(context)!.benefitFeatureTitle1,
             isBold: true,
           ),
           TableCellWidget(
-            text: "Uji Coba",
+            text: AppLocalizations.of(context)!.benefitFeatureTitle2,
             isBold: true,
           ),
           TableCellWidget(
-            text: "Langganan",
+            text: AppLocalizations.of(context)!.benefitFeatureTitle3,
             isBold: true,
           ),
         ]),
