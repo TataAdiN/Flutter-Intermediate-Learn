@@ -1,2 +1,3 @@
 # Flutter-Intermediate-Learn
-Flutter Windows 11
+Flutter Android App
+## Flutter Story App Dicoding Submission
