@@ -1,47 +1,44 @@
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_intermediate_learn/screens/basic_screen.dart';
 
-import '../contents/benefit_widget.dart';
-import '../contents/cost_widget.dart';
-import '../widgets/flag_icon_widget.dart';
-import '../widgets/max_width_widget.dart';
-import '../widgets/package_list.dart';
+import 'list_screen.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset("assets/dicoding-academy.png"),
-        ),
-        title: const Text("Dicoding Academy"),
-        actions: [
-          const FlagIconWidget(),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings),
+    return NavigationView(
+      appBar: const NavigationAppBar(
+        title: Text("Fluent Design App"),
+        automaticallyImplyLeading: false,
+      ),
+      pane: NavigationPane(
+        items: [
+          PaneItem(
+            icon: const Icon(FluentIcons.page),
+            body: const BasicScreen(),
+            title: const Text("Basic Screen"),
+          ),
+          PaneItem(
+            icon: const Icon(FluentIcons.custom_list),
+            body: const ListScreen(),
+            title: const Text("List Screen"),
           ),
         ],
-      ),
-      body: const MaxWidthWidget(
-        maxWidth: 600,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CostWidget(),
-              PackageList(),
-              SizedBox(height: 20),
-              BenefitWidget(),
-              SizedBox(height: 80),
-            ],
-          ),
-        ),
+        selected: index,
+        onChanged: (value) {
+          setState(() {
+            index = value;
+          });
+        },
       ),
     );
   }
