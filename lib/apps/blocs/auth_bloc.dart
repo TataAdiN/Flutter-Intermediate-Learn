@@ -11,7 +11,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventRefresh>(_refresh);
   }
 
-  _refresh(AuthEventRefresh event, Emitter<AuthState> emit) {
+  _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
+    await Future.delayed(const Duration(seconds: 3), () {});
     emit(AuthStateFail());
   }
 }
