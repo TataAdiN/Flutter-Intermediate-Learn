@@ -1,0 +1,4 @@
+enum AppButtonAlign{
+  center,
+  left
+}

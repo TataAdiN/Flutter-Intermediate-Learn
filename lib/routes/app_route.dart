@@ -5,7 +5,7 @@ import '../apps/pages/auth_page.dart';
 import '../apps/pages/login_page.dart';
 
 class AppRoute {
-  static String login = 'login';
+  static String login = 'login_state.dart';
 
   static final GoRouter _router = GoRouter(
     routes: <RouteBase>[
