@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/states/login/login_state.dart';
+import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
+import '../apps/states/login/login_state.dart';
 import '../data/enums/app_button_align.dart';
+import '../routes/app_route.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
@@ -63,7 +65,7 @@ class LoginView extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: AppButton(
                   color: Colors.grey,
-                  onClick: () {},
+                  onClick: () => context.pushNamed(AppRoute.register),
                   label: 'Sign up',
                   align: AppButtonAlign.center,
                 ),

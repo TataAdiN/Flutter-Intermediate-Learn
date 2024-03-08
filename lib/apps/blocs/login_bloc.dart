@@ -11,6 +11,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   _auth(LoginEventAuth event, Emitter<LoginState> emit) async {
-
+    print(event.email);
+    print(event.password);
   }
 }
