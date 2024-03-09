@@ -6,11 +6,13 @@ import 'package:go_router/go_router.dart';
 import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/states/login/login_state.dart';
+import '../apps/states/login/login_state_loading.dart';
 import '../data/enums/app_button_align.dart';
 import '../routes/app_route.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
+import '../widgets/fullscreen_app_loading.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -29,50 +31,62 @@ class LoginView extends StatelessWidget {
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.dark,
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 120.0,
-                width: 120.0,
-                child: Image.asset(
-                  'assets/icon.png',
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "Image Stories",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              BlocConsumer<LoginBloc, LoginState>(
-                builder: (context, state) {
-                  return _formLogin(context);
-                },
-                listener: (BuildContext context, LoginState state) {},
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AppButton(
-                  color: Colors.grey,
-                  onClick: () => context.pushNamed(AppRoute.register),
-                  label: 'Sign up',
-                  align: AppButtonAlign.center,
-                ),
-              )
-            ],
-          ),
+        child: BlocConsumer<LoginBloc, LoginState>(
+          builder: (context, state) {
+            if(state is LoginStateLoading){
+              return FullscreenAppLoading(message: state.message);
+            }
+            return loginView(context);
+          },
+          listener: (BuildContext context, LoginState state) {},
         ),
+      ),
+    );
+  }
+
+  Center loginView(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 120.0,
+            width: 120.0,
+            child: Image.asset(
+              'assets/icon.png',
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              "Image Stories",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          BlocConsumer<LoginBloc, LoginState>(
+            builder: (context, state) {
+              return _formLogin(context);
+            },
+            listener: (BuildContext context, LoginState state) {},
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: AppButton(
+              color: Colors.grey,
+              onClick: () => context.pushNamed(AppRoute.register),
+              label: 'Sign up',
+              align: AppButtonAlign.center,
+            ),
+          )
+        ],
       ),
     );
   }
