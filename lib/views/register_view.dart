@@ -26,73 +26,55 @@ class RegisterView extends StatelessWidget {
         ),
         child: CustomScrollView(
           slivers: [
-            const ExpandedAppBar(title: 'Daftar Akun', color: Colors.white10),
+            const ExpandedAppBar(
+              title: 'Daftar Akun',
+              color: Color.fromRGBO(245, 246, 251, 1),
+            ),
             SliverFillRemaining(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 120.0,
-                      width: 120.0,
-                      child: Image.asset(
-                        'assets/icon.png',
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "Image Stories",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        AppTextField(
+                          controller: nameController,
+                          title: 'Nama',
+                          isEmail: true,
+                          errorText: 'Isian Nama tidak boleh kosong',
                         ),
-                      ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        AppTextField(
+                          controller: emailController,
+                          title: 'Email',
+                          isEmail: true,
+                          errorText: 'Isian Email tidak boleh kosong',
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        AppObsecureField(
+                          title: 'Password',
+                          errorText: 'Isian password tidak boleh kosong',
+                          controller: passwordController,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        AppButton(
+                          onClick: () {},
+                          label: 'Sign Up',
+                          align: AppButtonAlign.center,
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          AppTextField(
-                            controller: nameController,
-                            title: 'Nama',
-                            isEmail: true,
-                            errorText: 'Isian Nama tidak boleh kosong',
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          AppTextField(
-                            controller: emailController,
-                            title: 'Email',
-                            isEmail: true,
-                            errorText: 'Isian Email tidak boleh kosong',
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          AppObsecureField(
-                            title: 'Password',
-                            errorText: 'Isian password tidak boleh kosong',
-                            controller: passwordController,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          AppButton(
-                            onClick: () {},
-                            label: 'Sign Up',
-                            align: AppButtonAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

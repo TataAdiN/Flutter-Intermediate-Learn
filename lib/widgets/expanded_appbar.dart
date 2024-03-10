@@ -16,9 +16,10 @@ class ExpandedAppBar extends StatelessWidget {
       snap: false,
       floating: false,
       expandedHeight: 160.0,
-      elevation: 1,
+      elevation: 0,
       flexibleSpace: FlexibleSpaceBar(
-        centerTitle: false,
+        centerTitle: true,
+        titlePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         title: Text(
           title,
           style: const TextStyle(color: Colors.black),

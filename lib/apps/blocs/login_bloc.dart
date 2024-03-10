@@ -8,6 +8,7 @@ import '../../data/models/user_auth.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../events/login/login_event.dart';
 import '../events/login/login_event_auth.dart';
+import '../exceptions/apis/bad_request_exception.dart';
 import '../exceptions/apis/unauthorized_exception.dart';
 import '../exceptions/apis/unknown_exception.dart';
 import '../states/login/login_state.dart';
@@ -50,6 +51,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         LoginStateError(
           errorType: ClientErrorType.unknown,
+          message: exception.message,
+        ),
+      );
+    } on BadRequestException catch (exception) {
+      emit(
+        LoginStateError(
+          errorType: ClientErrorType.badRequest,
           message: exception.message,
         ),
       );

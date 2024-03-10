@@ -1,1 +1,1 @@
-enum ClientErrorType { noInternet, unknown }
+enum ClientErrorType { noInternet, unknown, badRequest }

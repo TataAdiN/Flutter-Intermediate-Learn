@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/apps/states/login/login_state_unauthorized.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/states/login/login_state.dart';
+import '../apps/states/login/login_state_error.dart';
 import '../apps/states/login/login_state_loading.dart';
 import '../data/enums/app_button_align.dart';
+import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
+import '../widgets/alerts/app_error_alert_dialog.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
@@ -33,18 +37,39 @@ class LoginView extends StatelessWidget {
         ),
         child: BlocConsumer<LoginBloc, LoginState>(
           builder: (context, state) {
-            if(state is LoginStateLoading){
+            if (state is LoginStateLoading) {
               return FullscreenAppLoading(message: state.message);
             }
-            return loginView(context);
+            return _loginView(context);
           },
-          listener: (BuildContext context, LoginState state) {},
+          listener: (BuildContext context, LoginState state) {
+            if (state is LoginStateError) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AppErrorAlertDialog(
+                    message: state.message,
+                  );
+                },
+              );
+            } else if (state is LoginStateUnauthorized) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const AppErrorAlertDialog(
+                    title: 'Login Failed',
+                    message: 'Wrong password or email. Please try again...',
+                  );
+                },
+              );
+            }
+          },
         ),
       ),
     );
   }
 
-  Center loginView(BuildContext context) {
+  Center _loginView(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
