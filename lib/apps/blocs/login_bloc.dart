@@ -38,7 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         LoginStateError(
           errorType: ClientErrorType.noInternet,
-          message: exception.message,
+          message: 'Please fix your connection and try again',
         ),
       );
     } on UnauthorizedException catch (exception) {

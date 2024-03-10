@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/states/login/login_state_unauthorized.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/login_bloc.dart';
@@ -9,6 +8,7 @@ import '../apps/events/login/login_event_auth.dart';
 import '../apps/states/login/login_state.dart';
 import '../apps/states/login/login_state_error.dart';
 import '../apps/states/login/login_state_loading.dart';
+import '../apps/states/login/login_state_unauthorized.dart';
 import '../data/enums/app_button_align.dart';
 import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
@@ -47,6 +47,12 @@ class LoginView extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
+                  if(state.errorType == ClientErrorType.noInternet){
+                    return AppErrorAlertDialog(
+                      title: 'No Internet',
+                      message: state.message,
+                    );
+                  }
                   return AppErrorAlertDialog(
                     message: state.message,
                   );

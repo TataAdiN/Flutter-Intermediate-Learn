@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_intermediate_learn/views/auth_view.dart';
+
+import '../../views/auth_view.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
