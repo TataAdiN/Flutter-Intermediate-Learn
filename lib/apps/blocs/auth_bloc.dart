@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/events/auth/auth_event_save.dart';
-import 'package:flutter_intermediate_learn/data/models/user_auth.dart';
 
+import '../../data/models/user_auth.dart';
 import '../events/auth/auth_event.dart';
 import '../events/auth/auth_event_refresh.dart';
+import '../events/auth/auth_event_save.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
 import '../states/auth/auth_state_init.dart';
