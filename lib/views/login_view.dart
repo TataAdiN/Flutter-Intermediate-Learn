@@ -7,6 +7,7 @@ import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/events/login/login_event_created_account.dart';
 import '../apps/states/login/login_state.dart';
+import '../apps/states/login/login_state_authorized.dart';
 import '../apps/states/login/login_state_created_account.dart';
 import '../apps/states/login/login_state_error.dart';
 import '../apps/states/login/login_state_loading.dart';
@@ -46,7 +47,9 @@ class LoginView extends StatelessWidget {
             return _loginView(context);
           },
           listener: (BuildContext context, LoginState state) {
-            if (state is LoginStateError) {
+            if (state is LoginStateAuthorized) {
+              context.pushReplacementNamed(AppRoute.main);
+            } else if (state is LoginStateError) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {

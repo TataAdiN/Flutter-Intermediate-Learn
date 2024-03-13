@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/user_auth.dart';
+import '../../data/repositories/local_user_repository.dart';
 import '../events/auth/auth_event.dart';
 import '../events/auth/auth_event_refresh.dart';
 import '../events/auth/auth_event_save.dart';
+import '../exceptions/local_storage/local_storage_empty_exception.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
 import '../states/auth/auth_state_init.dart';
@@ -21,11 +23,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   get authenticateUser => userAuth;
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
-    await Future.delayed(const Duration(seconds: 3), () {});
-    emit(AuthStateFail());
-    UserAuth userAuth = UserAuth(userId: 'userId', name: 'name', email: 'email', password: 'password', token: 'token');
-    this.userAuth = userAuth;
-    add(AuthEventSave(userAuth: userAuth));
+    try{
+      await LocalUserRepository().read();
+    }on LocalStorageEmptyException catch (_){
+      emit(AuthStateFail());
+    }
   }
 
   _save(AuthEventSave event, Emitter<AuthState> emit) async {

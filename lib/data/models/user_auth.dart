@@ -20,4 +20,11 @@ class UserAuth extends User {
       password: '',
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        "userId": userId,
+        "name": name,
+        "token": token,
+        "password": password ?? '',
+      };
 }

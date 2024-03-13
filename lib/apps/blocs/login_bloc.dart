@@ -13,6 +13,7 @@ import '../exceptions/apis/bad_request_exception.dart';
 import '../exceptions/apis/unauthorized_exception.dart';
 import '../exceptions/apis/unknown_exception.dart';
 import '../states/login/login_state.dart';
+import '../states/login/login_state_authorized.dart';
 import '../states/login/login_state_created_account.dart';
 import '../states/login/login_state_error.dart';
 import '../states/login/login_state_init.dart';
@@ -30,14 +31,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     User user = User(email: event.email, password: event.password);
     try {
       UserAuth userAuth = await AuthRepository().login(user: user);
-      print(userAuth);
+      userAuth.password = user.password;
       //var isStored = await UserSecureRepository().save(userAuth: userAuth);
       //if (isStored) {
-      //  emit(LoginAuthorizedState());
+      emit(LoginStateAuthorized());
       // } else {
       //  emit(LoginErrorState('Failed to store data to secure storage', 0));
       //}
-    } on SocketException catch (exception) {
+    } on SocketException catch (_) {
       emit(
         LoginStateError(
           errorType: ClientErrorType.noInternet,
