@@ -8,10 +8,12 @@ import '../../data/models/user_auth.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../events/login/login_event.dart';
 import '../events/login/login_event_auth.dart';
+import '../events/login/login_event_created_account.dart';
 import '../exceptions/apis/bad_request_exception.dart';
 import '../exceptions/apis/unauthorized_exception.dart';
 import '../exceptions/apis/unknown_exception.dart';
 import '../states/login/login_state.dart';
+import '../states/login/login_state_created_account.dart';
 import '../states/login/login_state_error.dart';
 import '../states/login/login_state_init.dart';
 import '../states/login/login_state_loading.dart';
@@ -20,6 +22,7 @@ import '../states/login/login_state_unauthorized.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginStateInit()) {
     on<LoginEventAuth>(_auth);
+    on<LoginEventCreatedAccount>(_notifyCreatedAccount);
   }
 
   _auth(LoginEventAuth event, Emitter<LoginState> emit) async {
@@ -62,5 +65,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
     }
+  }
+
+  _notifyCreatedAccount(
+    LoginEventCreatedAccount event,
+    Emitter<LoginState> emit,
+  ) {
+    Map<String, dynamic> result = event.result;
+    emit(
+      LoginStateCreatedAccount(
+        message: result['message'],
+        email: result['email'],
+      ),
+    );
   }
 }

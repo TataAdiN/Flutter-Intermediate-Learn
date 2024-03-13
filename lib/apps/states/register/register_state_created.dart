@@ -1,7 +1,8 @@
 import 'register_state.dart';
 
 class RegisterStateCreated extends RegisterState {
-  RegisterStateCreated({required String message}) {
+  String email;
+  RegisterStateCreated({required String message, required this.email}) {
     this.message = message;
   }
 }

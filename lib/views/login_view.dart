@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
+import '../apps/events/login/login_event_created_account.dart';
 import '../apps/states/login/login_state.dart';
+import '../apps/states/login/login_state_created_account.dart';
 import '../apps/states/login/login_state_error.dart';
 import '../apps/states/login/login_state_loading.dart';
 import '../apps/states/login/login_state_unauthorized.dart';
@@ -13,6 +15,7 @@ import '../data/enums/app_button_align.dart';
 import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
 import '../widgets/alerts/app_error_alert_dialog.dart';
+import '../widgets/alerts/app_success_alert_dialog.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
@@ -47,7 +50,7 @@ class LoginView extends StatelessWidget {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  if(state.errorType == ClientErrorType.noInternet){
+                  if (state.errorType == ClientErrorType.noInternet) {
                     return AppErrorAlertDialog(
                       title: 'No Internet',
                       message: state.message,
@@ -65,6 +68,16 @@ class LoginView extends StatelessWidget {
                   return const AppErrorAlertDialog(
                     title: 'Login Failed',
                     message: 'Wrong password or email. Please try again...',
+                  );
+                },
+              );
+            } else if (state is LoginStateCreatedAccount) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AppSuccessAlertDialog(
+                    title: 'Success create Account',
+                    message: '${state.email} ${state.message}',
                   );
                 },
               );
@@ -112,7 +125,17 @@ class LoginView extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: AppButton(
               color: Colors.grey,
-              onClick: () => context.pushNamed(AppRoute.register),
+              onClick: () async {
+                Map<String, dynamic>? result = await context
+                    .pushNamed<Map<String, dynamic>>(AppRoute.register);
+                if (result != null && result.isNotEmpty && context.mounted) {
+                  context.read<LoginBloc>().add(
+                        LoginEventCreatedAccount(
+                          result: result,
+                        ),
+                      );
+                }
+              },
               label: 'Sign up',
               align: AppButtonAlign.center,
             ),

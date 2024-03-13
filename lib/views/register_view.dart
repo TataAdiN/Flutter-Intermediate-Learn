@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/register_bloc.dart';
 import '../apps/events/register/register_event_action.dart';
 import '../apps/states/register/register_state.dart';
+import '../apps/states/register/register_state_created.dart';
 import '../apps/states/register/register_state_error.dart';
 import '../apps/states/register/register_state_loading.dart';
 import '../data/enums/app_button_align.dart';
@@ -57,6 +59,13 @@ class RegisterView extends StatelessWidget {
                   );
                 },
               );
+            } else if (state is RegisterStateCreated) {
+              Map<String, dynamic> result = {
+                'created': true,
+                'message': state.message,
+                'email': state.email
+              };
+              context.pop<Map<String, dynamic>>(result);
             }
           },
         ),
