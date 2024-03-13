@@ -42,5 +42,25 @@ class AuthenticationAPI {
     );
   }
 
-  register() {}
+  Future<bool> register(User user) async {
+    var result = await http.post(
+      Uri.parse(ApiEndPoint.register),
+      body: {
+        "name": user.name,
+        "email": user.email,
+        "password": user.password,
+      },
+    );
+    var json = jsonDecode(result.body.toString());
+
+    if (result.statusCode == 400) {
+      var message = jsonEncode(json['message']);
+      return throw BadRequestException(message: message);
+    }
+
+    if (json['error']) {
+      return throw UnknownException();
+    }
+    return true;
+  }
 }

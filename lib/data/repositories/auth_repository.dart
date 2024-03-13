@@ -12,8 +12,7 @@ class AuthRepository implements AuthRepositoryContract {
   }
 
   @override
-  register() {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<bool> register({required User user}) async {
+    return await _api.register(user);
   }
 }

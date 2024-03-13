@@ -3,6 +3,5 @@ import '../models/user_auth.dart';
 
 abstract class AuthRepositoryContract {
   Future<UserAuth> login({required User user});
-
-  register();
+  Future<bool> register({required User user});
 }
