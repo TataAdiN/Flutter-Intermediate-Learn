@@ -6,6 +6,7 @@ import '../../data/enums/client_error_type.dart';
 import '../../data/models/user.dart';
 import '../../data/models/user_auth.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../data/repositories/local_user_repository.dart';
 import '../events/login/login_event.dart';
 import '../events/login/login_event_auth.dart';
 import '../events/login/login_event_created_account.dart';
@@ -32,12 +33,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       UserAuth userAuth = await AuthRepository().login(user: user);
       userAuth.password = user.password;
-      //var isStored = await UserSecureRepository().save(userAuth: userAuth);
-      //if (isStored) {
-      emit(LoginStateAuthorized());
-      // } else {
-      //  emit(LoginErrorState('Failed to store data to secure storage', 0));
-      //}
+      bool isStored = await LocalUserRepository().save(user: userAuth);
+      if (isStored) {
+        emit(
+          LoginStateAuthorized(),
+        );
+      } else {
+        emit(
+          LoginStateError(
+            errorType: ClientErrorType.unknown,
+            message: 'Fail save token to local storage',
+          ),
+        );
+      }
     } on SocketException catch (_) {
       emit(
         LoginStateError(

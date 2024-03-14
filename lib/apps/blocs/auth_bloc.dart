@@ -9,6 +9,7 @@ import '../exceptions/local_storage/local_storage_empty_exception.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
 import '../states/auth/auth_state_init.dart';
+import '../states/auth/auth_state_success.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool isLogged = false;
@@ -23,10 +24,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   get authenticateUser => userAuth;
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
-    try{
-      await LocalUserRepository().read();
-    }on LocalStorageEmptyException catch (_){
-      emit(AuthStateFail());
+    try {
+      userAuth = await LocalUserRepository().read();
+      emit(
+        AuthStateSuccess(),
+      );
+    } on LocalStorageEmptyException catch (_) {
+      emit(
+        AuthStateFail(),
+      );
     }
   }
 
