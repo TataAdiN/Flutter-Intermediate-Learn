@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/user_auth.dart';
@@ -38,5 +39,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _save(AuthEventSave event, Emitter<AuthState> emit) async {
     print('called');
+  }
+
+  String greeting(BuildContext context) {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
   }
 }
