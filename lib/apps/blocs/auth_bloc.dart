@@ -26,7 +26,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
     try {
+      //to show animation authentication loading animation
+      await Future.delayed(
+        const Duration(seconds: 1),
+      );
       userAuth = await LocalUserRepository().read();
+      isLogged = true;
       emit(
         AuthStateSuccess(),
       );

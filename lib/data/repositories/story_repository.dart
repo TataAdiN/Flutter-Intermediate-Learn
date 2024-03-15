@@ -1,7 +1,6 @@
-import 'package:flutter_intermediate_learn/apps/services/remote_api/stories_api.dart';
-import 'package:flutter_intermediate_learn/data/models/story.dart';
-
+import '../../apps/services/remote_api/stories_api.dart';
 import '../contracts/story_repository_constract.dart';
+import '../models/story.dart';
 
 class StoryRepository implements StoryRepositoryContract {
   late StoriesApi _api;

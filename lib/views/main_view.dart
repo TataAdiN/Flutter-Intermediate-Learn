@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
 import '../apps/blocs/stories_bloc.dart';
 import '../apps/states/stories/stories_state.dart';
 import '../apps/states/stories/stories_state_loaded.dart';
 import '../data/models/story.dart';
+import '../routes/app_route.dart';
+import '../widgets/story_card.dart';
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -23,7 +26,7 @@ class MainView extends StatelessWidget {
             tooltip: "Upload",
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.pushNamed(AppRoute.settings),
             icon: const Icon(Icons.settings),
             tooltip: "Settings",
           ),
@@ -85,14 +88,7 @@ class MainView extends StatelessWidget {
             horizontal: 0,
             vertical: 10,
           ),
-          child: Container(
-            color: Colors.redAccent,
-            height: 20,
-            child: Text(
-              stories[index].name,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
+          child: StoryCard(story: stories[index]),
         );
       },
     );
