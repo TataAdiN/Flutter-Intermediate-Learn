@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/enums/client_error_type.dart';
@@ -20,6 +19,7 @@ import '../states/login/login_state_error.dart';
 import '../states/login/login_state_init.dart';
 import '../states/login/login_state_loading.dart';
 import '../states/login/login_state_unauthorized.dart';
+import 'auth_bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginStateInit()) {
@@ -35,6 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       userAuth.password = user.password;
       bool isStored = await LocalUserRepository().save(user: userAuth);
       if (isStored) {
+        await event.authBloc.update();
         emit(
           LoginStateAuthorized(),
         );

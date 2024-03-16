@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../apps/blocs/auth_bloc.dart';
 import '../apps/blocs/login_bloc.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/events/login/login_event_created_account.dart';
@@ -179,6 +180,7 @@ class LoginView extends StatelessWidget {
                           LoginEventAuth(
                             email: emailController.text,
                             password: passwordController.text,
+                            authBloc: context.read<AuthBloc>(),
                           ),
                         );
                   }

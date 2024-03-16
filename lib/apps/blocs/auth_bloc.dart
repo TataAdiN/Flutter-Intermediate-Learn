@@ -10,10 +10,11 @@ import '../exceptions/local_storage/local_storage_empty_exception.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
 import '../states/auth/auth_state_init.dart';
+import '../states/auth/auth_state_loggedout.dart';
 import '../states/auth/auth_state_success.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  bool isLogged = false;
+  bool _isLogged = false;
   UserAuth? userAuth;
 
   AuthBloc() : super(AuthStateInit()) {
@@ -21,8 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventLogout>(_logout);
   }
 
-  get isAuth => isLogged;
-  get authenticateUser => userAuth;
+  get isAuth => _isLogged;
+  get user => userAuth;
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
     try {
@@ -31,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         const Duration(seconds: 1),
       );
       userAuth = await LocalUserRepository().read();
-      isLogged = true;
+      _isLogged = true;
       emit(
         AuthStateSuccess(),
       );
@@ -45,15 +46,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   _logout(AuthEventLogout event, Emitter<AuthState> emit) async {
     bool result = await LocalUserRepository().remove();
     if (result) {
-      isLogged = false;
+      _isLogged = false;
       emit(
-        AuthStateSuccess(),
+        AuthStateLoggedout(),
       );
     } else {
       emit(
         AuthStateFail(),
       );
     }
+  }
+
+  update() async {
+    userAuth = await LocalUserRepository().read();
+    _isLogged = true;
   }
 
   String greeting(BuildContext context) {

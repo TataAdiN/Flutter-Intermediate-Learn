@@ -43,7 +43,7 @@ class AppRoute {
       ),
       GoRoute(
           redirect: (BuildContext context, GoRouterState state) {
-            bool isLogin = context.read<AuthBloc>().isLogged;
+            bool isLogin = context.read<AuthBloc>().isAuth;
             if (isLogin) {
               return state.fullPath;
             }
