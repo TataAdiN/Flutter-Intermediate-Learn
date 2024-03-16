@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/models/user_auth.dart';
 import '../../data/repositories/local_user_repository.dart';
 import '../events/auth/auth_event.dart';
+import '../events/auth/auth_event_logout.dart';
 import '../events/auth/auth_event_refresh.dart';
-import '../events/auth/auth_event_save.dart';
 import '../exceptions/local_storage/local_storage_empty_exception.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(AuthStateInit()) {
     on<AuthEventRefresh>(_refresh);
-    on<AuthEventSave>(_save);
+    on<AuthEventLogout>(_logout);
   }
 
   get isAuth => isLogged;
@@ -42,8 +42,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  _save(AuthEventSave event, Emitter<AuthState> emit) async {
-    print('called');
+  _logout(AuthEventLogout event, Emitter<AuthState> emit) async {
+    bool result = await LocalUserRepository().remove();
+    if (result) {
+      isLogged = false;
+      emit(
+        AuthStateSuccess(),
+      );
+    } else {
+      emit(
+        AuthStateFail(),
+      );
+    }
   }
 
   String greeting(BuildContext context) {
