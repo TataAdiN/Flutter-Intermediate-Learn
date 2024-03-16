@@ -15,7 +15,7 @@ import '../states/auth/auth_state_success.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   bool _isLogged = false;
-  UserAuth? userAuth;
+  UserAuth? _userAuth;
 
   AuthBloc() : super(AuthStateInit()) {
     on<AuthEventRefresh>(_refresh);
@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   get isAuth => _isLogged;
-  get user => userAuth;
+  get user => _userAuth;
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
     try {
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await Future.delayed(
         const Duration(seconds: 1),
       );
-      userAuth = await LocalUserRepository().read();
+      _userAuth = await LocalUserRepository().read();
       _isLogged = true;
       emit(
         AuthStateSuccess(),
@@ -58,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   update() async {
-    userAuth = await LocalUserRepository().read();
+    _userAuth = await LocalUserRepository().read();
     _isLogged = true;
   }
 

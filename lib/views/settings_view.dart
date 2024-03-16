@@ -58,7 +58,7 @@ class SettingsView extends StatelessWidget {
           ', ',
         ),
         Text(
-          context.read<AuthBloc>().userAuth?.name ?? '-',
+          context.read<AuthBloc>().user?.name ?? '-',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),

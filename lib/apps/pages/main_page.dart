@@ -12,7 +12,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StoriesBloc bloc = StoriesBloc();
-    bloc.registerToken(context.read<AuthBloc>().userAuth!.token);
+    bloc.registerToken(context.read<AuthBloc>().user!.token);
     bloc.add(StoriesEventFetch());
     return BlocProvider(
       create: (BuildContext context) => bloc,
