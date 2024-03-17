@@ -80,13 +80,15 @@ class RegisterView extends StatelessWidget {
             color: Color.fromRGBO(245, 246, 251, 1),
           ),
           SliverFillRemaining(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 40,
-                ),
-                _registerForm(context),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  _registerForm(context),
+                ],
+              ),
             ),
           ),
         ],

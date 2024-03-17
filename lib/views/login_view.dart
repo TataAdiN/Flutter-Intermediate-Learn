@@ -16,6 +16,7 @@ import '../apps/states/login/login_state_unauthorized.dart';
 import '../data/enums/app_button_align.dart';
 import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
+import '../utils/responsive_screen.dart';
 import '../widgets/alerts/app_error_alert_dialog.dart';
 import '../widgets/alerts/app_success_alert_dialog.dart';
 import '../widgets/components/app_button.dart';
@@ -92,14 +93,17 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Center _loginView(BuildContext context) {
-    return Center(
+  SingleChildScrollView _loginView(BuildContext context) {
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 120.0,
-            width: 120.0,
+            height: ResponsiveSize.fromWith(context, percentage: 24),
+          ),
+          SizedBox(
+            height: ResponsiveSize.fromWith(context, percentage: 24),
+            width: ResponsiveSize.fromWith(context, percentage: 24),
             child: Image.asset(
               'assets/icon.png',
               fit: BoxFit.fitWidth,
