@@ -13,4 +13,9 @@ class StoryRepository implements StoryRepositoryContract {
   Future<List<Story>> all() async {
     return await _api.all();
   }
+
+  @override
+  Future<Story> find(String id) async {
+    return await _api.find(id: id);
+  }
 }

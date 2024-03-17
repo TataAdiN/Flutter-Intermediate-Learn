@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_intermediate_learn/apps/exceptions/apis/notfound_exception.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../config/api_end_points.dart';
@@ -35,5 +36,20 @@ class StoriesApi {
       }
     }
     return stories;
+  }
+
+  Future<Story> find({required String id}) async {
+    var result = await http.get(
+      Uri.parse(ApiEndPoint.story + id),
+      headers: headers,
+    );
+    var json = jsonDecode(result.body.toString());
+    if (result.statusCode == 404) {
+      return throw NotFoundException(message: json['message']);
+    }
+    if (result.statusCode != 200) {
+      return throw UnknownException();
+    }
+    return Story.fromJson(json['story']);
   }
 }

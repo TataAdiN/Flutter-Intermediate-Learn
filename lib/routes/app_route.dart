@@ -42,40 +42,41 @@ class AppRoute {
         },
       ),
       GoRoute(
-          redirect: (BuildContext context, GoRouterState state) {
-            bool isLogin = context.read<AuthBloc>().isAuth;
-            if (isLogin) {
-              return state.fullPath;
-            }
-            if(state.name == register){
-              return '/register';
-            }
-            if(state.name == 'auth'){
-              return '/auth';
-            }
-            return '/login';
-          },
-          path: '/',
-          name: main,
-          builder: (BuildContext context, GoRouterState state) {
-            return const MainPage();
-          },
-          routes: <RouteBase>[
-            GoRoute(
-              path: 'story/:id',
-              name: story,
-              builder: (BuildContext context, GoRouterState state) {
-                return StoryPage(id: state.pathParameters['id']!);
-              },
-            ),
-            GoRoute(
-              path: 'settings',
-              name: settings,
-              builder: (BuildContext context, GoRouterState state) {
-                return const SettingsPage();
-              },
-            ),
-          ]),
+        redirect: (BuildContext context, GoRouterState state) {
+          bool isLogin = context.read<AuthBloc>().isAuth;
+          if (isLogin) {
+            return state.uri.path;
+          }
+          if (state.name == register) {
+            return '/register';
+          }
+          if (state.name == 'auth') {
+            return '/auth';
+          }
+          return '/login';
+        },
+        path: '/',
+        name: main,
+        builder: (BuildContext context, GoRouterState state) {
+          return const MainPage();
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'story/:id',
+            name: story,
+            builder: (BuildContext context, GoRouterState state) {
+              return StoryPage(storyId: state.pathParameters['id']!);
+            },
+          ),
+          GoRoute(
+            path: 'settings',
+            name: settings,
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsPage();
+            },
+          ),
+        ],
+      ),
     ],
   );
 

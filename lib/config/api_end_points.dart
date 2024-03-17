@@ -3,4 +3,5 @@ class ApiEndPoint {
   static String login = '$_baseUrl/login';
   static String register = '$_baseUrl/register';
   static String stories = '$_baseUrl/stories';
+  static String story = '$_baseUrl/stories/';
 }
