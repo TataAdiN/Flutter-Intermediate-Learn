@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
 import '../apps/pages/auth_page.dart';
+import '../apps/pages/create_story_page.dart';
 import '../apps/pages/login_page.dart';
 import '../apps/pages/main_page.dart';
 import '../apps/pages/register_page.dart';
@@ -15,6 +16,7 @@ class AppRoute {
   static String register = 'register';
   static String main = 'main';
   static String story = 'story';
+  static String createStory = 'create_story';
   static String settings = 'settings';
 
   static final GoRouter _router = GoRouter(
@@ -62,11 +64,27 @@ class AppRoute {
         },
         routes: <RouteBase>[
           GoRoute(
-            path: 'story/:id',
-            name: story,
+            path: 'story',
+            name: 'root_story',
             builder: (BuildContext context, GoRouterState state) {
-              return StoryPage(storyId: state.pathParameters['id']!);
+              return notFoundPage();
             },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'create',
+                name: createStory,
+                builder: (BuildContext context, GoRouterState state) {
+                  return const CreateStoryPage();
+                },
+              ),
+              GoRoute(
+                path: ':id',
+                name: story,
+                builder: (BuildContext context, GoRouterState state) {
+                  return StoryPage(storyId: state.pathParameters['id']!);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: 'settings',
@@ -79,6 +97,14 @@ class AppRoute {
       ),
     ],
   );
+
+  static Scaffold notFoundPage() {
+    return const Scaffold(
+      body: Center(
+        child: Text('404 - Page not found'),
+      ),
+    );
+  }
 
   static GoRouter get router => _router;
 }

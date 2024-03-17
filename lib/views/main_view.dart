@@ -21,7 +21,7 @@ class MainView extends StatelessWidget {
         title: const Text('Image Stories'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.pushNamed(AppRoute.createStory),
             icon: const Icon(Icons.add_photo_alternate_outlined),
             tooltip: "Upload",
           ),
