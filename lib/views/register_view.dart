@@ -11,10 +11,10 @@ import '../apps/states/register/register_state_error.dart';
 import '../apps/states/register/register_state_loading.dart';
 import '../data/enums/app_button_align.dart';
 import '../data/enums/client_error_type.dart';
-import '../widgets/alerts/app_error_alert_dialog.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
+import '../widgets/dialogs/app_error_alert_dialog.dart';
 import '../widgets/expanded_appbar.dart';
 import '../widgets/fullscreen_app_loading.dart';
 

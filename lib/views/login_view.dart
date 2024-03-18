@@ -17,11 +17,11 @@ import '../data/enums/app_button_align.dart';
 import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
 import '../utils/responsive_screen.dart';
-import '../widgets/alerts/app_error_alert_dialog.dart';
-import '../widgets/alerts/app_success_alert_dialog.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
+import '../widgets/dialogs/app_error_alert_dialog.dart';
+import '../widgets/dialogs/app_success_alert_dialog.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
 class LoginView extends StatelessWidget {

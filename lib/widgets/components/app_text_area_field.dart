@@ -39,6 +39,9 @@ class AppTextAreaField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
+        focusColor: Colors.blueAccent,
+        fillColor: Colors.blueAccent,
+        hoverColor:  Colors.blueAccent
       ),
       readOnly: isReadOnly,
     );
