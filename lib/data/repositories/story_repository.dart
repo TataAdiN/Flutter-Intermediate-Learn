@@ -18,4 +18,12 @@ class StoryRepository implements StoryRepositoryContract {
   Future<Story> find(String id) async {
     return await _api.find(id: id);
   }
+
+  @override
+  Future<bool> create({
+    required String description,
+    required String imagePath,
+  }) async {
+    return await _api.create(description: description, imagePath: imagePath);
+  }
 }

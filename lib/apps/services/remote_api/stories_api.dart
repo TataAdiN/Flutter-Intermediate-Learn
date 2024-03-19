@@ -52,4 +52,13 @@ class StoriesApi {
     }
     return Story.fromJson(json['story']);
   }
+
+  Future<bool> create({
+    required String description,
+    required String imagePath,
+  }) async {
+    headers['Content-Type'] = 'multipart/form-data';
+    print(headers);
+    return true;
+  }
 }
