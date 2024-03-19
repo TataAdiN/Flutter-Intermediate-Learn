@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/story.dart';
-import '../../data/repositories/story_repository.dart';
+import '../data/models/story.dart';
+import '../data/repositories/story_repository.dart';
 import '../events/stories/stories_event.dart';
 import '../events/stories/stories_event_fetch.dart';
 import '../exceptions/apis/unknown_exception.dart';

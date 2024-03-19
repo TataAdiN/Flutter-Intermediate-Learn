@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/enums/client_error_type.dart';
-import '../../data/repositories/auth_repository.dart';
+import '../data/enums/client_error_type.dart';
+import '../data/repositories/auth_repository.dart';
 import '../events/register/register_event.dart';
 import '../events/register/register_event_action.dart';
 import '../exceptions/apis/bad_request_exception.dart';

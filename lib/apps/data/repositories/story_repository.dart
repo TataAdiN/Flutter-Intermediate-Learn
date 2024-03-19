@@ -1,4 +1,4 @@
-import '../../apps/services/remote_api/stories_api.dart';
+import '../../services/remote_api/stories_api.dart';
 import '../contracts/story_repository_constract.dart';
 import '../models/story.dart';
 

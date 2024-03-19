@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/stories_bloc.dart';
+import '../apps/data/models/story.dart';
 import '../apps/events/stories/stories_event_fetch.dart';
 import '../apps/states/stories/stories_state.dart';
 import '../apps/states/stories/stories_state_loaded.dart';
-import '../data/models/story.dart';
 import '../routes/app_route.dart';
 import '../widgets/parts/greeting_widget.dart';
 import '../widgets/story_card.dart';

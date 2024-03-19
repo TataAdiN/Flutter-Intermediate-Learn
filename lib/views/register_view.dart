@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/register_bloc.dart';
+import '../apps/data/enums/app_button_align.dart';
+import '../apps/data/enums/client_error_type.dart';
 import '../apps/events/register/register_event_action.dart';
 import '../apps/states/register/register_state.dart';
 import '../apps/states/register/register_state_created.dart';
 import '../apps/states/register/register_state_error.dart';
 import '../apps/states/register/register_state_loading.dart';
-import '../data/enums/app_button_align.dart';
-import '../data/enums/client_error_type.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';

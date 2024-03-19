@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../data/models/user_auth.dart';
+import '../../data/models/user_auth.dart';
 import '../../exceptions/local_storage/local_storage_empty_exception.dart';
 
 class LocalUserService {

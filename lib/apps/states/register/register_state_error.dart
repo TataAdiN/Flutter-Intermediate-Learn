@@ -1,4 +1,4 @@
-import '../../../data/enums/client_error_type.dart';
+import '../../data/enums/client_error_type.dart';
 import 'register_state.dart';
 
 class RegisterStateError extends RegisterState {

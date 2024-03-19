@@ -1,4 +1,4 @@
-import '../../../data/models/user.dart';
+import '../../data/models/user.dart';
 import 'register_event.dart';
 
 class RegisterEventAction implements RegisterEvent {

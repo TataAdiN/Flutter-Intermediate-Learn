@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../../config/api_end_points.dart';
-import '../../../data/models/user.dart';
-import '../../../data/models/user_auth.dart';
+import '../../data/models/user.dart';
+import '../../data/models/user_auth.dart';
 import '../../exceptions/apis/bad_request_exception.dart';
 import '../../exceptions/apis/unauthorized_exception.dart';
 import '../../exceptions/apis/unknown_exception.dart';

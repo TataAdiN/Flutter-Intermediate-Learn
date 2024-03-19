@@ -1,4 +1,4 @@
-import '../../../data/enums/client_error_type.dart';
+import '../../data/enums/client_error_type.dart';
 import 'create_story_state.dart';
 
 class CreateStoryStateError extends CreateStoryState {

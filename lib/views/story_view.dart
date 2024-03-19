@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../apps/blocs/story_bloc.dart';
+import '../apps/data/models/story.dart';
 import '../apps/states/story/story_state.dart';
 import '../apps/states/story/story_state_loaded.dart';
-import '../data/models/story.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
 class StoryView extends StatelessWidget {

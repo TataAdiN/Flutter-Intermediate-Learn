@@ -1,4 +1,4 @@
-import '../../apps/services/local_storage/local_user_service.dart';
+import '../../services/local_storage/local_user_service.dart';
 import '../contracts/local_user_repository_contract.dart';
 import '../models/user_auth.dart';
 

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
 import '../apps/blocs/login_bloc.dart';
+import '../apps/data/enums/app_button_align.dart';
+import '../apps/data/enums/client_error_type.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/events/login/login_event_created_account.dart';
 import '../apps/states/login/login_state.dart';
@@ -13,8 +15,6 @@ import '../apps/states/login/login_state_created_account.dart';
 import '../apps/states/login/login_state_error.dart';
 import '../apps/states/login/login_state_loading.dart';
 import '../apps/states/login/login_state_unauthorized.dart';
-import '../data/enums/app_button_align.dart';
-import '../data/enums/client_error_type.dart';
 import '../routes/app_route.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';

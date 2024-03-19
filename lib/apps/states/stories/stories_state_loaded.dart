@@ -1,4 +1,4 @@
-import '../../../data/models/story.dart';
+import '../../data/models/story.dart';
 import 'stories_state.dart';
 
 class StoriesStateLoaded extends StoriesState {

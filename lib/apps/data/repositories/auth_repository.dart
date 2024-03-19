@@ -1,4 +1,4 @@
-import '../../apps/services/remote_api/authentication_api.dart';
+import '../../services/remote_api/authentication_api.dart';
 import '../contracts/auth_repository_contract.dart';
 import '../models/user.dart';
 import '../models/user_auth.dart';

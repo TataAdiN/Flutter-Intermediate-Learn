@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/user_auth.dart';
-import '../../data/repositories/local_user_repository.dart';
+import '../data/models/user_auth.dart';
+import '../data/repositories/local_user_repository.dart';
 import '../events/auth/auth_event.dart';
 import '../events/auth/auth_event_logout.dart';
 import '../events/auth/auth_event_refresh.dart';

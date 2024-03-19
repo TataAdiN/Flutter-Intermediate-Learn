@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/enums/client_error_type.dart';
-import '../../data/models/user.dart';
-import '../../data/models/user_auth.dart';
-import '../../data/repositories/auth_repository.dart';
-import '../../data/repositories/local_user_repository.dart';
+import '../data/enums/client_error_type.dart';
+import '../data/models/user.dart';
+import '../data/models/user_auth.dart';
+import '../data/repositories/auth_repository.dart';
+import '../data/repositories/local_user_repository.dart';
 import '../events/login/login_event.dart';
 import '../events/login/login_event_auth.dart';
 import '../events/login/login_event_created_account.dart';
@@ -19,7 +19,6 @@ import '../states/login/login_state_error.dart';
 import '../states/login/login_state_init.dart';
 import '../states/login/login_state_loading.dart';
 import '../states/login/login_state_unauthorized.dart';
-import 'auth_bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginStateInit()) {

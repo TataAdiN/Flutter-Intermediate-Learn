@@ -1,4 +1,4 @@
-import '../../../data/enums/client_error_type.dart';
+import '../../data/enums/client_error_type.dart';
 import 'login_state.dart';
 
 class LoginStateError extends LoginState {
