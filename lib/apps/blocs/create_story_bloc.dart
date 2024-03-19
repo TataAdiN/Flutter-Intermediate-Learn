@@ -4,16 +4,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../data/enums/client_error_type.dart';
 import '../../utils/file_size.dart';
 import '../events/create_story/create_story_event.dart';
+import '../events/create_story/create_story_event_create.dart';
 import '../events/create_story/create_story_event_pick_image.dart';
 import '../states/create_story/create_story_state.dart';
+import '../states/create_story/create_story_state_created.dart';
+import '../states/create_story/create_story_state_error.dart';
 import '../states/create_story/create_story_state_init.dart';
 import '../states/create_story/create_story_state_picked_image.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
+  File? croppedImage;
   CreateStoryBloc() : super(CreateStoryStateInit()) {
     on<CreateStoryEventPickImage>(_pickImage);
+    on<CreateStoryEventAction>(_postStory);
+  }
+
+  _postStory(CreateStoryEventAction event, Emitter<CreateStoryState> emit) {
+    if (croppedImage == null) {
+      emit(
+        CreateStoryStateError(
+          errorType: ClientErrorType.badRequest,
+          message: 'Foto tidak tersedia',
+        ),
+      );
+    } else {
+      if (FileSize.of(croppedImage!) > 1.0) {
+        emit(
+          CreateStoryStateError(
+            errorType: ClientErrorType.fileToLarge,
+            message: 'Foto terlalu besar',
+          ),
+        );
+      } else {
+        emit(CreateStoryStateCreated());
+      }
+    }
   }
 
   _pickImage(
@@ -22,11 +50,11 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
     XFile? pickedFile = await imagePicker.pickImage(source: event.source);
     if (pickedFile != null) {
       String path = pickedFile.path.toString();
-      File? croppedImage = await _requestCropImage(path);
+      croppedImage = await _requestCropImage(path);
       if (croppedImage != null) {
         emit(
           CreateStoryStatePickedImage(
-            pickedImage: croppedImage,
+            pickedImage: croppedImage!,
           ),
         );
       }

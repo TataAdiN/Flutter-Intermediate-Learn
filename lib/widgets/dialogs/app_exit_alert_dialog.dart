@@ -4,7 +4,8 @@ import '../components/app_button.dart';
 
 class AppExitAlertDialog extends StatelessWidget {
   const AppExitAlertDialog({
-    super.key, required this.onExit,
+    super.key,
+    required this.onExit,
   });
 
   final VoidCallback onExit;
@@ -56,10 +57,7 @@ class AppExitAlertDialog extends StatelessWidget {
         ),
       ),
       content: SizedBox(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         child: const Text(
           "Are you sure to Logout?",
           style: TextStyle(fontWeight: FontWeight.bold),

@@ -21,6 +21,7 @@ import '../widgets/components/app_button.dart';
 import '../widgets/components/app_obsecure_field.dart';
 import '../widgets/components/app_text_field.dart';
 import '../widgets/dialogs/app_error_alert_dialog.dart';
+import '../widgets/dialogs/app_show_dialog.dart';
 import '../widgets/dialogs/app_success_alert_dialog.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
@@ -52,39 +53,36 @@ class LoginView extends StatelessWidget {
             if (state is LoginStateAuthorized) {
               context.pushReplacementNamed(AppRoute.main);
             } else if (state is LoginStateError) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  if (state.errorType == ClientErrorType.noInternet) {
-                    return AppErrorAlertDialog(
-                      title: 'No Internet',
-                      message: state.message,
-                    );
-                  }
-                  return AppErrorAlertDialog(
+              if (state.errorType == ClientErrorType.noInternet) {
+                showAppDialog(
+                  context,
+                  dialog: AppErrorAlertDialog(
+                    title: 'No Internet',
                     message: state.message,
-                  );
-                },
+                  ),
+                );
+              }
+              showAppDialog(
+                context,
+                dialog: AppErrorAlertDialog(
+                  message: state.message,
+                ),
               );
             } else if (state is LoginStateUnauthorized) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const AppErrorAlertDialog(
-                    title: 'Login Failed',
-                    message: 'Wrong password or email. Please try again...',
-                  );
-                },
+              showAppDialog(
+                context,
+                dialog: const AppErrorAlertDialog(
+                  title: 'Login Failed',
+                  message: 'Wrong password or email. Please try again...',
+                ),
               );
             } else if (state is LoginStateCreatedAccount) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AppSuccessAlertDialog(
-                    title: 'Success create Account',
-                    message: '${state.email} ${state.message}',
-                  );
-                },
+              showAppDialog(
+                context,
+                dialog: AppSuccessAlertDialog(
+                  title: 'Success create Account',
+                  message: '${state.email} ${state.message}',
+                ),
               );
             }
           },

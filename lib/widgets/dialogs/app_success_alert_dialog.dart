@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class AppSuccessAlertDialog extends StatelessWidget {
   const AppSuccessAlertDialog({
@@ -14,6 +13,22 @@ class AppSuccessAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      titlePadding: const EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(10),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      actionsPadding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      actionsAlignment: MainAxisAlignment.end,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(32.0),
+        ),
+      ),
       title: Container(
         padding: const EdgeInsets.all(15),
         decoration: const BoxDecoration(
@@ -40,21 +55,22 @@ class AppSuccessAlertDialog extends StatelessWidget {
           ],
         ),
       ),
-      titlePadding: const EdgeInsets.all(0),
-      content: Text(message),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24.0),
+      alignment: Alignment.bottomCenter,
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Text(message),
       ),
       actions: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: const Color.fromRGBO(166, 166, 166, 1.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              )),
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromRGBO(166, 166, 166, 1.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+          ),
           onPressed: () {
-            context.pop();
+            Navigator.of(context).pop();
           },
           child: const Text('OK'),
         )

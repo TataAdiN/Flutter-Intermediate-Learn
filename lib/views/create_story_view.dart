@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/states/create_story/create_story_state_picked_image.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../apps/blocs/create_story_bloc.dart';
+import '../apps/events/create_story/create_story_event_create.dart';
 import '../apps/events/create_story/create_story_event_pick_image.dart';
 import '../apps/states/create_story/create_story_state.dart';
+import '../apps/states/create_story/create_story_state_picked_image.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_text_area_field.dart';
@@ -14,6 +15,7 @@ class CreateStoryView extends StatelessWidget {
   CreateStoryView({super.key});
 
   final TextEditingController descController = TextEditingController();
+  final GlobalKey<FormState> formKeyCreate = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +46,45 @@ class CreateStoryView extends StatelessWidget {
           children: [
             _imagePreview(context, imagePreview),
             _imagePickOption(context),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: AppTextAreaField(
-                controller: descController,
-                title: 'Description',
-                errorText: "Description can't be empty",
-              ),
-            ),
-            Center(
-              child: AppButton(
-                onClick: () {},
-                label: 'Create Story',
-                icon: Icons.add_photo_alternate_outlined,
-                color: Colors.blueAccent,
-                width: ResponsiveSize.fromWith(context, percentage: 36),
-              ),
-            )
+            _formCreateStory(context)
           ],
         ),
+      ),
+    );
+  }
+
+  Form _formCreateStory(BuildContext context) {
+    return Form(
+      key: formKeyCreate,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: AppTextAreaField(
+              controller: descController,
+              title: 'Description',
+              errorText: "Description can't be empty",
+            ),
+          ),
+          Center(
+            child: AppButton(
+              onClick: () {
+                if (formKeyCreate.currentState!.validate()) {
+                  context.read<CreateStoryBloc>().add(
+                        CreateStoryEventAction(
+                          description: descController.text,
+                        ),
+                      );
+                }
+              },
+              label: 'Create Story',
+              icon: Icons.add_photo_alternate_outlined,
+              color: Colors.blueAccent,
+              width: ResponsiveSize.fromWith(context, percentage: 36),
+            ),
+          )
+        ],
       ),
     );
   }
