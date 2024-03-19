@@ -9,6 +9,7 @@ import '../apps/states/auth/auth_state_loggedout.dart';
 import '../routes/app_route.dart';
 import '../widgets/dialogs/app_exit_alert_dialog.dart';
 import '../widgets/dialogs/app_show_dialog.dart';
+import '../widgets/parts/greeting_widget.dart';
 
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
@@ -39,32 +40,12 @@ class SettingsView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            greeting(context),
+            const GreetingWidget(),
             languageCard(context),
             accountCard(context),
           ],
         ),
       ),
-    );
-  }
-
-  Row greeting(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          context.read<AuthBloc>().greeting(context),
-        ),
-        const Text(
-          ', ',
-        ),
-        Text(
-          context.read<AuthBloc>().user?.name ?? '-',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 

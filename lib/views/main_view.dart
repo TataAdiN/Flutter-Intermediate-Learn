@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../apps/blocs/auth_bloc.dart';
 import '../apps/blocs/stories_bloc.dart';
+import '../apps/events/stories/stories_event_fetch.dart';
 import '../apps/states/stories/stories_state.dart';
 import '../apps/states/stories/stories_state_loaded.dart';
 import '../data/models/story.dart';
 import '../routes/app_route.dart';
+import '../widgets/parts/greeting_widget.dart';
 import '../widgets/story_card.dart';
 
 class MainView extends StatelessWidget {
@@ -16,12 +17,19 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StoriesBloc storiesBloc = context.read<StoriesBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Stories'),
         actions: [
           IconButton(
-            onPressed: () => context.pushNamed(AppRoute.createStory),
+            onPressed: () async {
+              bool created =
+                  await context.pushNamed(AppRoute.createStory) ?? false;
+              if (created) {
+                storiesBloc.add(StoriesEventFetch());
+              }
+            },
             icon: const Icon(Icons.add_photo_alternate_outlined),
             tooltip: "Upload",
           ),
@@ -43,23 +51,7 @@ class MainView extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    context.read<AuthBloc>().greeting(context),
-                  ),
-                  const Text(
-                    ', ',
-                  ),
-                  Text(
-                    context.read<AuthBloc>().user?.name ?? '-',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+              const GreetingWidget(),
               BlocConsumer<StoriesBloc, StoriesState>(
                 builder: (context, state) {
                   List<Story> stories = [];

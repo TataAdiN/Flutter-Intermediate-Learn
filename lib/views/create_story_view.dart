@@ -6,10 +6,17 @@ import '../apps/blocs/create_story_bloc.dart';
 import '../apps/events/create_story/create_story_event_create.dart';
 import '../apps/events/create_story/create_story_event_pick_image.dart';
 import '../apps/states/create_story/create_story_state.dart';
+import '../apps/states/create_story/create_story_state_created.dart';
+import '../apps/states/create_story/create_story_state_error.dart';
+import '../apps/states/create_story/create_story_state_loading.dart';
 import '../apps/states/create_story/create_story_state_picked_image.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_text_area_field.dart';
+import '../widgets/dialogs/app_error_alert_dialog.dart';
+import '../widgets/dialogs/app_show_dialog.dart';
+import '../widgets/dialogs/app_success_alert_dialog.dart';
+import '../widgets/fullscreen_app_loading.dart';
 
 class CreateStoryView extends StatelessWidget {
   CreateStoryView({super.key});
@@ -27,9 +34,31 @@ class CreateStoryView extends StatelessWidget {
         if (state is CreateStoryStatePickedImage) {
           image = FileImage(state.pickedImage);
         }
+        if (state is CreateStoryStateLoading) {
+          return Scaffold(
+            body: FullscreenAppLoading(
+              message: state.message,
+            ),
+          );
+        }
         return _createStoryLayout(context, imagePreview: image);
       },
-      listener: (BuildContext context, CreateStoryState state) {},
+      listener: (BuildContext context, CreateStoryState state) {
+        if (state is CreateStoryStateError) {
+          showAppDialog(
+            context,
+            dialog: AppErrorAlertDialog(message: state.message),
+          );
+        } else if (state is CreateStoryStateCreated) {
+          showAppDialog(
+            context,
+            dialog: const AppSuccessAlertDialog(
+              message: 'Created Story',
+              popRoute: true,
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -37,6 +66,11 @@ class CreateStoryView extends StatelessWidget {
     BuildContext context, {
     required ImageProvider<Object> imagePreview,
   }) {
+    return createStoryLayout(context, imagePreview);
+  }
+
+  Scaffold createStoryLayout(
+      BuildContext context, ImageProvider<Object> imagePreview) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),

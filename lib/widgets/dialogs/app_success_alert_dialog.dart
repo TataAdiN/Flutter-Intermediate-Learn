@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppSuccessAlertDialog extends StatelessWidget {
   const AppSuccessAlertDialog({
     super.key,
     required this.message,
     this.title = 'Action Success',
+    this.popRoute = false,
   });
 
   final String title;
   final String message;
+  final bool popRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,9 @@ class AppSuccessAlertDialog extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
+            if (popRoute) {
+              context.pop<bool>(true);
+            }
           },
           child: const Text('OK'),
         )

@@ -13,6 +13,7 @@ import '../states/create_story/create_story_state.dart';
 import '../states/create_story/create_story_state_created.dart';
 import '../states/create_story/create_story_state_error.dart';
 import '../states/create_story/create_story_state_init.dart';
+import '../states/create_story/create_story_state_loading.dart';
 import '../states/create_story/create_story_state_picked_image.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
@@ -22,15 +23,20 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
     on<CreateStoryEventAction>(_postStory);
   }
 
-  _postStory(CreateStoryEventAction event, Emitter<CreateStoryState> emit) {
+  _postStory(
+    CreateStoryEventAction event,
+    Emitter<CreateStoryState> emit,
+  ) async {
     if (croppedImage == null) {
       emit(
         CreateStoryStateError(
           errorType: ClientErrorType.badRequest,
-          message: 'Foto tidak tersedia',
+          message: 'Foto tidak tersedia, mohon tambahkan foto dulu',
         ),
       );
     } else {
+      emit(CreateStoryStateLoading());
+      await Future.delayed(const Duration(seconds: 1));
       if (FileSize.of(croppedImage!) > 1.0) {
         emit(
           CreateStoryStateError(
