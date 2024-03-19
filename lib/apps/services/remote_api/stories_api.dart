@@ -58,7 +58,29 @@ class StoriesApi {
     required String imagePath,
   }) async {
     headers['Content-Type'] = 'multipart/form-data';
-    print(headers);
-    return true;
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(
+        ApiEndPoint.createStory,
+      ),
+    );
+    var img = await http.MultipartFile.fromPath(
+      "photo",
+      imagePath,
+    );
+    request.headers.addAll(headers);
+    request.files.add(img);
+    request.fields.addAll(
+      {
+        "description": description,
+      },
+    );
+    var uploadResult = await request.send();
+    var response = await http.Response.fromStream(uploadResult);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return throw UnknownException();
+    }
   }
 }

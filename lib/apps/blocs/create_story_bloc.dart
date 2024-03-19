@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/apps/data/repositories/story_repository.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -17,6 +18,12 @@ import '../states/create_story/create_story_state_loading.dart';
 import '../states/create_story/create_story_state_picked_image.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
+  late String token;
+
+  void registerToken(String token) {
+    this.token = token;
+  }
+
   File? croppedImage;
   CreateStoryBloc() : super(CreateStoryStateInit()) {
     on<CreateStoryEventPickImage>(_pickImage);
@@ -45,7 +52,22 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
           ),
         );
       } else {
-        emit(CreateStoryStateCreated());
+        try {
+          bool created = await StoryRepository(token).create(
+            description: event.description,
+            imagePath: croppedImage!.path,
+          );
+          if (created) {
+            emit(CreateStoryStateCreated());
+          } else {
+            emit(
+              CreateStoryStateError(
+                errorType: ClientErrorType.unknown,
+                message: 'Fail to create story',
+              ),
+            );
+          }
+        } on Exception catch (_) {}
       }
     }
   }
