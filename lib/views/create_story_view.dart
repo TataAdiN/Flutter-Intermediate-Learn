@@ -53,8 +53,8 @@ class CreateStoryView extends StatelessWidget {
         } else if (state is CreateStoryStateCreated) {
           showAppDialog(
             context,
-            dialog: const AppSuccessAlertDialog(
-              message: 'Created Story',
+            dialog: AppSuccessAlertDialog(
+              message: AppLocalizations.of(context)!.storyCreated,
               popRoute: true,
             ),
           );
@@ -98,8 +98,8 @@ class CreateStoryView extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: AppTextAreaField(
               controller: descController,
-              title: 'Description',
-              errorText: "Description can't be empty",
+              title: AppLocalizations.of(context)!.description,
+              errorText: AppLocalizations.of(context)!.failNoDescription,
             ),
           ),
           Center(

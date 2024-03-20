@@ -3,6 +3,7 @@
   "storyFrom": "Cerita Dari",
   "storyDescription" : "Deskripsi Cerita",
 
+  "description" : "Deskripsi",
   "settings" : "Pengaturan",
   "language" : "Bahasa",
   "account" : "Akun",
@@ -10,10 +11,16 @@
 
   "camera" : "Kamera",
   "gallery" : "Galeri",
+  "editImage" : "Edit Gambar",
 
+  "somethingWrong" : "Terjadi Kesalahan",
   "noInternet" : "Tidak Ada Internet",
   "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
 
+  "failNoDescription" : "Deskripsi tidak boleh kosong",
+  "failImageTooLarge" : "Gambar terlalu besar",
+  "failNoImage" : "Tidak ada gambar, mohon tambahkan gambar dulu",
+  "failCreateStory" : "Gagal membuat Cerita",
   "storyCreated" : "Cerita berhasil dibuat",
 
   "goodEvening": "Selamat Malam",

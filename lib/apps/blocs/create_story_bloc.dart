@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../l10n/localizations.dart';
 import '../../utils/file_size.dart';
 import '../data/enums/client_error_type.dart';
 import '../data/repositories/story_repository.dart';
@@ -19,13 +20,13 @@ import '../states/create_story/create_story_state_picked_image.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   late String token;
-
-  void registerToken(String token) {
-    this.token = token;
-  }
+  AppLocalizations localization;
 
   File? croppedImage;
-  CreateStoryBloc() : super(CreateStoryStateInit()) {
+  CreateStoryBloc({
+    required this.token,
+    required this.localization,
+  })  : super(CreateStoryStateInit()){
     on<CreateStoryEventPickImage>(_pickImage);
     on<CreateStoryEventAction>(_postStory);
   }
@@ -38,17 +39,19 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
       emit(
         CreateStoryStateError(
           errorType: ClientErrorType.badRequest,
-          message: 'Foto tidak tersedia, mohon tambahkan foto dulu',
+          message: localization.failNoImage,
         ),
       );
     } else {
       emit(CreateStoryStateLoading());
-      await Future.delayed(const Duration(seconds: 1));
       if (FileSize.of(croppedImage!) > 1.0) {
+        await Future.delayed(
+          const Duration(seconds: 1),
+        );
         emit(
           CreateStoryStateError(
             errorType: ClientErrorType.fileToLarge,
-            message: 'Foto terlalu besar',
+            message: localization.failImageTooLarge,
           ),
         );
       } else {
@@ -63,7 +66,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
             emit(
               CreateStoryStateError(
                 errorType: ClientErrorType.unknown,
-                message: 'Fail to create story',
+                message: localization.failCreateStory,
               ),
             );
           }
@@ -71,7 +74,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
           emit(
             CreateStoryStateError(
               errorType: ClientErrorType.noInternet,
-              message: 'Please fix your connection and try again',
+              message: localization.noInternetFix,
             ),
           );
         }
@@ -110,11 +113,15 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
         CropAspectRatioPreset.ratio16x9,
       ],
       compressQuality: 80,
-      androidUiSettings: const AndroidUiSettings(
+      androidUiSettings: AndroidUiSettings(
         initAspectRatio: CropAspectRatioPreset.ratio4x3,
         lockAspectRatio: true,
+        toolbarTitle: localization.editImage,
       ),
-      iosUiSettings: const IOSUiSettings(aspectRatioLockEnabled: true),
+      iosUiSettings: IOSUiSettings(
+        aspectRatioLockEnabled: true,
+        title: localization.editImage,
+      ),
     );
     return croppedImage;
   }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
+import '../../l10n/localizations.dart';
 
 class AppErrorAlertDialog extends StatelessWidget {
   const AppErrorAlertDialog({
     super.key,
     required this.message,
-    this.title = 'Something wrong...',
+    this.title,
   });
 
-  final String title;
+  final String? title;
   final String message;
 
   @override
@@ -50,7 +51,7 @@ class AppErrorAlertDialog extends StatelessWidget {
               width: 8,
             ),
             Text(
-              title,
+              title ?? AppLocalizations.of(context)!.somethingWrong ,
               style: const TextStyle(color: Colors.white),
             ),
           ],

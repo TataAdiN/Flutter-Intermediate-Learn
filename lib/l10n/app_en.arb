@@ -3,6 +3,7 @@
   "storyFrom": "Story From",
   "storyDescription" : "Story Description",
 
+  "description" : "Description",
   "settings" : "Settings",
   "language" : "Language",
   "account" : "Account",
@@ -10,10 +11,16 @@
 
   "camera" : "Camera",
   "gallery" : "Gallery",
+  "editImage" : "Edit Image",
 
+  "somethingWrong" : "Something Wrong",
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",
 
+  "failNoDescription" : "Description can't be empty",
+  "failImageTooLarge" : "Image too large",
+  "failNoImage" : "No image added, please add a image first",
+  "failCreateStory" : "Failed to created Story",
   "storyCreated" : "Story Created Successfully",
 
   "goodEvening": "Good Evening",
