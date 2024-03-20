@@ -19,14 +19,15 @@ import '../states/create_story/create_story_state_loading.dart';
 import '../states/create_story/create_story_state_picked_image.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
-  late String token;
+  late String _token;
   AppLocalizations localization;
 
   File? croppedImage;
   CreateStoryBloc({
-    required this.token,
+    required String token,
     required this.localization,
   })  : super(CreateStoryStateInit()){
+    _token = token;
     on<CreateStoryEventPickImage>(_pickImage);
     on<CreateStoryEventAction>(_postStory);
   }
@@ -56,7 +57,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
         );
       } else {
         try {
-          bool created = await StoryRepository(token).create(
+          bool created = await StoryRepository(_token).create(
             description: event.description,
             imagePath: croppedImage!.path,
           );

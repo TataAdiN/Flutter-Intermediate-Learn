@@ -1,4 +1,5 @@
 {
+  "story" : "Story",
   "createStory" : "Create Story",
   "storyFrom": "Story From",
   "storyDescription" : "Story Description",
@@ -16,12 +17,16 @@
   "warning" : "Warning!",
   "exitWarning" : "Are you sure to Logout?",
   "close" : "Close",
+  "tryAgain" : "Try Again!",
   "sure" : "Sure!",
   "success" : "Success!",
   "somethingWrong" : "Something Wrong",
+  "failedToLoad" : "Failed to load items, please try again",
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",
 
+  "emptyStories" : "Empty Stories",
+  "emptyStoriesFix" : "There's no Stories available to display",
   "failNoDescription" : "Description can't be empty",
   "failImageTooLarge" : "Image too large",
   "failNoImage" : "No image added, please add a image first",

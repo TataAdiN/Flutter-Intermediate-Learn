@@ -6,6 +6,7 @@ import '../apps/data/models/story.dart';
 import '../apps/states/story/story_state.dart';
 import '../apps/states/story/story_state_loaded.dart';
 import '../l10n/localizations.dart';
+import '../utils/responsive_screen.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
 class StoryView extends StatelessWidget {
@@ -28,10 +29,13 @@ class StoryView extends StatelessWidget {
     );
   }
 
-  Scaffold storyLayout(BuildContext context, {required Story story}) {
+  Scaffold storyLayout(
+    BuildContext context, {
+    required Story story,
+  }) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Story'),
+        title: Text(AppLocalizations.of(context)!.story),
       ),
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: Column(
@@ -44,13 +48,16 @@ class StoryView extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          storyDescriptionCard(context, description : story.description),
+          storyDescriptionCard(context, description: story.description),
         ],
       ),
     );
   }
 
-  SizedBox storyDescriptionCard(BuildContext context, {required String description}) {
+  SizedBox storyDescriptionCard(
+    BuildContext context, {
+    required String description,
+  }) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -78,7 +85,10 @@ class StoryView extends StatelessWidget {
     );
   }
 
-  SizedBox storyAuthorAndImageCard(BuildContext context, {required Story story}) {
+  SizedBox storyAuthorAndImageCard(
+    BuildContext context, {
+    required Story story,
+  }) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -99,7 +109,9 @@ class StoryView extends StatelessWidget {
                     AppLocalizations.of(context)!.storyFrom,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(width: 4,),
+                  const SizedBox(
+                    width: 4,
+                  ),
                   Text(
                     story.name,
                     style: const TextStyle(
@@ -111,7 +123,7 @@ class StoryView extends StatelessWidget {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.width / 2,
+              height: ResponsiveSize.fromWith(context, percentage: 50),
               decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey),
                 shape: BoxShape.rectangle,

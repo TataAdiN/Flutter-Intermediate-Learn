@@ -1,4 +1,5 @@
 {
+  "story" : "Cerita",
   "createStory" : "Buat Cerita",
   "storyFrom": "Cerita Dari",
   "storyDescription" : "Deskripsi Cerita",
@@ -16,12 +17,16 @@
   "warning" : "Peringatan!",
   "exitWarning" : "Apakah yakin ingin Keluar?",
   "close" : "Tutup",
+  "tryAgain" : "Coba Lagi!",
   "sure" : "Yakin!",
   "success" : "Success!",
   "somethingWrong" : "Terjadi Kesalahan",
+  "failedToLoad" : "Gagal mengambil data, mohon coba lagi...",
   "noInternet" : "Tidak Ada Internet",
   "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
 
+  "emptyStories" : "Cerita tidak tersedia",
+  "emptyStoriesFix" : "Tidak ada satupun Cerita untuk ditampilkan",
   "failNoDescription" : "Deskripsi tidak boleh kosong",
   "failImageTooLarge" : "Gambar terlalu besar",
   "failNoImage" : "Tidak ada gambar, mohon tambahkan gambar dulu",
