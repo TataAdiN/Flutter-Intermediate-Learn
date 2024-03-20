@@ -67,7 +67,14 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
               ),
             );
           }
-        } on Exception catch (_) {}
+        }  on SocketException catch (_) {
+          emit(
+            CreateStoryStateError(
+              errorType: ClientErrorType.noInternet,
+              message: 'Please fix your connection and try again',
+            ),
+          );
+        }
       }
     }
   }
