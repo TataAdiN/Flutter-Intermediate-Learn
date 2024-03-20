@@ -1,5 +1,7 @@
 import 'story_state.dart';
 
-class StoriesStateNotFound extends StoryState {
-  StoriesStateNotFound({required String message});
+class StoryStateNotFound extends StoryState {
+  StoryStateNotFound({required String message}) {
+    this.message = message;
+  }
 }

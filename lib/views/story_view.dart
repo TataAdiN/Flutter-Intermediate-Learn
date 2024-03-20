@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/apps/data/enums/client_error_type.dart';
+import 'package:flutter_intermediate_learn/apps/events/story/story_event_find.dart';
 
 import '../apps/blocs/story_bloc.dart';
 import '../apps/data/models/story.dart';
 import '../apps/states/story/story_state.dart';
+import '../apps/states/story/story_state_error.dart';
 import '../apps/states/story/story_state_loaded.dart';
+import '../apps/states/story/story_state_not_found.dart';
 import '../l10n/localizations.dart';
 import '../utils/responsive_screen.dart';
+import '../widgets/fullscreen_app_error.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
 class StoryView extends StatelessWidget {
@@ -21,6 +26,25 @@ class StoryView extends StatelessWidget {
       ) {
         if (state is StoryStateLoaded) {
           return storyLayout(context, story: state.story);
+        } else if (state is StoryStateNotFound) {
+          return FullscreenAppError(
+            message: state.message,
+            withRetry: false,
+            title: AppLocalizations.of(context)!.somethingWrong,
+          );
+        } else if (state is StoryStateError) {
+          String title = AppLocalizations.of(context)!.somethingWrong;
+          if (state.errorType == ClientErrorType.noInternet) {
+            title = AppLocalizations.of(context)!.noInternet;
+          }
+          return FullscreenAppError(
+            message: state.message,
+            withRetry: true,
+            title: title,
+            onRetry: () => context.read<StoryBloc>().add(
+                  StoryEventFind(id: state.storyId),
+                ),
+          );
         }
         return Scaffold(
           body: FullscreenAppLoading(message: state.message),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 
 import '../../views/story_view.dart';
 import '../blocs/auth_bloc.dart';
@@ -12,9 +13,9 @@ class StoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StoryBloc bloc = StoryBloc();
-    bloc.registerToken(
-      context.read<AuthBloc>().user!.token,
+    StoryBloc bloc = StoryBloc(
+      token: context.read<AuthBloc>().user!.token,
+      localization: AppLocalizations.of(context)!,
     );
     bloc.add(
       StoryEventFind(id: storyId),

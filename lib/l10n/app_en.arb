@@ -14,6 +14,7 @@
   "gallery" : "Gallery",
   "editImage" : "Edit Image",
 
+  "back" : "Back!",
   "warning" : "Warning!",
   "exitWarning" : "Are you sure to Logout?",
   "close" : "Close",
@@ -21,10 +22,11 @@
   "sure" : "Sure!",
   "success" : "Success!",
   "somethingWrong" : "Something Wrong",
-  "failedToLoad" : "Failed to load items, please try again",
+  "failedToLoad" : "Failed to load data, please try again",
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",
 
+  "storyNotFound" : "Story not found",
   "emptyStories" : "Empty Stories",
   "emptyStoriesFix" : "There's no Stories available to display",
   "failNoDescription" : "Description can't be empty",

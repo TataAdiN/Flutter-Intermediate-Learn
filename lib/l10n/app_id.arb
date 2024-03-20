@@ -14,6 +14,7 @@
   "gallery" : "Galeri",
   "editImage" : "Edit Gambar",
 
+  "back" : "Kembali!",
   "warning" : "Peringatan!",
   "exitWarning" : "Apakah yakin ingin Keluar?",
   "close" : "Tutup",
@@ -25,6 +26,7 @@
   "noInternet" : "Tidak Ada Internet",
   "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
 
+  "storyNotFound" : "Cerita tidak ditemukan",
   "emptyStories" : "Cerita tidak tersedia",
   "emptyStoriesFix" : "Tidak ada satupun Cerita untuk ditampilkan",
   "failNoDescription" : "Deskripsi tidak boleh kosong",
