@@ -62,12 +62,6 @@ class LoginView extends StatelessWidget {
                   ),
                 );
               }
-              showAppDialog(
-                context,
-                dialog: AppErrorAlertDialog(
-                  message: state.message,
-                ),
-              );
             } else if (state is LoginStateUnauthorized) {
               showAppDialog(
                 context,
