@@ -10,6 +10,7 @@ import '../apps/states/create_story/create_story_state_created.dart';
 import '../apps/states/create_story/create_story_state_error.dart';
 import '../apps/states/create_story/create_story_state_loading.dart';
 import '../apps/states/create_story/create_story_state_picked_image.dart';
+import '../l10n/localizations.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/components/app_text_area_field.dart';
@@ -73,7 +74,7 @@ class CreateStoryView extends StatelessWidget {
       BuildContext context, ImageProvider<Object> imagePreview) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.createStory),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -112,7 +113,7 @@ class CreateStoryView extends StatelessWidget {
                       );
                 }
               },
-              label: 'Create Story',
+              label: AppLocalizations.of(context)!.createStory,
               icon: Icons.add_photo_alternate_outlined,
               color: Colors.blueAccent,
               width: ResponsiveSize.fromWith(context, percentage: 36),
@@ -133,7 +134,7 @@ class CreateStoryView extends StatelessWidget {
                   source: ImageSource.camera,
                 ),
               ),
-          label: 'Camera',
+          label: AppLocalizations.of(context)!.camera,
           icon: Icons.camera_alt,
           color: Colors.blueGrey,
         ),
@@ -146,7 +147,7 @@ class CreateStoryView extends StatelessWidget {
                   source: ImageSource.gallery,
                 ),
               ),
-          label: 'Gallery',
+          label: AppLocalizations.of(context)!.gallery,
           icon: Icons.collections,
           color: Colors.lightBlue,
         )
@@ -155,13 +156,21 @@ class CreateStoryView extends StatelessWidget {
   }
 
   Padding _imagePreview(
-      BuildContext context, ImageProvider<Object> imagePreview) {
+    BuildContext context,
+    ImageProvider<Object> imagePreview,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
-        height: ResponsiveSize.fromWith(context, percentage: 50),
+        height: ResponsiveSize.fromWith(
+          context,
+          percentage: 50,
+        ),
         decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.grey),
+          border: Border.all(
+            width: 2,
+            color: Colors.grey,
+          ),
           shape: BoxShape.rectangle,
           borderRadius: const BorderRadius.all(
             Radius.circular(12),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
+import '../apps/events/auth/auth_event_change_locale.dart';
 import '../apps/events/auth/auth_event_logout.dart';
 import '../apps/states/auth/auth_state.dart';
 import '../apps/states/auth/auth_state_loggedout.dart';
@@ -29,7 +31,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (BuildContext context, AuthState state) {
@@ -53,11 +55,11 @@ class SettingsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(12.0),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Text(
-            'Language ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            AppLocalizations.of(context)!.language,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Card(
@@ -104,8 +106,14 @@ class SettingsView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    value: 'id',
-                    onChanged: (String? language) {},
+                    value: context.read<AuthBloc>().locale.languageCode,
+                    onChanged: (String? language) {
+                      if (language != null) {
+                        context.read<AuthBloc>().add(
+                              AuthEventChangeLocale(locale: language),
+                            );
+                      }
+                    },
                     items: languages,
                   ),
                 ),
@@ -121,11 +129,11 @@ class SettingsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(12.0),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Text(
-            'Account ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            AppLocalizations.of(context)!.account,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Card(
@@ -147,13 +155,13 @@ class SettingsView extends StatelessWidget {
                 ),
               );
             },
-            child: const Padding(
-              padding: EdgeInsets.all(12.0),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  Icon(Icons.exit_to_app),
-                  SizedBox(width: 12),
-                  Text('Logout'),
+                  const Icon(Icons.exit_to_app),
+                  const SizedBox(width: 12),
+                  Text(AppLocalizations.of(context)!.logout),
                 ],
               ),
             ),

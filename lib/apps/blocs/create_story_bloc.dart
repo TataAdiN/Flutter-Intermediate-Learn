@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/data/repositories/story_repository.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../utils/file_size.dart';
 import '../data/enums/client_error_type.dart';
+import '../data/repositories/story_repository.dart';
 import '../events/create_story/create_story_event.dart';
 import '../events/create_story/create_story_event_create.dart';
 import '../events/create_story/create_story_event_pick_image.dart';
@@ -67,7 +67,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
               ),
             );
           }
-        }  on SocketException catch (_) {
+        } on SocketException catch (_) {
           emit(
             CreateStoryStateError(
               errorType: ClientErrorType.noInternet,
@@ -80,7 +80,9 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   }
 
   _pickImage(
-      CreateStoryEventPickImage event, Emitter<CreateStoryState> emit) async {
+    CreateStoryEventPickImage event,
+    Emitter<CreateStoryState> emit,
+  ) async {
     ImagePicker imagePicker = ImagePicker();
     XFile? pickedFile = await imagePicker.pickImage(source: event.source);
     if (pickedFile != null) {

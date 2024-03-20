@@ -7,14 +7,14 @@ import '../../exceptions/local_storage/local_storage_empty_exception.dart';
 
 class LocalUserService {
   static const user = 'USER';
-  late Future<SharedPreferences> sharedPreferences;
+  late Future<SharedPreferences> _sharedPreferences;
 
   LocalUserService() {
-    sharedPreferences = SharedPreferences.getInstance();
+    _sharedPreferences = SharedPreferences.getInstance();
   }
 
   Future<bool> saveUser(UserAuth userAuth) async {
-    var prefs = await sharedPreferences;
+    var prefs = await _sharedPreferences;
     return await prefs.setString(
       user,
       jsonEncode(
@@ -24,7 +24,7 @@ class LocalUserService {
   }
 
   Future<UserAuth> readUser() async {
-    var prefs = await sharedPreferences;
+    var prefs = await _sharedPreferences;
     String? userJson = prefs.getString(user);
     if (userJson == null) {
       return throw LocalStorageEmptyException(message: 'No user saved');
@@ -36,7 +36,7 @@ class LocalUserService {
   }
 
   Future<bool> removeUser() async {
-    var prefs = await sharedPreferences;
+    var prefs = await _sharedPreferences;
     return await prefs.remove(user);
   }
 }

@@ -5,6 +5,7 @@ import '../apps/blocs/story_bloc.dart';
 import '../apps/data/models/story.dart';
 import '../apps/states/story/story_state.dart';
 import '../apps/states/story/story_state_loaded.dart';
+import '../l10n/localizations.dart';
 import '../widgets/fullscreen_app_loading.dart';
 
 class StoryView extends StatelessWidget {
@@ -39,17 +40,17 @@ class StoryView extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          storyAuthorAndImageCard(story, context),
+          storyAuthorAndImageCard(context, story: story),
           const SizedBox(
             height: 12,
           ),
-          storyDescriptionCard(story),
+          storyDescriptionCard(context, description : story.description),
         ],
       ),
     );
   }
 
-  SizedBox storyDescriptionCard(Story story) {
+  SizedBox storyDescriptionCard(BuildContext context, {required String description}) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -65,11 +66,11 @@ class StoryView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Story Description',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.storyDescription,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(story.description),
+              Text(description),
             ],
           ),
         ),
@@ -77,7 +78,7 @@ class StoryView extends StatelessWidget {
     );
   }
 
-  SizedBox storyAuthorAndImageCard(Story story, BuildContext context) {
+  SizedBox storyAuthorAndImageCard(BuildContext context, {required Story story}) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -94,10 +95,11 @@ class StoryView extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  const Text(
-                    'Story From ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  Text(
+                    AppLocalizations.of(context)!.storyFrom,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(width: 4,),
                   Text(
                     story.name,
                     style: const TextStyle(

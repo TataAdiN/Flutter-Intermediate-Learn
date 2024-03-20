@@ -1,0 +1,22 @@
+{
+  "createStory" : "Buat Cerita",
+  "storyFrom": "Cerita Dari",
+  "storyDescription" : "Deskripsi Cerita",
+
+  "settings" : "Pengaturan",
+  "language" : "Bahasa",
+  "account" : "Akun",
+  "logout" : "Keluar",
+
+  "camera" : "Kamera",
+  "gallery" : "Galeri",
+
+  "noInternet" : "Tidak Ada Internet",
+  "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
+
+  "storyCreated" : "Cerita berhasil dibuat",
+
+  "goodEvening": "Selamat Malam",
+  "goodAfternoon": "Selamat Siang",
+  "goodMorning": "Selamat Pagi"
+}

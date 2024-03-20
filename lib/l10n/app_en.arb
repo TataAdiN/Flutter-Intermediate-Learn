@@ -1,0 +1,22 @@
+{
+  "createStory" : "Create Story",
+  "storyFrom": "Story From",
+  "storyDescription" : "Story Description",
+
+  "settings" : "Settings",
+  "language" : "Language",
+  "account" : "Account",
+  "logout" : "Logout",
+
+  "camera" : "Camera",
+  "gallery" : "Gallery",
+
+  "noInternet" : "No Internet",
+  "noInternetFix" : "Please fix your connection and try again",
+
+  "storyCreated" : "Story Created Successfully",
+
+  "goodEvening": "Good Evening",
+  "goodAfternoon": "Good Afternoon",
+  "goodMorning": "Good Morning"
+}
