@@ -13,6 +13,11 @@
   "gallery" : "Gallery",
   "editImage" : "Edit Image",
 
+  "warning" : "Warning!",
+  "exitWarning" : "Are you sure to Logout?",
+  "close" : "Close",
+  "sure" : "Sure!",
+  "success" : "Success!",
   "somethingWrong" : "Something Wrong",
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",

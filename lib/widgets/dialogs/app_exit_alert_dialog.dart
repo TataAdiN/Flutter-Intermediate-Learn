@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 
 import '../components/app_button.dart';
 
@@ -12,6 +13,7 @@ class AppExitAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localizations = AppLocalizations.of(context)!;
     return AlertDialog(
       titlePadding: const EdgeInsets.all(0),
       insetPadding: const EdgeInsets.all(10),
@@ -39,41 +41,45 @@ class AppExitAlertDialog extends StatelessWidget {
             topRight: Radius.circular(24.0),
           ),
         ),
-        child: const Row(
+        child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.info,
               size: 24,
               color: Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               width: 8,
             ),
             Text(
-              'Warning!',
-              style: TextStyle(color: Colors.white),
+              localizations.warning,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
           ],
         ),
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: const Text(
-          "Are you sure to Logout?",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        child: Text(
+          localizations.exitWarning,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       actions: <Widget>[
         AppButton(
           onClick: () => Navigator.of(context).pop(),
-          label: 'Close',
+          label: localizations.close,
           color: Colors.black54,
           width: 120,
           icon: Icons.close,
         ),
         AppButton(
           onClick: () => onExit(),
-          label: 'Yakin!',
+          label: localizations.sure,
           color: Colors.orange,
           width: 120,
           icon: Icons.exit_to_app,

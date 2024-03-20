@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class AppSuccessAlertDialog extends StatelessWidget {
   const AppSuccessAlertDialog({
     super.key,
     required this.message,
-    this.title = 'Action Success',
+    this.title,
     this.popRoute = false,
   });
 
-  final String title;
+  final String? title;
   final String message;
   final bool popRoute;
 
@@ -52,7 +53,7 @@ class AppSuccessAlertDialog extends StatelessWidget {
               width: 8,
             ),
             Text(
-              title,
+              title ?? AppLocalizations.of(context)!.success,
               style: const TextStyle(color: Colors.white),
             ),
           ],

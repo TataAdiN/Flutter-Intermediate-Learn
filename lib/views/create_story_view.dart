@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../apps/blocs/create_story_bloc.dart';
+import '../apps/data/enums/client_error_type.dart';
 import '../apps/events/create_story/create_story_event_create.dart';
 import '../apps/events/create_story/create_story_event_pick_image.dart';
 import '../apps/states/create_story/create_story_state.dart';
@@ -27,11 +28,11 @@ class CreateStoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider<Object> image = const AssetImage(
+      'assets/placeholder.png',
+    );
     return BlocConsumer<CreateStoryBloc, CreateStoryState>(
       builder: (BuildContext context, CreateStoryState state) {
-        ImageProvider<Object> image = const AssetImage(
-          'assets/placeholder.png',
-        );
         if (state is CreateStoryStatePickedImage) {
           image = FileImage(state.pickedImage);
         }
@@ -46,10 +47,22 @@ class CreateStoryView extends StatelessWidget {
       },
       listener: (BuildContext context, CreateStoryState state) {
         if (state is CreateStoryStateError) {
-          showAppDialog(
-            context,
-            dialog: AppErrorAlertDialog(message: state.message),
-          );
+          if (state.errorType == ClientErrorType.noInternet) {
+            showAppDialog(
+              context,
+              dialog: AppErrorAlertDialog(
+                title: AppLocalizations.of(context)!.noInternet,
+                message: state.message,
+              ),
+            );
+          } else {
+            showAppDialog(
+              context,
+              dialog: AppErrorAlertDialog(
+                message: state.message,
+              ),
+            );
+          }
         } else if (state is CreateStoryStateCreated) {
           showAppDialog(
             context,
