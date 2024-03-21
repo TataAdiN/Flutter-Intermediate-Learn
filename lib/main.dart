@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/states/auth/auth_state_locale_changed.dart';
 
 import 'apps/blocs/auth_bloc.dart';
 import 'apps/states/auth/auth_state.dart';
-import 'apps/states/auth/auth_state_success.dart';
 import 'l10n/localizations.dart';
 import 'routes/app_route.dart';
 
