@@ -50,7 +50,8 @@ class CreateStoryView extends StatelessWidget {
           if (state.errorType == ClientErrorType.noInternet) {
             showAppDialog(
               context,
-              dialog: AppErrorAlertDialog(
+              dialog: appErrorAlertDialog(
+                context,
                 title: AppLocalizations.of(context)!.noInternet,
                 message: state.message,
               ),
@@ -58,7 +59,8 @@ class CreateStoryView extends StatelessWidget {
           } else {
             showAppDialog(
               context,
-              dialog: AppErrorAlertDialog(
+              dialog: appErrorAlertDialog(
+                context,
                 message: state.message,
               ),
             );
@@ -66,7 +68,8 @@ class CreateStoryView extends StatelessWidget {
         } else if (state is CreateStoryStateCreated) {
           showAppDialog(
             context,
-            dialog: AppSuccessAlertDialog(
+            dialog: appSuccessAlertDialog(
+              context,
               message: AppLocalizations.of(context)!.storyCreated,
               popRoute: true,
             ),

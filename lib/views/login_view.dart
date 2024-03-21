@@ -57,7 +57,8 @@ class LoginView extends StatelessWidget {
               if (state.errorType == ClientErrorType.noInternet) {
                 showAppDialog(
                   context,
-                  dialog: AppErrorAlertDialog(
+                  dialog: appErrorAlertDialog(
+                    context,
                     title: AppLocalizations.of(context)!.noInternet,
                     message: state.message,
                   ),
@@ -65,7 +66,8 @@ class LoginView extends StatelessWidget {
               } else {
                 showAppDialog(
                   context,
-                  dialog: AppErrorAlertDialog(
+                  dialog: appErrorAlertDialog(
+                    context,
                     title: AppLocalizations.of(context)!.somethingWrong,
                     message: state.message,
                   ),
@@ -74,7 +76,8 @@ class LoginView extends StatelessWidget {
             } else if (state is LoginStateUnauthorized) {
               showAppDialog(
                 context,
-                dialog: AppErrorAlertDialog(
+                dialog: appErrorAlertDialog(
+                  context,
                   title: AppLocalizations.of(context)!.failLogin,
                   message: state.message,
                 ),
@@ -82,7 +85,8 @@ class LoginView extends StatelessWidget {
             } else if (state is LoginStateCreatedAccount) {
               showAppDialog(
                 context,
-                dialog: AppSuccessAlertDialog(
+                dialog: appSuccessAlertDialog(
+                  context,
                   title: AppLocalizations.of(context)!.accountCreated,
                   message: '${state.email} ${state.message}',
                 ),

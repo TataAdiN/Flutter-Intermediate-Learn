@@ -27,7 +27,8 @@ class StoryView extends StatelessWidget {
         if (state is StoryStateLoaded) {
           return storyLayout(context, story: state.story);
         } else if (state is StoryStateNotFound) {
-          return FullscreenAppError(
+          return fullScreenAppError(
+            context,
             message: state.message,
             withRetry: false,
             title: AppLocalizations.of(context)!.somethingWrong,
@@ -37,7 +38,8 @@ class StoryView extends StatelessWidget {
           if (state.errorType == ClientErrorType.noInternet) {
             title = AppLocalizations.of(context)!.noInternet;
           }
-          return FullscreenAppError(
+          return fullScreenAppError(
+            context,
             message: state.message,
             withRetry: true,
             title: title,

@@ -153,7 +153,8 @@ class SettingsView extends StatelessWidget {
             onTap: () {
               showAppDialog(
                 context,
-                dialog: AppExitAlertDialog(
+                dialog: appExitAlertDialog(
+                  context,
                   onExit: () => context.read<AuthBloc>().add(
                         AuthEventLogout(),
                       ),

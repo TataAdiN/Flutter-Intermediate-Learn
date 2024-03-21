@@ -50,12 +50,14 @@ class RegisterView extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   if (state.errorType == ClientErrorType.noInternet) {
-                    return AppErrorAlertDialog(
+                    return appErrorAlertDialog(
+                      context,
                       title: AppLocalizations.of(context)!.noInternet,
                       message: state.message,
                     );
                   }
-                  return AppErrorAlertDialog(
+                  return appErrorAlertDialog(
+                    context,
                     message: state.message,
                   );
                 },
