@@ -13,6 +13,7 @@ import '../exceptions/local_storage/local_storage_empty_exception.dart';
 import '../states/auth/auth_state.dart';
 import '../states/auth/auth_state_fail.dart';
 import '../states/auth/auth_state_init.dart';
+import '../states/auth/auth_state_loading.dart';
 import '../states/auth/auth_state_locale_changed.dart';
 import '../states/auth/auth_state_loggedout.dart';
 import '../states/auth/auth_state_success.dart';
@@ -21,6 +22,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Locale _currentLocale = const Locale("id");
   bool _isLogged = false;
   UserAuth? _userAuth;
+  late AppLocalizations localizations;
+
+  void registerLocalization(AppLocalizations localizations) {
+    this.localizations = localizations;
+  }
 
   AuthBloc() : super(AuthStateInit()) {
     on<AuthEventRefresh>(_refresh);
@@ -33,20 +39,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   get locale => _currentLocale;
 
   _refresh(AuthEventRefresh event, Emitter<AuthState> emit) async {
+    String languageCode = await UserLocaleRepository().read();
+    if (languageCode.isNotEmpty) {
+      Locale newLocale = Locale(languageCode);
+      _currentLocale = newLocale;
+      emit(AuthStateLocaleChanged());
+    }
     try {
+      emit(AuthStateLoading());
       //to show animation authentication loading animation
       await Future.delayed(
         const Duration(seconds: 1),
       );
       _userAuth = await LocalUserRepository().read();
       _isLogged = true;
-      await _updateLocale(emit);
       emit(
         AuthStateSuccess(),
       );
     } on LocalStorageEmptyException catch (_) {
       emit(
-        AuthStateFail(),
+        AuthStateFail(
+          message: localizations.failRefreshLogin,
+        ),
       );
     }
   }
@@ -60,17 +74,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } else {
       emit(
-        AuthStateFail(),
+        AuthStateFail(message: ''),
       );
-    }
-  }
-
-  _updateLocale(Emitter<AuthState> emit) async {
-    String languageCode = await UserLocaleRepository().read();
-    if (languageCode.isNotEmpty) {
-      Locale newLocale = Locale(languageCode);
-      _currentLocale = newLocale;
-      emit(AuthStateLocaleChanged());
     }
   }
 
@@ -86,14 +91,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _isLogged = true;
   }
 
-  String greeting(BuildContext context) {
+  String greeting(BuildContext context, AppLocalizations appLocalizations) {
     var hour = DateTime.now().hour;
     if (hour < 12) {
-      return AppLocalizations.of(context)!.goodMorning;
+      return appLocalizations.goodMorning;
     }
     if (hour < 17) {
-      return AppLocalizations.of(context)!.goodAfternoon;
+      return appLocalizations.goodAfternoon;
     }
-    return AppLocalizations.of(context)!.goodEvening;
+    return appLocalizations.goodEvening;
   }
 }

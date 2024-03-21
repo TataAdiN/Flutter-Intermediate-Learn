@@ -1,3 +1,4 @@
+import '../../../l10n/localizations.dart';
 import 'auth_event.dart';
 
 class AuthEventChangeLocale extends AuthEvent {

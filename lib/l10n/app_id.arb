@@ -26,6 +26,9 @@
   "noInternet" : "Tidak Ada Internet",
   "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
 
+  "waitAuthentication" : "Mohon tunggu, proses autentikasi....",
+  "failRefreshLogin" : "Gagal login dari riwayat lokal",
+
   "storyNotFound" : "Cerita tidak ditemukan",
   "emptyStories" : "Cerita tidak tersedia",
   "emptyStoriesFix" : "Tidak ada satupun Cerita untuk ditampilkan",

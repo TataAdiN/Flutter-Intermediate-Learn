@@ -26,6 +26,9 @@
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",
 
+  "waitAuthentication" : "Please wait, authentication....",
+  "failRefreshLogin" : "Fail to login from local history",
+
   "storyNotFound" : "Story not found",
   "emptyStories" : "Empty Stories",
   "emptyStoriesFix" : "There's no Stories available to display",

@@ -1,25 +1,15 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/apps/states/auth/auth_state_locale_changed.dart';
 
 import 'apps/blocs/auth_bloc.dart';
 import 'apps/states/auth/auth_state.dart';
+import 'apps/states/auth/auth_state_success.dart';
 import 'l10n/localizations.dart';
 import 'routes/app_route.dart';
 
 void main() {
-  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +22,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (BuildContext context, AuthState state) {
           return MaterialApp.router(
-            title: 'Flutter Demo',
+            title: 'Image Stories',
             locale: context.read<AuthBloc>().locale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

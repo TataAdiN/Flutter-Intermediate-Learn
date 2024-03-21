@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 
 import '../../apps/blocs/auth_bloc.dart';
 
@@ -14,7 +15,7 @@ class GreetingWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          context.read<AuthBloc>().greeting(context),
+          context.read<AuthBloc>().greeting(context, AppLocalizations.of(context)!),
         ),
         const Text(
           ', ',

@@ -29,9 +29,10 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Text(localizations.settings),
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (BuildContext context, AuthState state) {
@@ -43,22 +44,22 @@ class SettingsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const GreetingWidget(),
-            languageCard(context),
-            accountCard(context),
+            languageCard(context, localizations),
+            accountCard(context, localizations),
           ],
         ),
       ),
     );
   }
 
-  Column languageCard(BuildContext context) {
+  Column languageCard(BuildContext context, AppLocalizations localizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Text(
-            AppLocalizations.of(context)!.language,
+            localizations.language,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -125,14 +126,14 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Column accountCard(BuildContext context) {
+  Column accountCard(BuildContext context, AppLocalizations localizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
           child: Text(
-            AppLocalizations.of(context)!.account,
+            localizations.account,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -161,7 +162,7 @@ class SettingsView extends StatelessWidget {
                 children: [
                   const Icon(Icons.exit_to_app),
                   const SizedBox(width: 12),
-                  Text(AppLocalizations.of(context)!.logout),
+                  Text(localizations.logout),
                 ],
               ),
             ),

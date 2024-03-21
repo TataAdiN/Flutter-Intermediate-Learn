@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/apps/states/auth/auth_state_loading.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
@@ -20,6 +22,12 @@ class AuthView extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         builder: (context, state) {
           String message = state.message;
+          if (state is AuthStateLoading) {
+            context
+                .read<AuthBloc>()
+                .registerLocalization(AppLocalizations.of(context)!);
+            message = AppLocalizations.of(context)!.waitAuthentication;
+          }
           if (state is AuthStateInit) {
             context.read<AuthBloc>().add(
                   AuthEventRefresh(),
