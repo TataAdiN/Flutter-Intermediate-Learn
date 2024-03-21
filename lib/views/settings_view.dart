@@ -37,6 +37,10 @@ class SettingsView extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (BuildContext context, AuthState state) {
           if (state is AuthStateLoggedout) {
+            while (context.canPop()) {
+              print("called");
+              context.pop();
+            }
             context.pushReplacementNamed(AppRoute.login);
           }
         },
