@@ -38,7 +38,6 @@ class SettingsView extends StatelessWidget {
         listener: (BuildContext context, AuthState state) {
           if (state is AuthStateLoggedout) {
             while (context.canPop()) {
-              print("called");
               context.pop();
             }
             context.pushReplacementNamed(AppRoute.login);
