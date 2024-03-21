@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localizations.dart';
 import '../data/enums/client_error_type.dart';
 import '../data/models/user.dart';
 import '../data/models/user_auth.dart';
@@ -21,7 +22,9 @@ import '../states/login/login_state_loading.dart';
 import '../states/login/login_state_unauthorized.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginStateInit()) {
+  AppLocalizations localization;
+
+  LoginBloc({required this.localization}) : super(LoginStateInit()) {
     on<LoginEventAuth>(_auth);
     on<LoginEventCreatedAccount>(_notifyCreatedAccount);
   }
@@ -42,7 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(
           LoginStateError(
             errorType: ClientErrorType.unknown,
-            message: 'Fail save token to local storage',
+            message: localization.failSaveLocal,
           ),
         );
       }
@@ -50,13 +53,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         LoginStateError(
           errorType: ClientErrorType.noInternet,
-          message: 'Please fix your connection and try again',
+          message: localization.noInternetFix,
         ),
       );
-    } on UnauthorizedException catch (exception) {
+    } on UnauthorizedException catch (_) {
       emit(
         LoginStateUnauthorized(
-          message: exception.message,
+          message: localization.failLoginInfo,
         ),
       );
     } on UnknownException catch (exception) {

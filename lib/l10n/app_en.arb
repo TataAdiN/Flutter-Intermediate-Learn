@@ -14,6 +14,8 @@
   "gallery" : "Gallery",
   "editImage" : "Edit Image",
 
+  "signIn" : "Sign In",
+  "signUp" : "Sign Up",
   "back" : "Back!",
   "warning" : "Warning!",
   "exitWarning" : "Are you sure to Logout?",
@@ -37,6 +39,22 @@
   "failNoImage" : "No image added, please add a image first",
   "failCreateStory" : "Failed to created Story",
   "storyCreated" : "Story Created Successfully",
+
+  "name" : "Name",
+
+  "failNoName" : "Name can't be empty",
+  "failNoEmail" : "Email can't be empty",
+  "failInvalidEmail" : "Please type valid email",
+  "failNoPassword" : "Password can't be empty",
+  "accountCreated" : "Success create Account",
+  "accountCreatedInfo" : "Account is created, now you can sign in",
+
+  "failSaveLocal" : "Fail save token to local storage",
+
+  "failLogin" : "Login Failed",
+  "failLoginInfo" : "Wrong password or email, Please try again...",
+
+  "signUpAccount" : "Sign Up Account",
 
   "goodEvening": "Good Evening",
   "goodAfternoon": "Good Afternoon",

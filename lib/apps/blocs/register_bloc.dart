@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../l10n/localizations.dart';
 import '../data/enums/client_error_type.dart';
 import '../data/repositories/auth_repository.dart';
 import '../events/register/register_event.dart';
@@ -15,7 +16,9 @@ import '../states/register/register_state_init.dart';
 import '../states/register/register_state_loading.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc() : super(RegisterStateInit()) {
+  AppLocalizations localization;
+
+  RegisterBloc({required this.localization}) : super(RegisterStateInit()) {
     on<RegisterEventAction>(_register);
   }
 
@@ -25,7 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       await AuthRepository().register(user: event.user);
       emit(
         RegisterStateCreated(
-          message: 'account is created, now you can sign in',
+          message: localization.accountCreatedInfo,
           email: event.user.email!,
         ),
       );
@@ -33,7 +36,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(
         RegisterStateError(
           errorType: ClientErrorType.noInternet,
-          message: 'Please fix your connection and try again',
+          message: localization.noInternetFix,
         ),
       );
     } on UnknownException catch (exception) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/register_bloc.dart';
@@ -50,7 +51,7 @@ class RegisterView extends StatelessWidget {
                 builder: (BuildContext context) {
                   if (state.errorType == ClientErrorType.noInternet) {
                     return AppErrorAlertDialog(
-                      title: 'No Internet',
+                      title: AppLocalizations.of(context)!.noInternet,
                       message: state.message,
                     );
                   }
@@ -75,9 +76,9 @@ class RegisterView extends StatelessWidget {
 
   Widget _buildRegisterScreen(BuildContext context) => CustomScrollView(
         slivers: [
-          const ExpandedAppBar(
-            title: 'Daftar Akun',
-            color: Color.fromRGBO(245, 246, 251, 1),
+          ExpandedAppBar(
+            title: AppLocalizations.of(context)!.signUpAccount,
+            color: const Color.fromRGBO(245, 246, 251, 1),
           ),
           SliverFillRemaining(
             child: SingleChildScrollView(
@@ -103,9 +104,9 @@ class RegisterView extends StatelessWidget {
             children: [
               AppTextField(
                 controller: nameController,
-                title: 'Nama',
+                title: AppLocalizations.of(context)!.name,
                 isEmail: false,
-                errorText: 'Isian Nama tidak boleh kosong',
+                errorText: AppLocalizations.of(context)!.failNoName,
               ),
               const SizedBox(
                 height: 12,
@@ -114,14 +115,14 @@ class RegisterView extends StatelessWidget {
                 controller: emailController,
                 title: 'Email',
                 isEmail: true,
-                errorText: 'Isian Email tidak boleh kosong',
+                errorText: AppLocalizations.of(context)!.failNoEmail,
               ),
               const SizedBox(
                 height: 12,
               ),
               AppObsecureField(
                 title: 'Password',
-                errorText: 'Isian password tidak boleh kosong',
+                errorText: AppLocalizations.of(context)!.failNoPassword,
                 controller: passwordController,
               ),
               const SizedBox(
@@ -139,7 +140,7 @@ class RegisterView extends StatelessWidget {
                         );
                   }
                 },
-                label: 'Sign Up',
+                label: AppLocalizations.of(context)!.signUp,
                 align: AppButtonAlign.center,
               ),
             ],

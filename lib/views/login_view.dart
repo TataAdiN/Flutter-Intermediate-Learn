@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/auth_bloc.dart';
@@ -57,7 +58,15 @@ class LoginView extends StatelessWidget {
                 showAppDialog(
                   context,
                   dialog: AppErrorAlertDialog(
-                    title: 'No Internet',
+                    title: AppLocalizations.of(context)!.noInternet,
+                    message: state.message,
+                  ),
+                );
+              } else {
+                showAppDialog(
+                  context,
+                  dialog: AppErrorAlertDialog(
+                    title: AppLocalizations.of(context)!.somethingWrong,
                     message: state.message,
                   ),
                 );
@@ -65,16 +74,16 @@ class LoginView extends StatelessWidget {
             } else if (state is LoginStateUnauthorized) {
               showAppDialog(
                 context,
-                dialog: const AppErrorAlertDialog(
-                  title: 'Login Failed',
-                  message: 'Wrong password or email. Please try again...',
+                dialog: AppErrorAlertDialog(
+                  title: AppLocalizations.of(context)!.failLogin,
+                  message: state.message,
                 ),
               );
             } else if (state is LoginStateCreatedAccount) {
               showAppDialog(
                 context,
                 dialog: AppSuccessAlertDialog(
-                  title: 'Success create Account',
+                  title: AppLocalizations.of(context)!.accountCreated,
                   message: '${state.email} ${state.message}',
                 ),
               );
@@ -114,12 +123,7 @@ class LoginView extends StatelessWidget {
           const SizedBox(
             height: 40,
           ),
-          BlocConsumer<LoginBloc, LoginState>(
-            builder: (context, state) {
-              return _formLogin(context);
-            },
-            listener: (BuildContext context, LoginState state) {},
-          ),
+          _formLogin(context),
           const Divider(),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -129,14 +133,12 @@ class LoginView extends StatelessWidget {
                 Map<String, dynamic>? result = await context
                     .pushNamed<Map<String, dynamic>>(AppRoute.register);
                 if (result != null && result.isNotEmpty && context.mounted) {
-                  context.read<LoginBloc>().add(
-                        LoginEventCreatedAccount(
-                          result: result,
-                        ),
-                      );
+                  context
+                      .read<LoginBloc>()
+                      .add(LoginEventCreatedAccount(result: result));
                 }
               },
-              label: 'Sign up',
+              label: AppLocalizations.of(context)!.signUp,
               align: AppButtonAlign.center,
             ),
           )
@@ -156,7 +158,7 @@ class LoginView extends StatelessWidget {
                 controller: emailController,
                 title: 'Email',
                 isEmail: true,
-                errorText: 'Isian Email tidak boleh kosong',
+                errorText: AppLocalizations.of(context)!.failNoEmail,
               ),
               const SizedBox(
                 height: 12,
@@ -164,7 +166,7 @@ class LoginView extends StatelessWidget {
               AppObsecureField(
                 controller: passwordController,
                 title: 'Password',
-                errorText: 'Isian password tidak boleh kosong',
+                errorText: AppLocalizations.of(context)!.failNoPassword,
               ),
               const SizedBox(
                 height: 12,
@@ -181,7 +183,7 @@ class LoginView extends StatelessWidget {
                         );
                   }
                 },
-                label: 'Sign in',
+                label: AppLocalizations.of(context)!.signIn,
                 align: AppButtonAlign.center,
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/localizations.dart';
 import '../../utils/email_check.dart';
 
 class AppTextField extends StatelessWidget {
@@ -30,7 +31,7 @@ class AppTextField extends StatelessWidget {
         }
         if (isEmail) {
           if (!EmailCheck.validate(value)) {
-            return "Mohon masukan email yang valid";
+            return AppLocalizations.of(context)!.failInvalidEmail;
           }
         }
         return null;

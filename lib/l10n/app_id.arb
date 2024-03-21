@@ -14,6 +14,8 @@
   "gallery" : "Galeri",
   "editImage" : "Edit Gambar",
 
+  "signIn" : "Masuk",
+  "signUp" : "Daftar",
   "back" : "Kembali!",
   "warning" : "Peringatan!",
   "exitWarning" : "Apakah yakin ingin Keluar?",
@@ -37,6 +39,22 @@
   "failNoImage" : "Tidak ada gambar, mohon tambahkan gambar dulu",
   "failCreateStory" : "Gagal membuat Cerita",
   "storyCreated" : "Cerita berhasil dibuat",
+
+  "name" : "Nama",
+
+  "failNoName" : "Nama tidak boleh kosong",
+  "failNoEmail" : "Email tidak boleh kosong",
+  "failInvalidEmail" : "Mohon masukan email yang valid",
+  "failNoPassword" : "Password tidak boleh kosong",
+  "accountCreated" : "Berhasil membuat",
+  "accountCreatedInfo" : "Akun berhasil dibuat, sekarang kamu bisa login",
+
+  "failSaveLocal" : "Gagal menyimpan token pada penyimpanan lokal",
+
+  "failLogin" : "Gagal Login",
+  "failLoginInfo" : "Password atau email salah. Mohon coba lagi...",
+
+  "signUpAccount" : "Daftar Akun",
 
   "goodEvening": "Selamat Malam",
   "goodAfternoon": "Selamat Siang",
