@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
-import 'pages/implicit_animation_screen.dart';
+import 'pages/implicit/implicit_animation_screen.dart';
 
 void main() {
   runApp(const MyApp());
