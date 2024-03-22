@@ -23,6 +23,17 @@ class ImplicitAnimationScreen extends StatelessWidget {
           return ItemCard(
             item: items[index],
             animation: animation,
+            onDelete: () {
+              final item = items.removeAt(index);
+              listKey.currentState?.removeItem(
+                index,
+                (_, animation) => ItemCard(
+                  item: item,
+                  animation: animation,
+                  onDelete: () {},
+                ),
+              );
+            },
           );
         },
       ),

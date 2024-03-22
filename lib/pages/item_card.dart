@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
-  const ItemCard({super.key, required this.item, required this.animation});
+  const ItemCard({
+    super.key,
+    required this.item,
+    required this.animation,
+    required this.onDelete,
+  });
 
   final int item;
   final Animation<double> animation;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1, 0),
-        end: const Offset(0, 0),
-      ).animate(animation),
+    return SizeTransition(
+      sizeFactor: animation,
       child: Card(
         color: Colors.primaries[item % Colors.primaries.length],
         child: Padding(
@@ -28,7 +31,7 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => onDelete(),
                 icon: const Icon(
                   Icons.delete,
                   color: Colors.white,
