@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'apps/blocs/auth_bloc.dart';
-import 'apps/states/auth/auth_state.dart';
-import 'l10n/localizations.dart';
-import 'routes/app_route.dart';
+import 'main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,30 +11,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => AuthBloc(),
-      child: BlocBuilder<AuthBloc, AuthState>(
-        builder: (BuildContext context, AuthState state) {
-          return MaterialApp.router(
-            title: 'Image Stories',
-            locale: context.read<AuthBloc>().locale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            theme: ThemeData(
-              primaryColor: Colors.blueAccent,
-              primarySwatch: Colors.blue,
-              colorScheme: ThemeData.light().colorScheme.copyWith(
-                    primary: Colors.blueAccent,
-                    onPrimary: Colors.black,
-                    secondary: Colors.blueAccent,
-                  ),
-            ),
-            routeInformationParser: AppRoute.router.routeInformationParser,
-            routerDelegate: AppRoute.router.routerDelegate,
-            routeInformationProvider: AppRoute.router.routeInformationProvider,
-          );
-        },
+    return MaterialApp(
+      title: 'Local Storage',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: Colors.white,
+          onPrimary: Colors.black,
+          secondary: Colors.orange,
+        ),
       ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainScreen(),
+      },
     );
   }
 }
