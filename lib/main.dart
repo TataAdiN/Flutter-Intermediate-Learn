@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
+import 'pages/explicit/explicit_animation_screen.dart';
 import 'pages/implicit/implicit_animation_screen.dart';
 
 void main() {
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MainScreen(),
         '/implicit': (context) => ImplicitAnimationScreen(),
+        '/explicit': (context) => ExplicitAnimationScreen(),
       },
     );
   }

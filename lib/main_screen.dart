@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
           menuCard(
             title: "Animation",
             desc: "Explicit Animation",
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushNamed('/explicit'),
           ),
           menuCard(
             title: "Animation",
