@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intermediate_learn/pages/infinity_scroll/infinity_scroll_page.dart';
 
 import 'main_screen.dart';
 import 'pages/custom_painter/custom_painter_animation_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/implicit': (context) => ImplicitAnimationScreen(),
         '/explicit': (context) => const ExplicitAnimationScreen(),
         '/custom_painter': (context) => const CustomPainterAnimationScreen(),
+        '/infinity_scroll': (context) => const InfinityScrollPage(),
       },
     );
   }

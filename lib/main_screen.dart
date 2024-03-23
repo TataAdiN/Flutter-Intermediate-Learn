@@ -29,7 +29,7 @@ class MainScreen extends StatelessWidget {
           menuCard(
             title: "Feature",
             desc: "Infinity Scrolling",
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushNamed('/infinity_scroll'),
           )
         ],
       ),
