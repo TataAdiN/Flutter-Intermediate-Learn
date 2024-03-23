@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
+import 'pages/custom_painter/custom_painter_animation_screen.dart';
 import 'pages/explicit/explicit_animation_screen.dart';
 import 'pages/implicit/implicit_animation_screen.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const MainScreen(),
         '/implicit': (context) => ImplicitAnimationScreen(),
-        '/explicit': (context) => ExplicitAnimationScreen(),
+        '/explicit': (context) => const ExplicitAnimationScreen(),
+        '/custom_painter': (context) => const CustomPainterAnimationScreen(),
       },
     );
   }

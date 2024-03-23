@@ -24,7 +24,7 @@ class MainScreen extends StatelessWidget {
           menuCard(
             title: "Animation",
             desc: "Custom Painter Animation",
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushNamed('/custom_painter'),
           ),
           menuCard(
             title: "Feature",
