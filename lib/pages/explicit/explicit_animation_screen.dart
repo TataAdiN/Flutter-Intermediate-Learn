@@ -8,15 +8,32 @@ class ExplicitAnimationScreen extends StatefulWidget {
       _ExplicitAnimationScreenState();
 }
 
-class _ExplicitAnimationScreenState extends State<ExplicitAnimationScreen> {
+class _ExplicitAnimationScreenState extends State<ExplicitAnimationScreen>
+    with SingleTickerProviderStateMixin {
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
+  late final AnimationController controller;
+  late final Animation<AlignmentGeometry> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    animation = AlignmentTween(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ).animate(controller);
+  }
+
   @override
   void dispose() {
+    controller.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -65,21 +82,38 @@ class _ExplicitAnimationScreenState extends State<ExplicitAnimationScreen> {
                   },
                 ),
                 const SizedBox(height: 8),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
+                AlignTransition(
+                  alignment: animation,
+                  child: ElevatedButton(
+                    onHover: (value) {
+                      if (controller.isAnimating) return;
+                      if (!formKey.currentState!.validate()) {
+                        controller.isCompleted
+                            ? controller.reverse()
+                            : controller.forward();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                    onPressed: () async {
+                      if (controller.isAnimating) return;
+                      if (!formKey.currentState!.validate()) {
+                        controller.isCompleted
+                            ? controller.reverse()
+                            : controller.forward();
+                      }
+                      if (formKey.currentState!.validate()) {
+                        final email = emailController.text;
+                        final password = passwordController.text;
+                        final text = "Email: $email \nPassword: $password";
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(text)),
+                        );
+                      }
+                    },
+                    child: const Text("LOGIN"),
                   ),
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      final email = emailController.text;
-                      final password = passwordController.text;
-                      final text = "Email: $email \nPassword: $password";
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(text)),
-                      );
-                    }
-                  },
-                  child: const Text("LOGIN"),
                 ),
                 const SizedBox(height: 8),
               ],
