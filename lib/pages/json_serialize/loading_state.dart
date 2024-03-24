@@ -1,7 +1,6 @@
-enum ApiState {
+enum LoadingState {
   initial,
   loading,
   loaded,
   error,
-  noData,
 }

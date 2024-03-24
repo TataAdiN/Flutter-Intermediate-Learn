@@ -12,25 +12,15 @@ class MainScreen extends StatelessWidget {
       body: ListView(
         children: [
           menuCard(
-            title: "Animation",
-            desc: "Implicit Animation",
-            onTap: () => Navigator.of(context).pushNamed('/implicit'),
+            title: "Code Generator",
+            desc: "JSON Serialization Generator",
+            onTap: () => Navigator.of(context).pushNamed('/json_serialize'),
           ),
           menuCard(
-            title: "Animation",
-            desc: "Explicit Animation",
-            onTap: () => Navigator.of(context).pushNamed('/explicit'),
+            title: "Code Generator",
+            desc: "Union Generator",
+            onTap: () {},
           ),
-          menuCard(
-            title: "Animation",
-            desc: "Custom Painter Animation",
-            onTap: () => Navigator.of(context).pushNamed('/custom_painter'),
-          ),
-          menuCard(
-            title: "Feature",
-            desc: "Infinity Scrolling",
-            onTap: () => Navigator.of(context).pushNamed('/infinity_scroll'),
-          )
         ],
       ),
     );
