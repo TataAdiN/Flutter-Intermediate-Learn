@@ -18,12 +18,19 @@ class _InfinityScrollScreenState extends State<InfinityScrollScreen> {
   void initState() {
     super.initState();
     final apiProvider = context.read<ApiProvider>();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
-        apiProvider.getQuotes();
-      }
-    });
-    Future.microtask(() async => apiProvider.getQuotes());
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent) {
+          if (apiProvider.pageItems != null) {
+            apiProvider.getQuotes();
+          }
+        }
+      },
+    );
+    Future.microtask(
+      () async => apiProvider.getQuotes(),
+    );
   }
 
   @override
@@ -43,14 +50,27 @@ class _InfinityScrollScreenState extends State<InfinityScrollScreen> {
           final state = provider.quotesState;
           if (state == ApiState.loading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.blueAccent,
+              ),
             );
           } else if (state == ApiState.loaded) {
             final quotes = provider.quotes;
             return ListView.builder(
               controller: scrollController,
-              itemCount: quotes.length,
+              itemCount: quotes.length + (provider.pageItems != null ? 1 : 0),
               itemBuilder: (context, index) {
+                if (index == quotes.length && provider.pageItems != null) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: CircularProgressIndicator(
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  );
+                }
+
                 final quote = quotes[index];
                 return Card(
                   child: Padding(
