@@ -9,6 +9,9 @@ class ApiProvider extends ChangeNotifier {
 
   ApiProvider(this.apiService);
 
+  int? pageItems = 1;
+  int sizeItems = 10;
+
   ApiState quotesState = ApiState.initial;
   String quotesMessage = "";
 
@@ -18,15 +21,18 @@ class ApiProvider extends ChangeNotifier {
 
   Future<void> getQuotes() async {
     try {
-      quotesState = ApiState.loading;
-      notifyListeners();
+      if (pageItems == 1) {
+        quotesState = ApiState.loading;
+        notifyListeners();
+      }
 
-      final result = await apiService.getQuotes();
+      final result = await apiService.getQuotes(pageItems!, sizeItems);
 
       quotes.addAll(result.list);
       quotesMessage = "Success";
       quotesError = false;
       quotesState = ApiState.loaded;
+      pageItems = pageItems! + 1;
 
       notifyListeners();
     } catch (e) {

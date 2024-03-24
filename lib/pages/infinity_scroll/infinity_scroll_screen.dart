@@ -12,12 +12,24 @@ class InfinityScrollScreen extends StatefulWidget {
 }
 
 class _InfinityScrollScreenState extends State<InfinityScrollScreen> {
+  final ScrollController scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     final apiProvider = context.read<ApiProvider>();
-
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent) {
+        apiProvider.getQuotes();
+      }
+    });
     Future.microtask(() async => apiProvider.getQuotes());
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,6 +48,7 @@ class _InfinityScrollScreenState extends State<InfinityScrollScreen> {
           } else if (state == ApiState.loaded) {
             final quotes = provider.quotes;
             return ListView.builder(
+              controller: scrollController,
               itemCount: quotes.length,
               itemBuilder: (context, index) {
                 final quote = quotes[index];
