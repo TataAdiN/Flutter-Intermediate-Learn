@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
           menuCard(
             title: "Code Generator",
             desc: "Union Generator",
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushNamed('/union'),
           ),
         ],
       ),
