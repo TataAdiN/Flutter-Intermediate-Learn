@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'asset_service.dart';
 import 'loading_state.dart';
-import 'quote.dart';
 
 class AssetProvider extends ChangeNotifier {
   final AssetService assetService;
