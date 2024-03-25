@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main_screen.dart';
-import 'pages/json_serialize/json_serialize_page.dart';
-import 'pages/union/union_page.dart';
+import 'pages/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,21 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Local Storage',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: Colors.white,
-              onPrimary: Colors.black,
-              secondary: Colors.orange,
-            ),
+        primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MainScreen(),
-        '/json_serialize': (context) => const JsonSerializePage(),
-        '/union': (context) => const UnionPage(),
-      },
+      home: const HomeScreen(),
     );
   }
 }
