@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../../config/api_end_points.dart';
+import '../../../utils/paginate.dart';
 import '../../data/models/story.dart';
 import '../../exceptions/apis/notfound_exception.dart';
 import '../../exceptions/apis/unknown_exception.dart';
@@ -18,9 +19,14 @@ class StoriesApi {
     headers['Authorization'] = 'Bearer $token';
   }
 
-  Future<List<Story>> all() async {
+  Future<List<Story>> all({Paginate? paginate}) async {
+    String queryParam = '?location=1';
+    if (paginate != null) {
+      queryParam =
+          '${'$queryParam&page=${paginate.page}'}&size=${paginate.size}';
+    }
     var result = await http.get(
-      Uri.parse(ApiEndPoint.stories),
+      Uri.parse(ApiEndPoint.stories + queryParam),
       headers: headers,
     );
     if (result.statusCode != 200) {

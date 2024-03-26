@@ -1,3 +1,4 @@
+import '../../../utils/paginate.dart';
 import '../../services/remote_api/stories_api.dart';
 import '../contracts/story_repository_constract.dart';
 import '../models/story.dart';
@@ -10,8 +11,8 @@ class StoryRepository implements StoryRepositoryContract {
   }
 
   @override
-  Future<List<Story>> all() async {
-    return await _api.all();
+  Future<List<Story>> paginate(Paginate paginate) async {
+    return await _api.all(paginate: paginate);
   }
 
   @override

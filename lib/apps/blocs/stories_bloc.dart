@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/utils/paginate.dart';
 
 import '../../l10n/localizations.dart';
 import '../data/enums/client_error_type.dart';
@@ -17,6 +18,7 @@ import '../states/stories/stories_state_loaded.dart';
 class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   late String _token;
   AppLocalizations localization;
+  Paginate paginate = Paginate(page: 1, size: 10);
 
   StoriesBloc({required String token, required this.localization}) : super(StoriesStateInit()) {
     _token = token;
@@ -25,7 +27,7 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
 
   _fetchStories(StoriesEventFetch event, Emitter<StoriesState> emit) async {
     try {
-      List<Story> stories = await StoryRepository(_token).all();
+      List<Story> stories = await StoryRepository(_token).paginate(paginate);
       emit(StoriesStateLoaded(stories: stories));
     } on UnknownException catch (_) {
       emit(
