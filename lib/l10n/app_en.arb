@@ -1,0 +1,62 @@
+{
+  "story" : "Story",
+  "createStory" : "Create Story",
+  "storyFrom": "Story From",
+  "storyDescription" : "Story Description",
+
+  "description" : "Description",
+  "settings" : "Settings",
+  "language" : "Language",
+  "account" : "Account",
+  "logout" : "Logout",
+
+  "camera" : "Camera",
+  "gallery" : "Gallery",
+  "editImage" : "Edit Image",
+
+  "signIn" : "Sign In",
+  "signUp" : "Sign Up",
+  "back" : "Back!",
+  "warning" : "Warning!",
+  "exitWarning" : "Are you sure to Logout?",
+  "close" : "Close",
+  "tryAgain" : "Try Again!",
+  "sure" : "Sure!",
+  "success" : "Success!",
+  "somethingWrong" : "Something Wrong",
+  "failedToLoad" : "Failed to load data, please try again",
+  "noInternet" : "No Internet",
+  "noInternetFix" : "Please fix your connection and try again",
+
+  "waitAuthentication" : "Please wait, authentication....",
+  "failRefreshLogin" : "Fail to login from local history",
+
+  "storyNotFound" : "Story not found",
+  "emptyStories" : "Empty Stories",
+  "emptyStoriesFix" : "There's no Stories available to display",
+  "failNoDescription" : "Description can't be empty",
+  "failImageTooLarge" : "Image too large",
+  "failNoImage" : "No image added, please add a image first",
+  "failCreateStory" : "Failed to created Story",
+  "storyCreated" : "Story Created Successfully",
+
+  "name" : "Name",
+
+  "failNoName" : "Name can't be empty",
+  "failNoEmail" : "Email can't be empty",
+  "failInvalidEmail" : "Please type valid email",
+  "failNoPassword" : "Password can't be empty",
+  "accountCreated" : "Success create Account",
+  "accountCreatedInfo" : "Account is created, now you can sign in",
+
+  "failSaveLocal" : "Fail save token to local storage",
+
+  "failLogin" : "Login Failed",
+  "failLoginInfo" : "Wrong password or email, Please try again...",
+
+  "signUpAccount" : "Sign Up Account",
+
+  "goodEvening": "Good Evening",
+  "goodAfternoon": "Good Afternoon",
+  "goodMorning": "Good Morning"
+}

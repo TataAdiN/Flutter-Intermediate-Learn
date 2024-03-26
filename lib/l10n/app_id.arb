@@ -1,0 +1,62 @@
+{
+  "story" : "Cerita",
+  "createStory" : "Buat Cerita",
+  "storyFrom": "Cerita Dari",
+  "storyDescription" : "Deskripsi Cerita",
+
+  "description" : "Deskripsi",
+  "settings" : "Pengaturan",
+  "language" : "Bahasa",
+  "account" : "Akun",
+  "logout" : "Keluar",
+
+  "camera" : "Kamera",
+  "gallery" : "Galeri",
+  "editImage" : "Edit Gambar",
+
+  "signIn" : "Masuk",
+  "signUp" : "Daftar",
+  "back" : "Kembali!",
+  "warning" : "Peringatan!",
+  "exitWarning" : "Apakah yakin ingin Keluar?",
+  "close" : "Tutup",
+  "tryAgain" : "Coba Lagi!",
+  "sure" : "Yakin!",
+  "success" : "Success!",
+  "somethingWrong" : "Terjadi Kesalahan",
+  "failedToLoad" : "Gagal mengambil data, mohon coba lagi...",
+  "noInternet" : "Tidak Ada Internet",
+  "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
+
+  "waitAuthentication" : "Mohon tunggu, proses autentikasi....",
+  "failRefreshLogin" : "Gagal login dari riwayat lokal",
+
+  "storyNotFound" : "Cerita tidak ditemukan",
+  "emptyStories" : "Cerita tidak tersedia",
+  "emptyStoriesFix" : "Tidak ada satupun Cerita untuk ditampilkan",
+  "failNoDescription" : "Deskripsi tidak boleh kosong",
+  "failImageTooLarge" : "Gambar terlalu besar",
+  "failNoImage" : "Tidak ada gambar, mohon tambahkan gambar dulu",
+  "failCreateStory" : "Gagal membuat Cerita",
+  "storyCreated" : "Cerita berhasil dibuat",
+
+  "name" : "Nama",
+
+  "failNoName" : "Nama tidak boleh kosong",
+  "failNoEmail" : "Email tidak boleh kosong",
+  "failInvalidEmail" : "Mohon masukan email yang valid",
+  "failNoPassword" : "Password tidak boleh kosong",
+  "accountCreated" : "Berhasil membuat",
+  "accountCreatedInfo" : "Akun berhasil dibuat, sekarang kamu bisa login",
+
+  "failSaveLocal" : "Gagal menyimpan token pada penyimpanan lokal",
+
+  "failLogin" : "Gagal Login",
+  "failLoginInfo" : "Password atau email salah. Mohon coba lagi...",
+
+  "signUpAccount" : "Daftar Akun",
+
+  "goodEvening": "Selamat Malam",
+  "goodAfternoon": "Selamat Siang",
+  "goodMorning": "Selamat Pagi"
+}
