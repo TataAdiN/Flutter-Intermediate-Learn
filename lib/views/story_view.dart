@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/data/enums/client_error_type.dart';
-import 'package:flutter_intermediate_learn/apps/events/story/story_event_find.dart';
 
 import '../apps/blocs/story_bloc.dart';
+import '../apps/data/enums/client_error_type.dart';
 import '../apps/data/models/story.dart';
+import '../apps/events/story/story_event_find.dart';
 import '../apps/states/story/story_state.dart';
 import '../apps/states/story/story_state_error.dart';
 import '../apps/states/story/story_state_loaded.dart';
@@ -75,7 +75,44 @@ class StoryView extends StatelessWidget {
             height: 12,
           ),
           storyDescriptionCard(context, description: story.description),
+          const SizedBox(
+            height: 12,
+          ),
+          storyLocationCard()
         ],
+      ),
+    );
+  }
+
+  SizedBox storyLocationCard() {
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        elevation: 1,
+        shadowColor: Colors.grey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        color: Colors.white,
+        child: const Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Story Location",
+                style: TextStyle(fontWeight: FontWeight.bold,),
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Center(
+                child: Text("Story doesn't have location information"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
