@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../apps/data/models/story.dart';
-import '../routes/app_route.dart';
+import '../../apps/data/models/story.dart';
+import '../../routes/app_route.dart';
 
 class StoryCard extends StatelessWidget {
   const StoryCard({
