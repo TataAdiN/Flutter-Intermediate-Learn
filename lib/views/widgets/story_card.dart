@@ -20,6 +20,7 @@ class StoryCard extends StatelessWidget {
         pathParameters: {'id': story.id},
       ),
       child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 12),
         elevation: 24,
         shadowColor: Colors.grey,
         shape: RoundedRectangleBorder(

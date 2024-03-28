@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/utils/paginate.dart';
 import 'package:go_router/go_router.dart';
 
 import '../apps/blocs/stories_bloc.dart';
@@ -19,8 +20,30 @@ import '../widgets/parts/greeting_widget.dart';
 import 'widgets/stories_shimmer.dart';
 import 'widgets/story_card.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView({super.key});
+
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(_listenScroll);
+  }
+
+  void _listenScroll() {
+    double scrollPosition = scrollController.position.pixels;
+    double maxScrollPosition = scrollController.position.maxScrollExtent;
+    if (scrollPosition >= maxScrollPosition) {
+      context.read<StoriesBloc>().add(StoriesEventFetch(withReload: false));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +51,7 @@ class MainView extends StatelessWidget {
     AppLocalizations localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: const Text('Image Stories'),
         actions: [
           IconButton(
@@ -55,81 +79,84 @@ class MainView extends StatelessWidget {
           statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.dark,
         ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              const GreetingWidget(),
-              BlocConsumer<StoriesBloc, StoriesState>(
-                builder: (context, state) {
-                  if (state is StoriesStateError) {
-                    if (state.errorType == ClientErrorType.noInternet) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: ResponsiveSize.fromWith(context, percentage: 50),
-                        ),
-                        child: ErrorWithRetryWidget(
-                          onRetry: () => storiesBloc.add(StoriesEventFetch()),
-                          title: localizations.noInternet,
-                          message: state.message,
-                        ),
-                      );
-                    }else{
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: ResponsiveSize.fromWith(context, percentage: 50),
-                        ),
-                        child: ErrorWithRetryWidget(
-                          onRetry: () => storiesBloc.add(StoriesEventFetch()),
-                          title: localizations.somethingWrong,
-                          message: state.message,
-                        ),
-                      );
-                    }
-                  } else if (state is StoriesStateLoading) {
-                    return const StoriesShimmer();
+        child: Column(
+          children: [
+            const GreetingWidget(),
+            BlocConsumer<StoriesBloc, StoriesState>(
+              builder: (context, state) {
+                if (state is StoriesStateError) {
+                  if (state.errorType == ClientErrorType.noInternet) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                      ),
+                      child: ErrorWithRetryWidget(
+                        onRetry: () => storiesBloc.add(StoriesEventFetch()),
+                        title: localizations.noInternet,
+                        message: state.message,
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                      ),
+                      child: ErrorWithRetryWidget(
+                        onRetry: () => storiesBloc.add(StoriesEventFetch()),
+                        title: localizations.somethingWrong,
+                        message: state.message,
+                      ),
+                    );
                   }
-                  List<Story> stories = [];
-                  if (state is StoriesStateLoaded) {
-                    stories = state.stories;
-                    if (stories.isEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: ResponsiveSize.fromWith(context, percentage: 50),
-                        ),
-                        child: ErrorWithRetryWidget(
-                          onRetry: () => storiesBloc.add(StoriesEventFetch()),
-                          title: localizations.emptyStories,
-                          message: localizations.emptyStoriesFix,
-                        ),
-                      );
-                    }
+                } else if (state is StoriesStateLoading) {
+                  return const StoriesShimmer();
+                }
+                List<Story> stories = [];
+                if (state is StoriesStateLoaded) {
+                  state.paginate;
+                  stories = state.stories;
+                  if (stories.isEmpty) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                      ),
+                      child: ErrorWithRetryWidget(
+                        onRetry: () => storiesBloc.add(StoriesEventFetch()),
+                        title: localizations.emptyStories,
+                        message: localizations.emptyStoriesFix,
+                      ),
+                    );
                   }
-                  return storiesWidget(stories);
-                },
-                listener: (BuildContext context, StoriesState state) {},
-              ),
-            ],
-          ),
+                  return storiesWidget(stories, state.paginate);
+                }
+               return const SizedBox();
+              },
+              listener: (BuildContext context, StoriesState state) {},
+            ),
+          ],
         ),
       ),
     );
   }
 
-  ListView storiesWidget(List<Story> stories) {
-    return ListView.builder(
-      primary: false,
-      shrinkWrap: true,
-      itemCount: stories.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical: 8,
-          ),
-          child: StoryCard(story: stories[index]),
-        );
-      },
+  Expanded storiesWidget(List<Story> stories, Paginate paginate) {
+    return Expanded(
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: stories.length + (paginate.page != 0 ? 1 : 0 ),
+        itemBuilder: (BuildContext context, int index) {
+          if (index == stories.length && paginate.page != 0) {
+            return const StoriesShimmer();
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 0,
+              vertical: 8,
+            ),
+            child: StoryCard(story: stories[index]),
+          );
+        },
+      ),
     );
   }
 }

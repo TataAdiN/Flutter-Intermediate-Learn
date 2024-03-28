@@ -20,17 +20,27 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   late String _token;
   AppLocalizations localization;
   Paginate paginate = Paginate(page: 1, size: 10);
+  List<Story> stories = [];
 
-  StoriesBloc({required String token, required this.localization}) : super(StoriesStateInit()) {
+  StoriesBloc({required String token, required this.localization})
+      : super(StoriesStateInit()) {
     _token = token;
     on<StoriesEventFetch>(_fetchStories);
   }
 
   _fetchStories(StoriesEventFetch event, Emitter<StoriesState> emit) async {
-    emit(StoriesStateLoading());
+    if (event.withReload) {
+      emit(StoriesStateLoading());
+    }
     try {
-      List<Story> stories = await StoryRepository(_token).paginate(paginate);
-      emit(StoriesStateLoaded(stories: stories));
+      List<Story> newStories = await StoryRepository(_token).paginate(paginate);
+      stories.addAll(newStories);
+      if (newStories.length < paginate.size) {
+        paginate.page = 0;
+      } else {
+        paginate.page = paginate.page + 1;
+      }
+      emit(StoriesStateLoaded(stories: stories, paginate: paginate));
     } on UnknownException catch (_) {
       emit(
         StoriesStateError(
