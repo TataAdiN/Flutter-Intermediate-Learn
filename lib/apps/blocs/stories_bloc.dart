@@ -29,13 +29,18 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   }
 
   _fetchStories(StoriesEventFetch event, Emitter<StoriesState> emit) async {
+    //rebuild list to force shown start from index 0
     if (event.withReload) {
       emit(StoriesStateLoading());
+    }
+    //stop when reach end of page
+    if (paginate.page == 0) {
+      return;
     }
     try {
       List<Story> newStories = await StoryRepository(_token).paginate(paginate);
       stories.addAll(newStories);
-      if (newStories.length < paginate.size) {
+      if (paginate.reachEndPage(newStories.length)) {
         paginate.page = 0;
       } else {
         paginate.page = paginate.page + 1;
