@@ -26,7 +26,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   CreateStoryBloc({
     required String token,
     required this.localization,
-  })  : super(CreateStoryStateInit()){
+  }) : super(CreateStoryStateInit()) {
     _token = token;
     on<CreateStoryEventPickImage>(_pickImage);
     on<CreateStoryEventAction>(_postStory);
@@ -103,7 +103,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   }
 
   Future<File?> _requestCropImage(String path) async {
-    File? croppedImage = await ImageCropper().cropImage(
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatioPresets: [
         CropAspectRatioPreset.ratio3x2,
@@ -114,16 +114,22 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
         CropAspectRatioPreset.ratio16x9,
       ],
       compressQuality: 80,
-      androidUiSettings: AndroidUiSettings(
-        initAspectRatio: CropAspectRatioPreset.ratio4x3,
-        lockAspectRatio: true,
-        toolbarTitle: localization.editImage,
-      ),
-      iosUiSettings: IOSUiSettings(
-        aspectRatioLockEnabled: true,
-        title: localization.editImage,
-      ),
+      uiSettings: [
+        AndroidUiSettings(
+          initAspectRatio: CropAspectRatioPreset.ratio4x3,
+          lockAspectRatio: true,
+          toolbarTitle: localization.editImage,
+        ),
+        IOSUiSettings(
+          aspectRatioLockEnabled: true,
+          title: localization.editImage,
+        ),
+      ],
     );
-    return croppedImage;
+    File? file;
+    if (croppedImage != null) {
+      file = File(croppedImage.path);
+    }
+    return file;
   }
 }
