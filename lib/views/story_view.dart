@@ -78,13 +78,13 @@ class StoryView extends StatelessWidget {
           const SizedBox(
             height: 12,
           ),
-          storyLocationCard()
+          storyLocationCard(story.lat, story.lon)
         ],
       ),
     );
   }
 
-  SizedBox storyLocationCard() {
+  SizedBox storyLocationCard(dynamic lat, dynamic lon) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -95,21 +95,25 @@ class StoryView extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: Colors.white,
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Story Location",
-                style: TextStyle(fontWeight: FontWeight.bold,),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
-              Center(
-                child: Text("Story doesn't have location information"),
-              ),
+              lat != null
+                  ? Text("latitude : $lat")
+                  : const Center(
+                      child: Text("Story doesn't have location information"),
+                    ),
             ],
           ),
         ),
