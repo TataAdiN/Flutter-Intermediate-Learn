@@ -13,6 +13,7 @@ import '../l10n/localizations.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/fullscreen_app_error.dart';
 import '../widgets/fullscreen_app_loading.dart';
+import 'widgets/maps/location_viewer.dart';
 
 class StoryView extends StatelessWidget {
   const StoryView({super.key});
@@ -27,12 +28,10 @@ class StoryView extends StatelessWidget {
         if (state is StoryStateLoaded) {
           return storyLayout(context, story: state.story);
         } else if (state is StoryStateNotFound) {
-          return fullScreenAppError(
-            context,
-            message: state.message,
-            withRetry: false,
-            title: AppLocalizations.of(context)!.somethingWrong,
-          );
+          return fullScreenAppError(context,
+              message: state.message,
+              withRetry: false,
+              title: AppLocalizations.of(context)!.somethingWrong);
         } else if (state is StoryStateError) {
           String title = AppLocalizations.of(context)!.somethingWrong;
           if (state.errorType == ClientErrorType.noInternet) {
@@ -43,9 +42,9 @@ class StoryView extends StatelessWidget {
             message: state.message,
             withRetry: true,
             title: title,
-            onRetry: () => context.read<StoryBloc>().add(
-                  StoryEventFind(id: state.storyId),
-                ),
+            onRetry: () => context
+                .read<StoryBloc>()
+                .add(StoryEventFind(id: state.storyId)),
           );
         }
         return Scaffold(
@@ -61,61 +60,48 @@ class StoryView extends StatelessWidget {
   }) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: Text(AppLocalizations.of(context)!.story),
       ),
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 12,
-          ),
-          storyAuthorAndImageCard(context, story: story),
-          const SizedBox(
-            height: 12,
-          ),
-          storyDescriptionCard(context, description: story.description),
-          const SizedBox(
-            height: 12,
-          ),
-          storyLocationCard(story.lat, story.lon)
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            storyAuthorAndImageCard(context, story: story),
+            const SizedBox(height: 12),
+            storyDescriptionCard(context, description: story.description),
+            const SizedBox(height: 12),
+            storyLocationCard(context, story.lat, story.lon),
+            const SizedBox(height: 12),
+          ],
+        ),
       ),
     );
   }
 
-  SizedBox storyLocationCard(dynamic lat, dynamic lon) {
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        elevation: 1,
-        shadowColor: Colors.grey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Story Location",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+  SizedBox storyLocationCard(BuildContext context, dynamic lat, dynamic lon) {
+    return storyCard(
+      widget: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Story Location",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(
-                height: 12,
+            ),
+            const SizedBox(height: 12),
+            if (lat != null)
+              LocationViewer(latitude: lat, longitude: lon)
+            else
+              const Center(
+                child: Text("Story doesn't have location information"),
               ),
-              lat != null
-                  ? Text("latitude : $lat")
-                  : const Center(
-                      child: Text("Story doesn't have location information"),
-                    ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -125,28 +111,21 @@ class StoryView extends StatelessWidget {
     BuildContext context, {
     required String description,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        elevation: 1,
-        shadowColor: Colors.grey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.storyDescription,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(description),
-            ],
-          ),
+    return storyCard(
+      widget: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.storyDescription,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              description,
+              textAlign: TextAlign.justify,
+            ),
+          ],
         ),
       ),
     );
@@ -156,6 +135,48 @@ class StoryView extends StatelessWidget {
     BuildContext context, {
     required Story story,
   }) {
+    return storyCard(
+      widget: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.storyFrom,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  story.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: ResponsiveSize.fromWith(context, percentage: 50),
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Colors.grey),
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  story.photoUrl,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  SizedBox storyCard({required Widget widget}) {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -166,47 +187,7 @@ class StoryView extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: Colors.white,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.storyFrom,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    story.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              height: ResponsiveSize.fromWith(context, percentage: 50),
-              decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.grey),
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(12),
-                ),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    story.photoUrl,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        child: widget,
       ),
     );
   }
