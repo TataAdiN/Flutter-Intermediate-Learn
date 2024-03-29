@@ -7,6 +7,7 @@ import '../apps/pages/auth_page.dart';
 import '../apps/pages/create_story_page.dart';
 import '../apps/pages/login_page.dart';
 import '../apps/pages/main_page.dart';
+import '../apps/pages/pick_location_page.dart';
 import '../apps/pages/register_page.dart';
 import '../apps/pages/settings_page.dart';
 import '../apps/pages/story_page.dart';
@@ -18,6 +19,7 @@ class AppRoute {
   static String story = 'story';
   static String createStory = 'create_story';
   static String settings = 'settings';
+  static String pickLocation = 'pick_location';
 
   static final GoRouter _router = GoRouter(
     initialLocation: '/auth',
@@ -85,6 +87,13 @@ class AppRoute {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            path: 'pick_location',
+            name: pickLocation,
+            builder: (BuildContext context, GoRouterState state) {
+              return const PickLocationPage();
+            },
           ),
           GoRoute(
             path: 'settings',

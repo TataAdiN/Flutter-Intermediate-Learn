@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
     this.color = Colors.blueAccent,
     this.textColor = Colors.white,
     this.width,
+    this.height,
     this.icon,
     this.align = AppButtonAlign.left,
     this.outlineColor = Colors.grey,
@@ -19,6 +20,7 @@ class AppButton extends StatelessWidget {
 
   final VoidCallback onClick;
   final double? width;
+  final double? height;
   final IconData? icon;
   final Color color;
   final Color textColor;
@@ -32,6 +34,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
+      height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           foregroundColor: textColor,

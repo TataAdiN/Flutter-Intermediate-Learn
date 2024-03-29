@@ -8,12 +8,14 @@ class AppTextField extends StatelessWidget {
     Key? key,
     required this.title,
     required this.errorText,
+    this.readOnly = false,
     this.controller,
     this.isEmail = false,
     this.extErrorText,
     this.helper,
   }) : super(key: key);
 
+  final bool readOnly;
   final TextEditingController? controller;
   final String title;
   final String errorText;
@@ -24,6 +26,7 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       controller: controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
