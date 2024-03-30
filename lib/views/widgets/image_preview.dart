@@ -5,10 +5,10 @@ import '../../utils/responsive_screen.dart';
 class ImagePreview extends StatelessWidget {
   const ImagePreview({
     super.key,
-    required this.imagePreview,
+    required this.image,
   });
 
-  final ImageProvider<Object> imagePreview;
+  final ImageProvider<Object> image;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ImagePreview extends StatelessWidget {
           ),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: imagePreview,
+            image: image,
           ),
         ),
       ),
