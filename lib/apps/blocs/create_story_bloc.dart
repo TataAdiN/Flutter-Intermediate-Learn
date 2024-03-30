@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -57,9 +58,11 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
         );
       } else {
         try {
+          LatLng latLng = _parseLatLng(event.latlng);
           bool created = await StoryRepository(_token).create(
             description: event.description,
             imagePath: croppedImage!.path,
+            latLng: latLng,
           );
           if (created) {
             emit(CreateStoryStateCreated());
@@ -131,5 +134,14 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
       file = File(croppedImage.path);
     }
     return file;
+  }
+
+  LatLng _parseLatLng(String coordinate) {
+    List<String> coordinates = coordinate.split(",");
+    LatLng latLng = LatLng(
+      double.parse(coordinates[0]),
+      double.parse(coordinates[1]),
+    );
+    return latLng;
   }
 }

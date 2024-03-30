@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../config/api_end_points.dart';
@@ -62,6 +63,7 @@ class StoriesApi {
   Future<bool> create({
     required String description,
     required String imagePath,
+    required LatLng latLng,
   }) async {
     headers['Content-Type'] = 'multipart/form-data';
     var request = http.MultipartRequest(
@@ -79,6 +81,8 @@ class StoriesApi {
     request.fields.addAll(
       {
         "description": description,
+        "lat": latLng.latitude.toString(),
+        "lon": latLng.longitude.toString(),
       },
     );
     var uploadResult = await request.send();

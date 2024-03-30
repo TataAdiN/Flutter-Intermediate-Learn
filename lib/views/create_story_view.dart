@@ -51,12 +51,12 @@ class CreateStoryView extends StatelessWidget {
       listener: (BuildContext context, CreateStoryState state) {
         if (state is CreateStoryStateError) {
           if (state.errorType == ClientErrorType.noInternet) {
-            showAppDialog(
-              context,
-              dialog: appErrorAlertDialog(context,
+            showAppDialog(context,
+                dialog: appErrorAlertDialog(
+                  context,
                   title: AppLocalizations.of(context)!.noInternet,
-                  message: state.message),
-            );
+                  message: state.message,
+                ));
           } else {
             showAppDialog(context,
                 dialog: appErrorAlertDialog(
@@ -66,9 +66,11 @@ class CreateStoryView extends StatelessWidget {
           }
         } else if (state is CreateStoryStateCreated) {
           showAppDialog(context,
-              dialog: appSuccessAlertDialog(context,
-                  message: AppLocalizations.of(context)!.storyCreated,
-                  popRoute: true));
+              dialog: appSuccessAlertDialog(
+                context,
+                message: AppLocalizations.of(context)!.storyCreated,
+                popRoute: true,
+              ));
         }
       },
     );
@@ -78,13 +80,6 @@ class CreateStoryView extends StatelessWidget {
     BuildContext context, {
     required ImageProvider<Object> imagePreview,
   }) {
-    return createStoryLayout(context, imagePreview);
-  }
-
-  Scaffold createStoryLayout(
-    BuildContext context,
-    ImageProvider<Object> imagePreview,
-  ) {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.createStory)),
       body: SingleChildScrollView(

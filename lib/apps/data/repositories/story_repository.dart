@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../utils/paginate.dart';
 import '../../services/remote_api/stories_api.dart';
 import '../contracts/story_repository_constract.dart';
@@ -24,7 +26,12 @@ class StoryRepository implements StoryRepositoryContract {
   Future<bool> create({
     required String description,
     required String imagePath,
+    required LatLng latLng,
   }) async {
-    return await _api.create(description: description, imagePath: imagePath);
+    return await _api.create(
+      description: description,
+      imagePath: imagePath,
+      latLng: latLng,
+    );
   }
 }
