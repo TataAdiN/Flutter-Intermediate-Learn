@@ -90,7 +90,7 @@ class CreateStoryView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ImagePreview(imagePreview: imagePreview),
+            ImagePreview(image: imagePreview),
             _imagePickOption(context),
             _formCreateStory(context)
           ],
