@@ -30,8 +30,11 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
 
   _fetchStories(StoriesEventFetch event, Emitter<StoriesState> emit) async {
     //rebuild list to force shown start from index 0
+    //reset pagination page from 1 and stories length to 0
     if (event.withReload) {
       emit(StoriesStateLoading());
+      paginate.page = 1;
+      stories = [];
     }
     //stop when reach end of page
     if (paginate.page == 0) {
