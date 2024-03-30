@@ -1,7 +1,8 @@
 import 'pick_location_state.dart';
 
 class PickLocationStateFail extends PickLocationState {
-  PickLocationStateFail({required String message}) {
+  String title;
+  PickLocationStateFail({required String message, required this.title}) {
     this.message = message;
   }
 }

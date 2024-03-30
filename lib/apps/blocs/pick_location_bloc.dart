@@ -1,20 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
+import 'package:location/location.dart';
 
 import '../../l10n/localizations.dart';
 import '../events/pick_location/pick_location_event.dart';
 import '../events/pick_location/pick_location_event_gps.dart';
 import '../events/pick_location/pick_location_event_longpress.dart';
 import '../states/pick_location/pick_location_state.dart';
+import '../states/pick_location/pick_location_state_fail.dart';
 import '../states/pick_location/pick_location_state_init.dart';
 import '../states/pick_location/pick_location_state_new_latlng.dart';
 
 class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
   AppLocalizations localization;
 
-  PickLocationBloc({required this.localization})
-      : super(PickLocationStateInit()) {
+  PickLocationBloc({
+    required this.localization,
+  }) : super(PickLocationStateInit()) {
     on<PickLocationEventGPS>(_gpsLocation);
     on<PickLocationEventLongPress>(_longPressLocation);
   }
@@ -22,7 +25,56 @@ class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
   void _gpsLocation(
     PickLocationEventGPS event,
     Emitter<PickLocationState> emit,
-  ) async {}
+  ) async {
+    final Location location = Location();
+    late bool serviceEnabled;
+    late PermissionStatus permissionGranted;
+    late LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        emit(
+          PickLocationStateFail(
+            message: 'No location service available please try again later...',
+            title: 'No Location Service',
+          ),
+        );
+        return;
+      }
+    }
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        emit(
+          PickLocationStateFail(
+            message: 'Please allow location permission to use this feature',
+            title: 'No Location Permission',
+          ),
+        );
+        return;
+      }
+    }
+    locationData = await location.getLocation();
+    final latLng = LatLng(locationData.latitude!, locationData.longitude!);
+    final info = await geocoding.placemarkFromCoordinates(
+      latLng.latitude,
+      latLng.longitude,
+    );
+    final place = info[0];
+    final street = place.street ?? '-';
+    final address =
+        '${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    geocoding.Placemark placemark = place;
+    Set<Marker> marker = _defineMarker(latLng, street, address);
+    emit(PickLocationStateNewLatLng(
+      newLatLng: latLng,
+      marker: marker,
+      placeMark: placemark,
+    ));
+  }
 
   void _longPressLocation(
     PickLocationEventLongPress event,

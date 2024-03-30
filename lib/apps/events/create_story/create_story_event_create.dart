@@ -2,5 +2,6 @@ import 'create_story_event.dart';
 
 class CreateStoryEventAction implements CreateStoryEvent {
   String description;
-  CreateStoryEventAction({required this.description});
+  String latlng;
+  CreateStoryEventAction({required this.description, required this.latlng});
 }

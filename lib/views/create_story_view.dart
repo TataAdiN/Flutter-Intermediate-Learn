@@ -131,7 +131,12 @@ class CreateStoryView extends StatelessWidget {
                 AppButton(
                   align: AppButtonAlign.center,
                   onClick: () async {
-                    LatLng? latLng = await context.pushNamed(AppRoute.pickLocation);
+                    LatLng? latLng =
+                        await context.pushNamed(AppRoute.pickLocation);
+                    if (latLng != null) {
+                      locationController.text =
+                          "${latLng.latitude},${latLng.longitude}";
+                    }
                   },
                   label: '',
                   icon: Icons.edit_location_alt,
@@ -146,7 +151,11 @@ class CreateStoryView extends StatelessWidget {
               onClick: () {
                 if (formKeyCreate.currentState!.validate()) {
                   context.read<CreateStoryBloc>().add(
-                      CreateStoryEventAction(description: descController.text));
+                        CreateStoryEventAction(
+                          description: descController.text,
+                          latlng: locationController.text,
+                        ),
+                      );
                 }
               },
               label: AppLocalizations.of(context)!.createStory,

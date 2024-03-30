@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intermediate_learn/apps/states/pick_location/pick_location_state_new_latlng.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 
 import '../apps/blocs/pick_location_bloc.dart';
 import '../apps/data/enums/app_button_align.dart';
+import '../apps/events/pick_location/pick_location_event_gps.dart';
 import '../apps/events/pick_location/pick_location_event_longpress.dart';
 import '../apps/states/pick_location/pick_location_state.dart';
+import '../apps/states/pick_location/pick_location_state_fail.dart';
+import '../apps/states/pick_location/pick_location_state_new_latlng.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
+import '../widgets/dialogs/app_error_alert_dialog.dart';
+import '../widgets/dialogs/app_show_dialog.dart';
 import 'widgets/maps/placemark_card.dart';
 
 class PickLocationView extends StatefulWidget {
@@ -33,21 +38,38 @@ class _PickLocationViewState extends State<PickLocationView> {
         builder: (context, state) {
           Set<Marker> marker = {};
           geocoding.Placemark? placemark;
+          LatLng? newLatLng;
           if (state is PickLocationStateNewLatLng) {
             placemark = state.placeMark;
             marker = state.marker;
-            mapController
-                .animateCamera(CameraUpdate.newLatLng(state.newLatLng));
+            newLatLng = state.newLatLng;
+            mapController.animateCamera(
+              CameraUpdate.newLatLng(state.newLatLng),
+            );
           }
-          return mapView(marker: marker, placemark: placemark);
+          return mapView(marker: marker, placemark: placemark, latLng: newLatLng);
         },
-        listener: (BuildContext context, PickLocationState state) {},
+        listener: (BuildContext context, PickLocationState state) {
+          if (state is PickLocationStateFail) {
+            showAppDialog(
+              context,
+              dialog: appErrorAlertDialog(
+                context,
+                title: state.title,
+                message: state.message,
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
-  Center mapView(
-      {required Set<Marker> marker, geocoding.Placemark? placemark}) {
+  Center mapView({
+    required Set<Marker> marker,
+    geocoding.Placemark? placemark,
+    LatLng? latLng,
+  }) {
     return Center(
       child: Stack(
         children: [
@@ -75,7 +97,9 @@ class _PickLocationViewState extends State<PickLocationView> {
             right: 16,
             child: FloatingActionButton(
               child: const Icon(Icons.my_location),
-              onPressed: () {},
+              onPressed: () {
+                context.read<PickLocationBloc>().add(PickLocationEventGPS());
+              },
             ),
           ),
           Positioned(
@@ -86,7 +110,9 @@ class _PickLocationViewState extends State<PickLocationView> {
             child: AppButton(
               height: ResponsiveSize.fromWidth(context, percentage: 12),
               align: AppButtonAlign.center,
-              onClick: () {},
+              onClick: () {
+                context.pop<LatLng>(latLng);
+              },
               label: 'Pick this Location',
               icon: Icons.edit_location_alt,
               color: Colors.green,
