@@ -73,7 +73,7 @@ class StoriesShimmer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: ResponsiveSize.fromWith(
+            width: ResponsiveSize.fromWidth(
               context,
               percentage: 12,
             ),

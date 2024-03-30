@@ -15,7 +15,7 @@ class ImagePreview extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Container(
-        height: ResponsiveSize.fromWith(
+        height: ResponsiveSize.fromWidth(
           context,
           percentage: 50,
         ),

@@ -152,7 +152,7 @@ class CreateStoryView extends StatelessWidget {
               label: AppLocalizations.of(context)!.createStory,
               icon: Icons.add_photo_alternate_outlined,
               color: Colors.blueAccent,
-              width: ResponsiveSize.fromWith(context, percentage: 36),
+              width: ResponsiveSize.fromWidth(context, percentage: 36),
             ),
           )
         ],

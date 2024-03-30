@@ -80,11 +80,11 @@ class _PickLocationViewState extends State<PickLocationView> {
           ),
           Positioned(
             bottom: placemark != null
-                ? ResponsiveSize.fromWith(context, percentage: 24)
+                ? ResponsiveSize.fromWidth(context, percentage: 24)
                 : 16,
             right: 16,
             child: AppButton(
-              height: ResponsiveSize.fromWith(context, percentage: 12),
+              height: ResponsiveSize.fromWidth(context, percentage: 12),
               align: AppButtonAlign.center,
               onClick: () {},
               label: 'Pick this Location',

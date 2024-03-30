@@ -46,7 +46,7 @@ class _LocationViewerState extends State<LocationViewer> {
     );
     return SizedBox(
       width: double.infinity,
-      height: ResponsiveSize.fromWith(context, percentage: 100),
+      height: ResponsiveSize.fromWidth(context, percentage: 100),
       child: Stack(
         alignment: Alignment.center,
         children: [

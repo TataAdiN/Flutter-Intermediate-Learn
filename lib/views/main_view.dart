@@ -88,7 +88,7 @@ class _MainViewState extends State<MainView> {
                   if (state.errorType == ClientErrorType.noInternet) {
                     return Padding(
                       padding: EdgeInsets.only(
-                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                        top: ResponsiveSize.fromWidth(context, percentage: 50),
                       ),
                       child: ErrorWithRetryWidget(
                         onRetry: () => storiesBloc.add(StoriesEventFetch()),
@@ -99,7 +99,7 @@ class _MainViewState extends State<MainView> {
                   } else {
                     return Padding(
                       padding: EdgeInsets.only(
-                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                        top: ResponsiveSize.fromWidth(context, percentage: 50),
                       ),
                       child: ErrorWithRetryWidget(
                         onRetry: () => storiesBloc.add(StoriesEventFetch()),
@@ -118,7 +118,7 @@ class _MainViewState extends State<MainView> {
                   if (stories.isEmpty) {
                     return Padding(
                       padding: EdgeInsets.only(
-                        top: ResponsiveSize.fromWith(context, percentage: 50),
+                        top: ResponsiveSize.fromWidth(context, percentage: 50),
                       ),
                       child: ErrorWithRetryWidget(
                         onRetry: () => storiesBloc.add(StoriesEventFetch()),

@@ -158,7 +158,7 @@ class StoryView extends StatelessWidget {
             ),
           ),
           Container(
-            height: ResponsiveSize.fromWith(context, percentage: 50),
+            height: ResponsiveSize.fromWidth(context, percentage: 50),
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: Colors.grey),
               shape: BoxShape.rectangle,

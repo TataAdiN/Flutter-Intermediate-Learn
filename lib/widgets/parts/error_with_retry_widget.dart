@@ -46,7 +46,7 @@ class ErrorWithRetryWidget extends StatelessWidget {
           AppButton(
             align: AppButtonAlign.center,
             icon: Icons.sync,
-            width: ResponsiveSize.fromWith(context, percentage: 36),
+            width: ResponsiveSize.fromWidth(context, percentage: 36),
             onClick: () => onRetry(),
             label: AppLocalizations.of(context)!.tryAgain,
           ),

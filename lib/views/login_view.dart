@@ -104,11 +104,11 @@ class LoginView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: ResponsiveSize.fromWith(context, percentage: 24),
+            height: ResponsiveSize.fromWidth(context, percentage: 24),
           ),
           SizedBox(
-            height: ResponsiveSize.fromWith(context, percentage: 24),
-            width: ResponsiveSize.fromWith(context, percentage: 24),
+            height: ResponsiveSize.fromWidth(context, percentage: 24),
+            width: ResponsiveSize.fromWidth(context, percentage: 24),
             child: Image.asset(
               'assets/icon.png',
               fit: BoxFit.fitWidth,

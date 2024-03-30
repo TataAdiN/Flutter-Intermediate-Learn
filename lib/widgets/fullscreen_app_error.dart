@@ -86,7 +86,7 @@ Center noRetryErrorInfo(
         AppButton(
           align: AppButtonAlign.center,
           icon: Icons.arrow_back,
-          width: ResponsiveSize.fromWith(context, percentage: 36),
+          width: ResponsiveSize.fromWidth(context, percentage: 36),
           onClick: () => context.pop(),
           label: AppLocalizations.of(context)!.back,
         ),

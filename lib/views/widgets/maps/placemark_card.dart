@@ -15,7 +15,7 @@ class PlacemarkCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       constraints: BoxConstraints(
-        maxWidth: ResponsiveSize.fromWith(context, percentage: 80),
+        maxWidth: ResponsiveSize.fromWidth(context, percentage: 80),
       ),
       decoration: BoxDecoration(
         color: Colors.white,
