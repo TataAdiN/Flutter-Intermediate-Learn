@@ -28,6 +28,8 @@
   "noInternet" : "Tidak Ada Internet",
   "noInternetFix" : "Mohon perbaiki koneksi Internet dan coba lagi",
 
+  "wait" : "Mohon tunggu...",
+  "waitFindStory" : "Mohon tunggu, mencari cerita....",
   "waitAuthentication" : "Mohon tunggu, proses autentikasi....",
   "failRefreshLogin" : "Gagal login dari riwayat lokal",
 
@@ -48,6 +50,19 @@
   "failNoPassword" : "Password tidak boleh kosong",
   "accountCreated" : "Berhasil membuat",
   "accountCreatedInfo" : "Akun berhasil dibuat, sekarang kamu bisa login",
+
+  "storyLocation" : "Lokasi Cerita",
+  "storyNoLocation" : "Cerita tidak memiliki informasi lokasi",
+  "storyInvalidLocation" : "Cerita memiliki informasi lokasi yang salah",
+  "pickLocation" : "Ambil Lokasi",
+  "pickThisLocation" : "Ambil lokasi ini",
+  "location" : "Latitude & Longitude",
+  "failNoLocation" : "Lokasi tidak boleh kosong",
+
+  "noLocation" : "Tidak ada layanan Lokasi",
+  "noLocationInfo" : "Layanan Lokasi tidak tersedia, mohon coba lagi nanti...",
+  "noLocationPermission" : "Tidak ada izin Lokasi",
+  "noLocationPermissionInfo" : "Mohon izinkan layanan lokasi untuk menggunakan fitur ini",
 
   "failSaveLocal" : "Gagal menyimpan token pada penyimpanan lokal",
 

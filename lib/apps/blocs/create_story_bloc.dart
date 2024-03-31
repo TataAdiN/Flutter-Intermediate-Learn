@@ -34,11 +34,13 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   ) async {
     if (croppedImage == null) {
       emit(
-        CreateStoryState.error(          errorType: ClientErrorType.badRequest,
-          message: localization.failNoImage,)
+        CreateStoryState.error(
+          errorType: ClientErrorType.badRequest,
+          message: localization.failNoImage,
+        ),
       );
     } else {
-      emit(const CreateStoryStateLoading(message: 'Please wait...'));
+      emit(CreateStoryStateLoading(message: localization.wait));
       if (FileSize.of(croppedImage!) > 1.0) {
         await Future.delayed(
           const Duration(seconds: 1),

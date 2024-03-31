@@ -33,9 +33,9 @@ class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
         emit(
-          const PickLocationStateFail(
-            message: 'No location service available please try again later...',
-            title: 'No Location Service',
+          PickLocationStateFail(
+            message: localization.noLocation,
+            title: localization.noLocationInfo,
           ),
         );
         return;
@@ -46,9 +46,9 @@ class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         emit(
-          const PickLocationStateFail(
-            message: 'Please allow location permission to use this feature',
-            title: 'No Location Permission',
+          PickLocationStateFail(
+            message: localization.noLocationPermissionInfo,
+            title: localization.noLocationPermission,
           ),
         );
         return;

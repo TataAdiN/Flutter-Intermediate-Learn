@@ -16,8 +16,10 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
   late String _token;
   AppLocalizations localization;
 
-  StoryBloc({required String token, required this.localization})
-      : super(const StoryStateInit(message: 'Please wait, find story....')) {
+  StoryBloc({
+    required String token,
+    required this.localization,
+  }) : super(StoryStateInit(message: localization.waitFindStory)) {
     _token = token;
     on<StoryEventFind>(_findStory);
   }

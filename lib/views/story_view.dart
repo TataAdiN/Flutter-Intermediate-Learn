@@ -89,19 +89,23 @@ class StoryView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Story Location",
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.storyLocation,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 12),
-            if (lat != null)
-              LocationViewer(latitude: lat, longitude: lon)
+            if (lat == null)
+              Center(
+                child: Text(AppLocalizations.of(context)!.storyNoLocation),
+              )
+            else if (lat > 90 || lat < -90)
+              Center(
+                child: Text(AppLocalizations.of(context)!.storyInvalidLocation),
+              )
             else
-              const Center(
-                child: Text("Story doesn't have location information"),
-              ),
+              LocationViewer(latitude: lat, longitude: lon)
           ],
         ),
       ),
@@ -148,9 +152,7 @@ class StoryView extends StatelessWidget {
                 Text(
                   story.name,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic
-                  ),
+                      fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                 ),
               ],
             ),
@@ -181,9 +183,8 @@ class StoryView extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
         elevation: 1,
         shadowColor: Colors.grey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0)
-        ),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         color: Colors.white,
         child: widget,
       ),

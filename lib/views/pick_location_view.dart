@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intermediate_learn/l10n/localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
@@ -30,7 +31,7 @@ class _PickLocationViewState extends State<PickLocationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick Location'),
+        title: Text(AppLocalizations.of(context)!.pickLocation),
       ),
       body: BlocConsumer<PickLocationBloc, PickLocationState>(
         builder: (context, state) {
@@ -120,7 +121,7 @@ class _PickLocationViewState extends State<PickLocationView> {
               onClick: () {
                 context.pop<LatLng>(latLng);
               },
-              label: 'Pick this Location',
+              label: AppLocalizations.of(context)!.pickThisLocation,
               icon: Icons.edit_location_alt,
               color: Colors.green,
             ),

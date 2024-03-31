@@ -24,7 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   _auth(LoginEventAuth event, Emitter<LoginState> emit) async {
-    emit(const LoginStateLoading(message: 'Please wait....'));
+    emit(LoginStateLoading(message: localization.wait));
     User user = User(email: event.email, password: event.password);
     try {
       UserAuth userAuth = await AuthRepository().login(user: user);

@@ -28,6 +28,8 @@
   "noInternet" : "No Internet",
   "noInternetFix" : "Please fix your connection and try again",
 
+  "wait" : "Please wait...",
+  "waitFindStory" : "Please wait, find story....",
   "waitAuthentication" : "Please wait, authentication....",
   "failRefreshLogin" : "Fail to login from local history",
 
@@ -48,6 +50,19 @@
   "failNoPassword" : "Password can't be empty",
   "accountCreated" : "Success create Account",
   "accountCreatedInfo" : "Account is created, now you can sign in",
+
+  "storyLocation" : "Story Location",
+  "storyNoLocation" : "Story doesn't have location information",
+  "storyInvalidLocation" : "Story has invalid location information",
+  "pickLocation" : "Pick Location",
+  "pickThisLocation" : "Pick this location",
+  "location" : "Latitude & Longitude",
+  "failNoLocation" : "Location can't be empty",
+
+  "noLocation" : "No Location Service",
+  "noLocationInfo" : "No location service available please try again later...",
+  "noLocationPermission" : "No Location Permission",
+  "noLocationPermissionInfo" : "Please allow location permission to use this feature",
 
   "failSaveLocal" : "Fail save token to local storage",
 

@@ -14,12 +14,13 @@ import '../states/register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   AppLocalizations localization;
 
-  RegisterBloc({required this.localization}) : super(const RegisterStateInit()) {
+  RegisterBloc({required this.localization})
+      : super(const RegisterStateInit()) {
     on<RegisterEventAction>(_register);
   }
 
   _register(RegisterEventAction event, Emitter<RegisterState> emit) async {
-    emit(const RegisterStateLoading(message: 'Please wait...'));
+    emit(RegisterStateLoading(message: localization.wait));
     try {
       await AuthRepository().register(user: event.user);
       emit(

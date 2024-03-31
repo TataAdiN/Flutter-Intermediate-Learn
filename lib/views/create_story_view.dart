@@ -38,16 +38,13 @@ class CreateStoryView extends StatelessWidget {
           image = FileImage(state.pickedImage);
         }
         if (state is CreateStoryStateLoading) {
-          return Scaffold(
-            body: FullscreenAppLoading(message: state.message),
-          );
+          return Scaffold(body: FullscreenAppLoading(message: state.message));
         }
         return _createStoryLayout(context, imagePreview: image);
       },
       listener: (BuildContext context, CreateStoryState state) {
         state.whenOrNull(
-          error: (ClientErrorType errorType, String message){
-            print(errorType);
+          error: (ClientErrorType errorType, String message) {
             if (errorType == ClientErrorType.noInternet) {
               showAppDialog(context,
                   dialog: appErrorAlertDialog(
@@ -63,7 +60,7 @@ class CreateStoryView extends StatelessWidget {
                   ));
             }
           },
-          created: (){
+          created: () {
             showAppDialog(context,
                 dialog: appSuccessAlertDialog(
                   context,
@@ -118,8 +115,8 @@ class CreateStoryView extends StatelessWidget {
                   child: AppTextField(
                     readOnly: true,
                     controller: locationController,
-                    title: 'Latitude & Longitude',
-                    errorText: "Location can't be empty",
+                    title: AppLocalizations.of(context)!.location,
+                    errorText: AppLocalizations.of(context)!.failNoLocation,
                   ),
                 ),
                 const SizedBox(width: 8),
