@@ -5,10 +5,7 @@ import '../apps/blocs/story_bloc.dart';
 import '../apps/data/enums/client_error_type.dart';
 import '../apps/data/models/story.dart';
 import '../apps/events/story/story_event_find.dart';
-import '../apps/states/story/story_state.dart';
-import '../apps/states/story/story_state_error.dart';
-import '../apps/states/story/story_state_loaded.dart';
-import '../apps/states/story/story_state_not_found.dart';
+import '../apps/states/story_state.dart';
 import '../l10n/localizations.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/fullscreen_app_error.dart';
@@ -25,30 +22,34 @@ class StoryView extends StatelessWidget {
         BuildContext context,
         StoryState state,
       ) {
-        if (state is StoryStateLoaded) {
-          return storyLayout(context, story: state.story);
-        } else if (state is StoryStateNotFound) {
-          return fullScreenAppError(context,
-              message: state.message,
-              withRetry: false,
-              title: AppLocalizations.of(context)!.somethingWrong);
-        } else if (state is StoryStateError) {
-          String title = AppLocalizations.of(context)!.somethingWrong;
-          if (state.errorType == ClientErrorType.noInternet) {
-            title = AppLocalizations.of(context)!.noInternet;
-          }
-          return fullScreenAppError(
-            context,
-            message: state.message,
-            withRetry: true,
-            title: title,
-            onRetry: () => context
-                .read<StoryBloc>()
-                .add(StoryEventFind(id: state.storyId)),
-          );
-        }
-        return Scaffold(
-          body: FullscreenAppLoading(message: state.message),
+        return state.when(
+          init: (String message) {
+            return Scaffold(body: FullscreenAppLoading(message: message));
+          },
+          loaded: (Story story) {
+            return storyLayout(context, story: story);
+          },
+          error: (ClientErrorType errorType, String storyId, String message) {
+            String title = AppLocalizations.of(context)!.somethingWrong;
+            if (errorType == ClientErrorType.noInternet) {
+              title = AppLocalizations.of(context)!.noInternet;
+            }
+            return fullScreenAppError(
+              context,
+              message: message,
+              withRetry: true,
+              title: title,
+              onRetry: () {
+                context.read<StoryBloc>().add(StoryEventFind(id: storyId));
+              },
+            );
+          },
+          notFound: (String message) {
+            return fullScreenAppError(context,
+                message: message,
+                withRetry: false,
+                title: AppLocalizations.of(context)!.somethingWrong);
+          },
         );
       },
     );
@@ -121,10 +122,7 @@ class StoryView extends StatelessWidget {
               AppLocalizations.of(context)!.storyDescription,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(
-              description,
-              textAlign: TextAlign.justify,
-            ),
+            Text(description, textAlign: TextAlign.justify),
           ],
         ),
       ),
@@ -151,7 +149,7 @@ class StoryView extends StatelessWidget {
                   story.name,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
+                    fontStyle: FontStyle.italic
                   ),
                 ),
               ],
@@ -184,7 +182,7 @@ class StoryView extends StatelessWidget {
         elevation: 1,
         shadowColor: Colors.grey,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(12.0)
         ),
         color: Colors.white,
         child: widget,

@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     User user = User(email: event.email, password: event.password);
     try {
       UserAuth userAuth = await AuthRepository().login(user: user);
-      userAuth.password = user.password;
+      userAuth = userAuth.copyWith(password: user.password!);
       bool isStored = await LocalUserRepository().save(user: userAuth);
       if (isStored) {
         await event.authBloc.update();

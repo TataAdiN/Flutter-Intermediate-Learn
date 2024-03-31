@@ -1,30 +1,17 @@
-import 'user.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UserAuth extends User {
-  String token;
+part 'user_auth.g.dart';
+part 'user_auth.freezed.dart';
 
-  UserAuth({
-    required super.userId,
-    required super.name,
-    required super.email,
-    required super.password,
-    required this.token,
-  });
+@freezed
+class UserAuth with _$UserAuth {
 
-  factory UserAuth.fromJson(Map<String, dynamic> json) {
-    return UserAuth(
-      userId: json['userId'],
-      name: json['name'],
-      token: json['token'],
-      email: '',
-      password: '',
-    );
-  }
+  const factory UserAuth({
+    required String userId,
+    required String name,
+    required String password,
+    required String token,
+  }) = _UserAuth;
 
-  Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "name": name,
-        "token": token,
-        "password": password ?? '',
-      };
+  factory UserAuth.fromJson(Map<String, dynamic> json) => _$UserAuthFromJson(json);
 }
