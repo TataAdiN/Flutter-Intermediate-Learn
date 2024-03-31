@@ -9,21 +9,17 @@ import '../events/register/register_event.dart';
 import '../events/register/register_event_action.dart';
 import '../exceptions/apis/bad_request_exception.dart';
 import '../exceptions/apis/unknown_exception.dart';
-import '../states/register/register_state.dart';
-import '../states/register/register_state_created.dart';
-import '../states/register/register_state_error.dart';
-import '../states/register/register_state_init.dart';
-import '../states/register/register_state_loading.dart';
+import '../states/register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   AppLocalizations localization;
 
-  RegisterBloc({required this.localization}) : super(RegisterStateInit()) {
+  RegisterBloc({required this.localization}) : super(const RegisterStateInit()) {
     on<RegisterEventAction>(_register);
   }
 
   _register(RegisterEventAction event, Emitter<RegisterState> emit) async {
-    emit(RegisterStateLoading());
+    emit(const RegisterStateLoading(message: 'Please wait...'));
     try {
       await AuthRepository().register(user: event.user);
       emit(
