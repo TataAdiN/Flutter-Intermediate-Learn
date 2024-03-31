@@ -6,8 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../apps/blocs/auth_bloc.dart';
 import '../apps/events/auth/auth_event_change_locale.dart';
 import '../apps/events/auth/auth_event_logout.dart';
-import '../apps/states/auth/auth_state.dart';
-import '../apps/states/auth/auth_state_loggedout.dart';
+import '../apps/states/auth_state.dart';
 import '../routes/app_route.dart';
 import '../widgets/dialogs/app_exit_alert_dialog.dart';
 import '../widgets/dialogs/app_show_dialog.dart';
@@ -36,12 +35,14 @@ class SettingsView extends StatelessWidget {
       ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (BuildContext context, AuthState state) {
-          if (state is AuthStateLoggedout) {
-            while (context.canPop()) {
-              context.pop();
-            }
-            context.pushReplacementNamed(AppRoute.login);
-          }
+          state.whenOrNull(
+            loggedOut: () {
+              while (context.canPop()) {
+                context.pop();
+              }
+              context.pushReplacementNamed(AppRoute.login);
+            },
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

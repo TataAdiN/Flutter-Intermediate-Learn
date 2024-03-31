@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'apps/blocs/auth_bloc.dart';
-import 'apps/states/auth/auth_state.dart';
+import 'apps/states/auth_state.dart';
 import 'l10n/localizations.dart';
 import 'routes/app_route.dart';
 

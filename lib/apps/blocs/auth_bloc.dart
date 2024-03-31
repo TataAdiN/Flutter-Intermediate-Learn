@@ -10,13 +10,7 @@ import '../events/auth/auth_event_change_locale.dart';
 import '../events/auth/auth_event_logout.dart';
 import '../events/auth/auth_event_refresh.dart';
 import '../exceptions/local_storage/local_storage_empty_exception.dart';
-import '../states/auth/auth_state.dart';
-import '../states/auth/auth_state_fail.dart';
-import '../states/auth/auth_state_init.dart';
-import '../states/auth/auth_state_loading.dart';
-import '../states/auth/auth_state_locale_changed.dart';
-import '../states/auth/auth_state_loggedout.dart';
-import '../states/auth/auth_state_success.dart';
+import '../states/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Locale _currentLocale = const Locale("id");
@@ -28,7 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this.localizations = localizations;
   }
 
-  AuthBloc() : super(AuthStateInit()) {
+  AuthBloc() : super(const AuthStateInit()) {
     on<AuthEventRefresh>(_refresh);
     on<AuthEventLogout>(_logout);
     on<AuthEventChangeLocale>(_changeLocale);
@@ -43,10 +37,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (languageCode.isNotEmpty) {
       Locale newLocale = Locale(languageCode);
       _currentLocale = newLocale;
-      emit(AuthStateLocaleChanged());
+      emit(AuthStateLocaleChanged(locale: newLocale));
     }
     try {
-      emit(AuthStateLoading());
+      emit(const AuthStateLoading());
       //to show animation authentication loading animation
       await Future.delayed(
         const Duration(seconds: 1),
@@ -54,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _userAuth = await LocalUserRepository().read();
       _isLogged = true;
       emit(
-        AuthStateSuccess(),
+        const AuthStateSuccess(),
       );
     } on LocalStorageEmptyException catch (_) {
       emit(
@@ -70,11 +64,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (result) {
       _isLogged = false;
       emit(
-        AuthStateLoggedout(),
+        const AuthStateLoggedOut(),
       );
     } else {
       emit(
-        AuthStateFail(message: ''),
+        const AuthStateFail(message: ''),
       );
     }
   }
@@ -83,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Locale newLocale = Locale(event.locale);
     _currentLocale = newLocale;
     await UserLocaleRepository().save(languageCode: event.locale);
-    emit(AuthStateLocaleChanged());
+    emit(AuthStateLocaleChanged(locale: newLocale));
   }
 
   update() async {
