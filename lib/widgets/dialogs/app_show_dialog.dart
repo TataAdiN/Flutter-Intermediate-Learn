@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_intermediate_learn/widgets/bounce_animation.dart';
 
 Future<void> showAppDialog(
   BuildContext context, {
@@ -22,13 +23,7 @@ Future<void> showAppDialog(
       Animation<double> secondaryAnimation,
       Widget widget,
     ) {
-      return SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 1),
-          end: Offset.zero,
-        ).animate(animation),
-        child: dialog,
-      );
+      return BounceAnimation(animateWidget: dialog);
     },
   );
 }
