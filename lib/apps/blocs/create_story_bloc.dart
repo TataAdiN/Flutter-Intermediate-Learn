@@ -12,12 +12,7 @@ import '../data/repositories/story_repository.dart';
 import '../events/create_story/create_story_event.dart';
 import '../events/create_story/create_story_event_create.dart';
 import '../events/create_story/create_story_event_pick_image.dart';
-import '../states/create_story/create_story_state.dart';
-import '../states/create_story/create_story_state_created.dart';
-import '../states/create_story/create_story_state_error.dart';
-import '../states/create_story/create_story_state_init.dart';
-import '../states/create_story/create_story_state_loading.dart';
-import '../states/create_story/create_story_state_picked_image.dart';
+import '../states/create_story_state.dart';
 
 class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   late String _token;
@@ -27,7 +22,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   CreateStoryBloc({
     required String token,
     required this.localization,
-  }) : super(CreateStoryStateInit()) {
+  }) : super(const CreateStoryStateInit()) {
     _token = token;
     on<CreateStoryEventPickImage>(_pickImage);
     on<CreateStoryEventAction>(_postStory);
@@ -39,13 +34,11 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
   ) async {
     if (croppedImage == null) {
       emit(
-        CreateStoryStateError(
-          errorType: ClientErrorType.badRequest,
-          message: localization.failNoImage,
-        ),
+        CreateStoryState.error(          errorType: ClientErrorType.badRequest,
+          message: localization.failNoImage,)
       );
     } else {
-      emit(CreateStoryStateLoading());
+      emit(const CreateStoryStateLoading(message: 'Please wait...'));
       if (FileSize.of(croppedImage!) > 1.0) {
         await Future.delayed(
           const Duration(seconds: 1),
@@ -65,7 +58,7 @@ class CreateStoryBloc extends Bloc<CreateStoryEvent, CreateStoryState> {
             latLng: latLng,
           );
           if (created) {
-            emit(CreateStoryStateCreated());
+            emit(const CreateStoryStateCreated());
           } else {
             emit(
               CreateStoryStateError(

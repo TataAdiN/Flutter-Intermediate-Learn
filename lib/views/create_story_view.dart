@@ -9,11 +9,7 @@ import '../apps/data/enums/app_button_align.dart';
 import '../apps/data/enums/client_error_type.dart';
 import '../apps/events/create_story/create_story_event_create.dart';
 import '../apps/events/create_story/create_story_event_pick_image.dart';
-import '../apps/states/create_story/create_story_state.dart';
-import '../apps/states/create_story/create_story_state_created.dart';
-import '../apps/states/create_story/create_story_state_error.dart';
-import '../apps/states/create_story/create_story_state_loading.dart';
-import '../apps/states/create_story/create_story_state_picked_image.dart';
+import '../apps/states/create_story_state.dart';
 import '../l10n/localizations.dart';
 import '../routes/app_route.dart';
 import '../utils/responsive_screen.dart';
@@ -49,29 +45,33 @@ class CreateStoryView extends StatelessWidget {
         return _createStoryLayout(context, imagePreview: image);
       },
       listener: (BuildContext context, CreateStoryState state) {
-        if (state is CreateStoryStateError) {
-          if (state.errorType == ClientErrorType.noInternet) {
+        state.whenOrNull(
+          error: (ClientErrorType errorType, String message){
+            print(errorType);
+            if (errorType == ClientErrorType.noInternet) {
+              showAppDialog(context,
+                  dialog: appErrorAlertDialog(
+                    context,
+                    title: AppLocalizations.of(context)!.noInternet,
+                    message: message,
+                  ));
+            } else {
+              showAppDialog(context,
+                  dialog: appErrorAlertDialog(
+                    context,
+                    message: message,
+                  ));
+            }
+          },
+          created: (){
             showAppDialog(context,
-                dialog: appErrorAlertDialog(
+                dialog: appSuccessAlertDialog(
                   context,
-                  title: AppLocalizations.of(context)!.noInternet,
-                  message: state.message,
+                  message: AppLocalizations.of(context)!.storyCreated,
+                  popRoute: true,
                 ));
-          } else {
-            showAppDialog(context,
-                dialog: appErrorAlertDialog(
-                  context,
-                  message: state.message,
-                ));
-          }
-        } else if (state is CreateStoryStateCreated) {
-          showAppDialog(context,
-              dialog: appSuccessAlertDialog(
-                context,
-                message: AppLocalizations.of(context)!.storyCreated,
-                popRoute: true,
-              ));
-        }
+          },
+        );
       },
     );
   }
