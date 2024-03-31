@@ -13,24 +13,18 @@ import '../events/login/login_event_created_account.dart';
 import '../exceptions/apis/bad_request_exception.dart';
 import '../exceptions/apis/unauthorized_exception.dart';
 import '../exceptions/apis/unknown_exception.dart';
-import '../states/login/login_state.dart';
-import '../states/login/login_state_authorized.dart';
-import '../states/login/login_state_created_account.dart';
-import '../states/login/login_state_error.dart';
-import '../states/login/login_state_init.dart';
-import '../states/login/login_state_loading.dart';
-import '../states/login/login_state_unauthorized.dart';
+import '../states/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   AppLocalizations localization;
 
-  LoginBloc({required this.localization}) : super(LoginStateInit()) {
+  LoginBloc({required this.localization}) : super(const LoginStateInit()) {
     on<LoginEventAuth>(_auth);
     on<LoginEventCreatedAccount>(_notifyCreatedAccount);
   }
 
   _auth(LoginEventAuth event, Emitter<LoginState> emit) async {
-    emit(LoginStateLoading());
+    emit(const LoginStateLoading(message: 'Please wait....'));
     User user = User(email: event.email, password: event.password);
     try {
       UserAuth userAuth = await AuthRepository().login(user: user);
@@ -39,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (isStored) {
         await event.authBloc.update();
         emit(
-          LoginStateAuthorized(),
+          const LoginStateAuthorized(),
         );
       } else {
         emit(

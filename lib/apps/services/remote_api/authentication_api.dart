@@ -35,11 +35,9 @@ class AuthenticationAPI {
     }
 
     var userJson = jsonEncode(json['loginResult']);
-    return UserAuth.fromJson(
-      jsonDecode(
-        userJson.toString(),
-      ),
-    );
+    var addPassword = jsonDecode(userJson);
+    addPassword['password'] = '';
+    return UserAuth.fromJson(addPassword);
   }
 
   Future<bool> register(User user) async {

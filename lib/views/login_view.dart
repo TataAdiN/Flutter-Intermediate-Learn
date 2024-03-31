@@ -10,12 +10,7 @@ import '../apps/data/enums/app_button_align.dart';
 import '../apps/data/enums/client_error_type.dart';
 import '../apps/events/login/login_event_auth.dart';
 import '../apps/events/login/login_event_created_account.dart';
-import '../apps/states/login/login_state.dart';
-import '../apps/states/login/login_state_authorized.dart';
-import '../apps/states/login/login_state_created_account.dart';
-import '../apps/states/login/login_state_error.dart';
-import '../apps/states/login/login_state_loading.dart';
-import '../apps/states/login/login_state_unauthorized.dart';
+import '../apps/states/login_state.dart';
 import '../routes/app_route.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
@@ -51,47 +46,52 @@ class LoginView extends StatelessWidget {
             return _loginView(context);
           },
           listener: (BuildContext context, LoginState state) {
-            if (state is LoginStateAuthorized) {
-              context.pushReplacementNamed(AppRoute.main);
-            } else if (state is LoginStateError) {
-              if (state.errorType == ClientErrorType.noInternet) {
+            state.whenOrNull(
+              authorized: (){
+                context.pushReplacementNamed(AppRoute.main);
+              },
+              error: (ClientErrorType errorType, String message){
+                if (errorType == ClientErrorType.noInternet) {
+                  showAppDialog(
+                    context,
+                    dialog: appErrorAlertDialog(
+                      context,
+                      title: AppLocalizations.of(context)!.noInternet,
+                      message: message,
+                    ),
+                  );
+                } else {
+                  showAppDialog(
+                    context,
+                    dialog: appErrorAlertDialog(
+                      context,
+                      title: AppLocalizations.of(context)!.somethingWrong,
+                      message: message,
+                    ),
+                  );
+                }
+              },
+              unauthorized: (String message){
                 showAppDialog(
                   context,
                   dialog: appErrorAlertDialog(
                     context,
-                    title: AppLocalizations.of(context)!.noInternet,
-                    message: state.message,
+                    title: AppLocalizations.of(context)!.failLogin,
+                    message: message,
                   ),
                 );
-              } else {
+              },
+              createdAccount: (String message, String email){
                 showAppDialog(
                   context,
-                  dialog: appErrorAlertDialog(
+                  dialog: appSuccessAlertDialog(
                     context,
-                    title: AppLocalizations.of(context)!.somethingWrong,
-                    message: state.message,
+                    title: AppLocalizations.of(context)!.accountCreated,
+                    message: '$email $message',
                   ),
                 );
               }
-            } else if (state is LoginStateUnauthorized) {
-              showAppDialog(
-                context,
-                dialog: appErrorAlertDialog(
-                  context,
-                  title: AppLocalizations.of(context)!.failLogin,
-                  message: state.message,
-                ),
-              );
-            } else if (state is LoginStateCreatedAccount) {
-              showAppDialog(
-                context,
-                dialog: appSuccessAlertDialog(
-                  context,
-                  title: AppLocalizations.of(context)!.accountCreated,
-                  message: '${state.email} ${state.message}',
-                ),
-              );
-            }
+            );
           },
         ),
       ),
