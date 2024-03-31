@@ -8,9 +8,7 @@ import '../apps/blocs/pick_location_bloc.dart';
 import '../apps/data/enums/app_button_align.dart';
 import '../apps/events/pick_location/pick_location_event_gps.dart';
 import '../apps/events/pick_location/pick_location_event_longpress.dart';
-import '../apps/states/pick_location/pick_location_state.dart';
-import '../apps/states/pick_location/pick_location_state_fail.dart';
-import '../apps/states/pick_location/pick_location_state_new_latlng.dart';
+import '../apps/states/pick_location_state.dart';
 import '../utils/responsive_screen.dart';
 import '../widgets/components/app_button.dart';
 import '../widgets/dialogs/app_error_alert_dialog.dart';
@@ -36,30 +34,39 @@ class _PickLocationViewState extends State<PickLocationView> {
       ),
       body: BlocConsumer<PickLocationBloc, PickLocationState>(
         builder: (context, state) {
-          Set<Marker> marker = {};
-          geocoding.Placemark? placemark;
-          LatLng? newLatLng;
-          if (state is PickLocationStateNewLatLng) {
-            placemark = state.placeMark;
-            marker = state.marker;
-            newLatLng = state.newLatLng;
-            mapController.animateCamera(
-              CameraUpdate.newLatLng(state.newLatLng),
-            );
-          }
-          return mapView(marker: marker, placemark: placemark, latLng: newLatLng);
+          Set<Marker> currentMarker = {};
+          geocoding.Placemark? currentPlacemark;
+          LatLng? currentLatLng;
+          state.whenOrNull(
+            newLatLng: (
+              LatLng newLatLng,
+              Set<Marker> marker,
+              geocoding.Placemark placemark,
+            ) {
+              currentPlacemark = placemark;
+              currentMarker = marker;
+              currentLatLng = newLatLng;
+              mapController.animateCamera(
+                CameraUpdate.newLatLng(newLatLng),
+              );
+            },
+          );
+          return mapView(
+            marker: currentMarker,
+            placemark: currentPlacemark,
+            latLng: currentLatLng,
+          );
         },
         listener: (BuildContext context, PickLocationState state) {
-          if (state is PickLocationStateFail) {
-            showAppDialog(
-              context,
-              dialog: appErrorAlertDialog(
+          state.whenOrNull(
+            fail: (String title, String message) {
+              showAppDialog(
                 context,
-                title: state.title,
-                message: state.message,
-              ),
-            );
-          }
+                dialog: appErrorAlertDialog(context,
+                    title: title, message: message),
+              );
+            },
+          );
         },
       ),
     );

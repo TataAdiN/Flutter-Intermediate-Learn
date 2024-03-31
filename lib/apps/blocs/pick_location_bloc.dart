@@ -7,17 +7,14 @@ import '../../l10n/localizations.dart';
 import '../events/pick_location/pick_location_event.dart';
 import '../events/pick_location/pick_location_event_gps.dart';
 import '../events/pick_location/pick_location_event_longpress.dart';
-import '../states/pick_location/pick_location_state.dart';
-import '../states/pick_location/pick_location_state_fail.dart';
-import '../states/pick_location/pick_location_state_init.dart';
-import '../states/pick_location/pick_location_state_new_latlng.dart';
+import '../states/pick_location_state.dart';
 
 class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
   AppLocalizations localization;
 
   PickLocationBloc({
     required this.localization,
-  }) : super(PickLocationStateInit()) {
+  }) : super(const PickLocationStateInit()) {
     on<PickLocationEventGPS>(_gpsLocation);
     on<PickLocationEventLongPress>(_longPressLocation);
   }
@@ -36,7 +33,7 @@ class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
         emit(
-          PickLocationStateFail(
+          const PickLocationStateFail(
             message: 'No location service available please try again later...',
             title: 'No Location Service',
           ),
@@ -49,7 +46,7 @@ class PickLocationBloc extends Bloc<PickLocationEvent, PickLocationState> {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         emit(
-          PickLocationStateFail(
+          const PickLocationStateFail(
             message: 'Please allow location permission to use this feature',
             title: 'No Location Permission',
           ),
