@@ -10,11 +10,7 @@ import '../data/repositories/story_repository.dart';
 import '../events/stories/stories_event.dart';
 import '../events/stories/stories_event_fetch.dart';
 import '../exceptions/apis/unknown_exception.dart';
-import '../states/stories/stories_state.dart';
-import '../states/stories/stories_state_error.dart';
-import '../states/stories/stories_state_init.dart';
-import '../states/stories/stories_state_loaded.dart';
-import '../states/stories/stories_state_loading.dart';
+import '../states/stories_state.dart';
 
 class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   late String _token;
@@ -23,7 +19,7 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
   List<Story> stories = [];
 
   StoriesBloc({required String token, required this.localization})
-      : super(StoriesStateInit()) {
+      : super(const StoriesStateInit()) {
     _token = token;
     on<StoriesEventFetch>(_fetchStories);
   }
@@ -32,7 +28,7 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
     //rebuild list to force shown start from index 0
     //reset pagination page from 1 and stories length to 0
     if (event.withReload) {
-      emit(StoriesStateLoading());
+      emit(const StoriesStateLoading());
       paginate.page = 1;
       stories = [];
     }
@@ -48,7 +44,7 @@ class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
       } else {
         paginate.page = paginate.page + 1;
       }
-      emit(StoriesStateLoaded(stories: stories, paginate: paginate));
+      emit(StoriesState.loaded(stories: List.from(stories), paginate: paginate));
     } on UnknownException catch (_) {
       emit(
         StoriesStateError(
